@@ -1,4 +1,0 @@
-/home/neonimp/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/221.5787.29/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/neonimp/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/221.5787.29/bin/ninja/linux/ninja -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -G Ninja -S /home/neonimp/src/rthost -B /home/neonimp/src/rthost/cmake-build-debug
--- Configuring done
--- Generating done
--- Build files have been written to: /home/neonimp/src/rthost/cmake-build-debug
