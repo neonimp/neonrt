@@ -3,9 +3,10 @@
  * @authors Matheus Xavier <mxavier[AT]neonimp.com>
  */
 
+#pragma once
+
 #ifndef _RTHOST_STRING_
 #define _RTHOST_STRING_
-#pragma once
 
 #include <stdint.h>
 #include <stdbool.h>
