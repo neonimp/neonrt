@@ -27,6 +27,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial/ ${PROJECT
 
 add_library(neonrt SHARED ${RTHOST_HEADERS} ${RTHOST_SRC})
 target_include_directories(neonrt PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
+target_include_directories(neonrt PRIVATE ${JEMALLOC_INCLUDE_DIR})
 
 target_link_libraries(neonrt PRIVATE xxHash::xxhash)
 
