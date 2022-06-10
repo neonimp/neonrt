@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structhashmap__node" kind="struct" language="C++" prot="public">
+    <compoundname>hashmap_node</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool reclaim</definition>
+        <argsstring></argsstring>
+        <name>reclaim</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="7" column="8" bodyfile="src/containers/hashmap.c" bodystart="7" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" compoundref="hashmap_8c" startline="106" endline="117">hashmap_evict</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="8" column="8" bodyfile="src/containers/hashmap.c" bodystart="8" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" compoundref="hashmap_8c" startline="106" endline="117">hashmap_evict</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" prot="public" static="no" mutable="no">
+        <type><ref refid="rt__buffer_8h_1a5fe3fb8c3544e150d09f7b020540ea06" kindref="member">rt_buff_t</ref> *</type>
+        <definition>rt_buff_t* key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="9" column="13" bodyfile="src/containers/hashmap.c" bodystart="9" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" compoundref="hashmap_8c" startline="119" endline="132">hashmap_free</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>hashmap_node</label>
+        <link refid="structhashmap__node"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>key</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>managed_buffer</label>
+        <link refid="structmanaged__buffer"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/containers/hashmap.c" line="6" column="1" bodyfile="src/containers/hashmap.c" bodystart="6" bodyend="10"/>
+    <listofallmembers>
+      <member refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" prot="public" virt="non-virtual"><scope>hashmap_node</scope><name>data</name></member>
+      <member refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" prot="public" virt="non-virtual"><scope>hashmap_node</scope><name>key</name></member>
+      <member refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" prot="public" virt="non-virtual"><scope>hashmap_node</scope><name>reclaim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

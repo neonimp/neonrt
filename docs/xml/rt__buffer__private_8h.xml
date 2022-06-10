@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="rt__buffer__private_8h" kind="file" language="C++">
+    <compoundname>rt_buffer_private.h</compoundname>
+    <includes refid="rt__buffer_8h" local="yes">rt_buffer.h</includes>
+    <includedby refid="rt__buffer_8c" local="yes">src/rt_buffer/rt_buffer.c</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="2">
+        <label>rt_buffer.h</label>
+        <link refid="rt__buffer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>stddef.h</label>
+      </node>
+      <node id="6">
+        <label>memory.h</label>
+      </node>
+      <node id="1">
+        <label>src/rt_buffer/rt_buffer_private.h</label>
+        <link refid="rt__buffer__private_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/rt_buffer/rt_buffer.c</label>
+        <link refid="rt__buffer_8c"/>
+      </node>
+      <node id="1">
+        <label>src/rt_buffer/rt_buffer_private.h</label>
+        <link refid="rt__buffer__private_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structmanaged__buffer" prot="public">managed_buffer</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="rt__buffer__private_8h_1a8d31dc293a9900a39abccd248f4079ce" prot="public" static="no">
+        <name>_RTHOST_STRING_PRIVATE_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rt_buffer/rt_buffer_private.h" line="4" column="9" bodyfile="src/rt_buffer/rt_buffer_private.h" bodystart="4" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>_RTHOST_STRING_PRIVATE_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4" refid="rt__buffer__private_8h_1a8d31dc293a9900a39abccd248f4079ce" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_RTHOST_STRING_PRIVATE_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rt__buffer_8h" kindref="compound">rt_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="structmanaged__buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structmanaged__buffer" kindref="compound">managed_buffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="9" refid="structmanaged__buffer_1abe222f6d3581e7920dcad5306cc906a8" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/>*<ref refid="structmanaged__buffer_1abe222f6d3581e7920dcad5306cc906a8" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="10" refid="structmanaged__buffer_1a7360b55975153b822efc5217b7734e6a" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structmanaged__buffer_1a7360b55975153b822efc5217b7734e6a" kindref="member">len</ref>;</highlight></codeline>
+<codeline lineno="11" refid="structmanaged__buffer_1af4f32f042f9ebac3aaf3870d88482e59" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structmanaged__buffer_1af4f32f042f9ebac3aaf3870d88482e59" kindref="member">ref_ct</ref>;</highlight></codeline>
+<codeline lineno="12" refid="structmanaged__buffer_1aac025528d8f9a3de63d06437389fd014" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structmanaged__buffer_1aac025528d8f9a3de63d06437389fd014" kindref="member">is_utf8</ref>;</highlight></codeline>
+<codeline lineno="13" refid="structmanaged__buffer_1ac7cadaef976091745f65e9cd21fe4cfe" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structmanaged__buffer_1ac7cadaef976091745f65e9cd21fe4cfe" kindref="member">needs_sync</ref>;</highlight></codeline>
+<codeline lineno="14" refid="structmanaged__buffer_1a26e9c310f0ff6151d48550c2b6b2b185" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structmanaged__buffer_1a26e9c310f0ff6151d48550c2b6b2b185" kindref="member">lock</ref>;</highlight></codeline>
+<codeline lineno="15" refid="structmanaged__buffer_1a73edbab68b3b55529afd49faa5eab0e4" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structmanaged__buffer_1a73edbab68b3b55529afd49faa5eab0e4" kindref="member">padding0</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="src/rt_buffer/rt_buffer_private.h"/>
+  </compounddef>
+</doxygen>

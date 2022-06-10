@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structdoubly__linked__list__node" kind="struct" language="C++" prot="public">
+    <compoundname>doubly_linked_list_node</compoundname>
+    <includes refid="linked__list_8h" local="no">linked_list.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref> *</type>
+        <definition>struct doubly_linked_list_node* next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="27" column="32" bodyfile="src/containers/linked_list.h" bodystart="27" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" compoundref="linked__list_8c" startline="20" endline="33">new_dll_node</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref> *</type>
+        <definition>struct doubly_linked_list_node* prev</definition>
+        <argsstring></argsstring>
+        <name>prev</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="28" column="32" bodyfile="src/containers/linked_list.h" bodystart="28" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" compoundref="linked__list_8c" startline="20" endline="33">new_dll_node</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* dt_ptr</definition>
+        <argsstring></argsstring>
+        <name>dt_ptr</name>
+        <briefdescription>
+<para>Pointer to the data held by the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="30" column="8" bodyfile="src/containers/linked_list.h" bodystart="30" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" compoundref="linked__list_8c" startline="20" endline="33">new_dll_node</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>doubly_linked_list_node</label>
+        <link refid="structdoubly__linked__list__node"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>next</edgelabel>
+          <edgelabel>prev</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/containers/linked_list.h" line="26" column="1" bodyfile="src/containers/linked_list.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" prot="public" virt="non-virtual"><scope>doubly_linked_list_node</scope><name>dt_ptr</name></member>
+      <member refid="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" prot="public" virt="non-virtual"><scope>doubly_linked_list_node</scope><name>next</name></member>
+      <member refid="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" prot="public" virt="non-virtual"><scope>doubly_linked_list_node</scope><name>prev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

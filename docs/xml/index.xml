@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="structdoubly__linked__list__node" kind="struct"><name>doubly_linked_list_node</name>
+    <member refid="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" kind="variable"><name>next</name></member>
+    <member refid="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" kind="variable"><name>prev</name></member>
+    <member refid="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" kind="variable"><name>dt_ptr</name></member>
+  </compound>
+  <compound refid="structhashmap__container" kind="struct"><name>hashmap_container</name>
+    <member refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" kind="variable"><name>data</name></member>
+    <member refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" kind="variable"><name>len</name></member>
+    <member refid="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" kind="variable"><name>set</name></member>
+    <member refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" kind="variable"><name>nonce</name></member>
+    <member refid="structhashmap__container_1aa202e51accad981236be649818f2d8c3" kind="variable"><name>current_load</name></member>
+    <member refid="structhashmap__container_1a5946bceee9dc0829de045044f6a144f5" kind="variable"><name>expand_trig</name></member>
+    <member refid="structhashmap__container_1a9f0a1d93d8f645f240baf2dd107d1cc0" kind="variable"><name>expand_factor</name></member>
+    <member refid="structhashmap__container_1a5214dc62167eb6b22e83358d25b55198" kind="variable"><name>no_expand_auto</name></member>
+    <member refid="structhashmap__container_1acb7bc06bed6f6408d719334fc41698c7" kind="variable"><name>reserved</name></member>
+  </compound>
+  <compound refid="structhashmap__node" kind="struct"><name>hashmap_node</name>
+    <member refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" kind="variable"><name>reclaim</name></member>
+    <member refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" kind="variable"><name>data</name></member>
+    <member refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" kind="variable"><name>key</name></member>
+  </compound>
+  <compound refid="structlinked__list" kind="struct"><name>linked_list</name>
+    <member refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" kind="variable"><name>first</name></member>
+    <member refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" kind="variable"><name>last</name></member>
+    <member refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" kind="variable"><name>len</name></member>
+  </compound>
+  <compound refid="structmanaged__buffer" kind="struct"><name>managed_buffer</name>
+    <member refid="structmanaged__buffer_1abe222f6d3581e7920dcad5306cc906a8" kind="variable"><name>data</name></member>
+    <member refid="structmanaged__buffer_1a7360b55975153b822efc5217b7734e6a" kind="variable"><name>len</name></member>
+    <member refid="structmanaged__buffer_1af4f32f042f9ebac3aaf3870d88482e59" kind="variable"><name>ref_ct</name></member>
+    <member refid="structmanaged__buffer_1aac025528d8f9a3de63d06437389fd014" kind="variable"><name>is_utf8</name></member>
+    <member refid="structmanaged__buffer_1ac7cadaef976091745f65e9cd21fe4cfe" kind="variable"><name>needs_sync</name></member>
+    <member refid="structmanaged__buffer_1a26e9c310f0ff6151d48550c2b6b2b185" kind="variable"><name>lock</name></member>
+    <member refid="structmanaged__buffer_1a73edbab68b3b55529afd49faa5eab0e4" kind="variable"><name>padding0</name></member>
+  </compound>
+  <compound refid="structsingly__linked__list__node" kind="struct"><name>singly_linked_list_node</name>
+    <member refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kind="variable"><name>next</name></member>
+    <member refid="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" kind="variable"><name>dt_ptr</name></member>
+  </compound>
+  <compound refid="hashmap_8c" kind="file"><name>hashmap.c</name>
+    <member refid="hashmap_8c_1a54728187cee662ba0e680a55e1dd4bef" kind="define"><name>check_init</name></member>
+    <member refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" kind="function"><name>update_load_factor</name></member>
+    <member refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" kind="function"><name>make_index</name></member>
+    <member refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" kind="function"><name>hashmap_new</name></member>
+    <member refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" kind="function"><name>hashmap_set</name></member>
+    <member refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" kind="function"><name>hashmap_get</name></member>
+    <member refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" kind="function"><name>hashmap_evict</name></member>
+    <member refid="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" kind="function"><name>hashmap_free</name></member>
+  </compound>
+  <compound refid="hashmap_8h" kind="file"><name>hashmap.h</name>
+    <member refid="hashmap_8h_1a9a8155648e169681308f7b2d236b5318" kind="define"><name>_RTHOST_HASHMAP_</name></member>
+    <member refid="hashmap_8h_1ab9233a377da58454bab674f572b2a1ab" kind="typedef"><name>hmap_node_t</name></member>
+    <member refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kind="typedef"><name>hmap_t</name></member>
+    <member refid="hashmap_8h_1a649840e5fc69944d322dfd812350a729" kind="function"><name>hashmap_new</name></member>
+    <member refid="hashmap_8h_1a677123a939ba05d7ba7f79e2672be032" kind="function"><name>hashmap_set</name></member>
+    <member refid="hashmap_8h_1aa182c5f85ff78966f6f5b460855c3518" kind="function"><name>hashmap_get</name></member>
+    <member refid="hashmap_8h_1a5feed1aa6dd34b11f5aa1f8e2007efd0" kind="function"><name>hashmap_evict</name></member>
+    <member refid="hashmap_8h_1ae387ff612c8b5a8292adbd3132b302ab" kind="function"><name>hashmap_evict_all</name></member>
+    <member refid="hashmap_8h_1ac91522a203c1e61da2e25226e1edac94" kind="function"><name>hashmap_free</name></member>
+  </compound>
+  <compound refid="linked__list_8c" kind="file"><name>linked_list.c</name>
+    <member refid="linked__list_8c_1af31d8b001c44b1abc5fbcec58065eae3" kind="define"><name>ll_check_init</name></member>
+    <member refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" kind="function"><name>new_ll_node</name></member>
+    <member refid="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" kind="function"><name>new_dll_node</name></member>
+    <member refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" kind="function"><name>ll_insert_at</name></member>
+    <member refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" kind="function"><name>ll_new</name></member>
+    <member refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" kind="function"><name>ll_add_node</name></member>
+    <member refid="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" kind="function"><name>ll_free</name></member>
+  </compound>
+  <compound refid="linked__list_8h" kind="file"><name>linked_list.h</name>
+    <member refid="linked__list_8h_1a0db503b3e3295d9dc10fea9698b8adc8" kind="define"><name>_RTHOST_LL_</name></member>
+    <member refid="linked__list_8h_1a861497d1038f45d0fd389f0fb3a9f547" kind="define"><name>ll_append_node</name></member>
+    <member refid="linked__list_8h_1a6d029aa7a25b64ff4889784557425342" kind="define"><name>ll_prepend_node</name></member>
+    <member refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" kind="enum"><name>LL_ADD_OP</name></member>
+    <member refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" kind="enumvalue"><name>LL_PREPEND</name></member>
+    <member refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" kind="enumvalue"><name>LL_APPEND</name></member>
+    <member refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" kind="enumvalue"><name>LL_INSERT</name></member>
+    <member refid="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" kind="typedef"><name>ll_node_t</name></member>
+    <member refid="linked__list_8h_1a37aea01b50dd24da9ba1441fef63a08d" kind="typedef"><name>dll_node_t</name></member>
+    <member refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kind="typedef"><name>ll_t</name></member>
+    <member refid="linked__list_8h_1a2283fe14a6c5d022875599517b826eb6" kind="function"><name>ll_new</name></member>
+    <member refid="linked__list_8h_1a36c2fbd5ef8f3b179af71c0b8528655a" kind="function"><name>ll_add_node</name></member>
+    <member refid="linked__list_8h_1abfb0c58d0881f329bb5ff904b06adf3f" kind="function"><name>ll_foreach</name></member>
+    <member refid="linked__list_8h_1a63661df87ef3fa8bfceaef58f1368df1" kind="function"><name>ll_free</name></member>
+  </compound>
+  <compound refid="rt__buffer_8c" kind="file"><name>rt_buffer.c</name>
+    <member refid="rt__buffer_8c_1a1322b1a2eb1595bed6cca6f6cf42281c" kind="function"><name>rt_buff_new</name></member>
+    <member refid="rt__buffer_8c_1a039150cb6b9a685b4cc33a6532a79ec5" kind="function"><name>rt_buff_borrow</name></member>
+    <member refid="rt__buffer_8c_1a9cd5013b1401115a2d15f5c6674ca261" kind="function"><name>rt_buff_borrow_writable</name></member>
+    <member refid="rt__buffer_8c_1abb767504584d542d819c76d09ebeded5" kind="function"><name>rt_buff_sizeof</name></member>
+    <member refid="rt__buffer_8c_1ac7340ae596e0437520aa52a2b514c961" kind="function"><name>rt_buff_return</name></member>
+    <member refid="rt__buffer_8c_1a4da470bcb0ae4527593db158cb5a8991" kind="function"><name>rt_buff_free</name></member>
+  </compound>
+  <compound refid="rt__buffer_8h" kind="file"><name>rt_buffer.h</name>
+    <member refid="rt__buffer_8h_1a68d3ba0fdbc03ebcd0fd2282ce1d4cbf" kind="define"><name>_RTHOST_STRING_</name></member>
+    <member refid="rt__buffer_8h_1a5fe3fb8c3544e150d09f7b020540ea06" kind="typedef"><name>rt_buff_t</name></member>
+    <member refid="rt__buffer_8h_1a1322b1a2eb1595bed6cca6f6cf42281c" kind="function"><name>rt_buff_new</name></member>
+    <member refid="rt__buffer_8h_1a039150cb6b9a685b4cc33a6532a79ec5" kind="function"><name>rt_buff_borrow</name></member>
+    <member refid="rt__buffer_8h_1a9cd5013b1401115a2d15f5c6674ca261" kind="function"><name>rt_buff_borrow_writable</name></member>
+    <member refid="rt__buffer_8h_1ac7340ae596e0437520aa52a2b514c961" kind="function"><name>rt_buff_return</name></member>
+    <member refid="rt__buffer_8h_1abb767504584d542d819c76d09ebeded5" kind="function"><name>rt_buff_sizeof</name></member>
+    <member refid="rt__buffer_8h_1a4da470bcb0ae4527593db158cb5a8991" kind="function"><name>rt_buff_free</name></member>
+  </compound>
+  <compound refid="rt__buffer__private_8h" kind="file"><name>rt_buffer_private.h</name>
+    <member refid="rt__buffer__private_8h_1a8d31dc293a9900a39abccd248f4079ce" kind="define"><name>_RTHOST_STRING_PRIVATE_</name></member>
+  </compound>
+  <compound refid="wire_8c" kind="file"><name>wire.c</name>
+    <member refid="wire_8c_1ac8016d4c4db158b8d9e95f0973739bf1" kind="function"><name>read16le</name></member>
+    <member refid="wire_8c_1a6192ec58340a967eaf4530b14e36cb54" kind="function"><name>read16be</name></member>
+    <member refid="wire_8c_1a4530689aa1b10b5aae470bcac078986f" kind="function"><name>read32le</name></member>
+    <member refid="wire_8c_1a6db418d1512e2419e8567328a16e60d5" kind="function"><name>read32be</name></member>
+    <member refid="wire_8c_1a2ea367735e5725a663de290b2669fa97" kind="function"><name>read64le</name></member>
+    <member refid="wire_8c_1a3864b1b6a1628fe3362f25660c712c82" kind="function"><name>read64be</name></member>
+    <member refid="wire_8c_1ad2d79b3e7e6bdd714a09093600b47c2d" kind="function"><name>write16le</name></member>
+    <member refid="wire_8c_1af50b4025390307c9decde69de46fb762" kind="function"><name>write16be</name></member>
+    <member refid="wire_8c_1a174840993bafe9356324cf630519f8bf" kind="function"><name>write32le</name></member>
+    <member refid="wire_8c_1a87004cdb11a4626c0b78b3cebec20bcb" kind="function"><name>write32be</name></member>
+    <member refid="wire_8c_1ae49bcb10b4472e9520df613c5c655c06" kind="function"><name>write64le</name></member>
+    <member refid="wire_8c_1a811a743c2ebc56f21a658f1ae44c8526" kind="function"><name>write64be</name></member>
+    <member refid="wire_8c_1a165d8c55da8cee302cf707949e98323a" kind="function"><name>align</name></member>
+  </compound>
+  <compound refid="wire_8h" kind="file"><name>wire.h</name>
+    <member refid="wire_8h_1ab06449599802dd97b52b2abf2c572a47" kind="define"><name>ALIGN</name></member>
+    <member refid="wire_8h_1a185ba45353875b6922b19a2d1d839dea" kind="define"><name>NRT_READ16LE</name></member>
+    <member refid="wire_8h_1ac9da063913697daf1de00d9c7b0d4cd1" kind="define"><name>NRT_READ16BE</name></member>
+    <member refid="wire_8h_1a9b495ddf3b39ae81080154e295c084f1" kind="define"><name>NRT_READ32LE</name></member>
+    <member refid="wire_8h_1a40433b828eb9604867a4cf802d78eee9" kind="define"><name>NRT_READ32BE</name></member>
+    <member refid="wire_8h_1a79217b32c2056622baa4dad4a14f9187" kind="define"><name>NRT_READ64LE</name></member>
+    <member refid="wire_8h_1ac66fdee8548a2105d67a44e7804f7930" kind="define"><name>NRT_READ64BE</name></member>
+    <member refid="wire_8h_1a9b0516e23f35b9a3da140be4be1e4cae" kind="define"><name>NRT_WRITE16LE</name></member>
+    <member refid="wire_8h_1acf25b536ffaeb72808752ea7d24af856" kind="define"><name>NRT_WRITE16BE</name></member>
+    <member refid="wire_8h_1abf42d1c1bfd5b7dc57f3015a355cdc48" kind="define"><name>NRT_WRITE32LE</name></member>
+    <member refid="wire_8h_1a31a08a70dfa5775f8946a0718db61262" kind="define"><name>NRT_WRITE32BE</name></member>
+    <member refid="wire_8h_1aeba9c7260507c2d4ccd8cbed46741b0a" kind="define"><name>NRT_WRITE64LE</name></member>
+    <member refid="wire_8h_1a8363db86c2ee8f8df5f675f725ab6537" kind="define"><name>NRT_WRITE64BE</name></member>
+    <member refid="wire_8h_1ac8016d4c4db158b8d9e95f0973739bf1" kind="function"><name>read16le</name></member>
+    <member refid="wire_8h_1a6192ec58340a967eaf4530b14e36cb54" kind="function"><name>read16be</name></member>
+    <member refid="wire_8h_1a4530689aa1b10b5aae470bcac078986f" kind="function"><name>read32le</name></member>
+    <member refid="wire_8h_1a6db418d1512e2419e8567328a16e60d5" kind="function"><name>read32be</name></member>
+    <member refid="wire_8h_1a2ea367735e5725a663de290b2669fa97" kind="function"><name>read64le</name></member>
+    <member refid="wire_8h_1a3864b1b6a1628fe3362f25660c712c82" kind="function"><name>read64be</name></member>
+    <member refid="wire_8h_1ad2d79b3e7e6bdd714a09093600b47c2d" kind="function"><name>write16le</name></member>
+    <member refid="wire_8h_1af50b4025390307c9decde69de46fb762" kind="function"><name>write16be</name></member>
+    <member refid="wire_8h_1a174840993bafe9356324cf630519f8bf" kind="function"><name>write32le</name></member>
+    <member refid="wire_8h_1a87004cdb11a4626c0b78b3cebec20bcb" kind="function"><name>write32be</name></member>
+    <member refid="wire_8h_1ae49bcb10b4472e9520df613c5c655c06" kind="function"><name>write64le</name></member>
+    <member refid="wire_8h_1a811a743c2ebc56f21a658f1ae44c8526" kind="function"><name>write64be</name></member>
+    <member refid="wire_8h_1a165d8c55da8cee302cf707949e98323a" kind="function"><name>align</name></member>
+  </compound>
+  <compound refid="dir_0b61c55142250c0cc363383afd8075a4" kind="dir"><name>src/containers</name>
+  </compound>
+  <compound refid="dir_024d3b00aeca43ab359c8354d6b2466d" kind="dir"><name>src/rt_buffer</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_b7878ad5ecbf2506f4125b9d34c97e45" kind="dir"><name>src/util</name>
+  </compound>
+</doxygenindex>

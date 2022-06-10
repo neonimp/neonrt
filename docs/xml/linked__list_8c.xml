@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="linked__list_8c" kind="file" language="C++">
+    <compoundname>linked_list.c</compoundname>
+    <includes refid="linked__list_8h" local="yes">linked_list.h</includes>
+    <includes local="no">jemalloc/jemalloc.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>stddef.h</label>
+      </node>
+      <node id="6">
+        <label>jemalloc/jemalloc.h</label>
+      </node>
+      <node id="1">
+        <label>src/containers/linked_list.c</label>
+        <link refid="linked__list_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>linked_list.h</label>
+        <link refid="linked__list_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="linked__list_8c_1af31d8b001c44b1abc5fbcec58065eae3" prot="public" static="no">
+        <name>ll_check_init</name>
+        <param><defname>self</defname></param>
+        <initializer>((self-&gt;len) &gt; 0 &amp;&amp; (self-&gt;first) != NULL &amp;&amp; (self-&gt;last) != NULL)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="4" column="9" bodyfile="src/containers/linked_list.c" bodystart="4" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" kindref="member">ll_node_t</ref> *</type>
+        <definition>ll_node_t* new_ll_node</definition>
+        <argsstring>(void *val)</argsstring>
+        <name>new_ll_node</name>
+        <param>
+          <type>void *</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="6" column="11" bodyfile="src/containers/linked_list.c" bodystart="6" bodyend="18"/>
+        <references refid="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" compoundref="linked__list_8h" startline="21">singly_linked_list_node::dt_ptr</references>
+        <references refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" compoundref="linked__list_8h" startline="19">singly_linked_list_node::next</references>
+        <referencedby refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" compoundref="linked__list_8c" startline="90" endline="121">ll_add_node</referencedby>
+        <referencedby refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" compoundref="linked__list_8c" startline="59" endline="88">ll_new</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="linked__list_8h_1a37aea01b50dd24da9ba1441fef63a08d" kindref="member">dll_node_t</ref> *</type>
+        <definition>dll_node_t* new_dll_node</definition>
+        <argsstring>(void *val)</argsstring>
+        <name>new_dll_node</name>
+        <param>
+          <type>void *</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="20" column="12" bodyfile="src/containers/linked_list.c" bodystart="20" bodyend="33"/>
+        <references refid="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" compoundref="linked__list_8h" startline="30">doubly_linked_list_node::dt_ptr</references>
+        <references refid="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" compoundref="linked__list_8h" startline="27">doubly_linked_list_node::next</references>
+        <references refid="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" compoundref="linked__list_8h" startline="28">doubly_linked_list_node::prev</references>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8c_1a30da680369bda415f38e26affaf5560f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t ll_insert_at</definition>
+        <argsstring>(ll_t *self, ll_node_t *new_node, size_t pos)</argsstring>
+        <name>ll_insert_at</name>
+        <param>
+          <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" kindref="member">ll_node_t</ref> *</type>
+          <declname>new_node</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="35" column="9" bodyfile="src/containers/linked_list.c" bodystart="35" bodyend="57"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" compoundref="linked__list_8h" startline="19">singly_linked_list_node::next</references>
+        <referencedby refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" compoundref="linked__list_8c" startline="90" endline="121">ll_add_node</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+        <definition>ll_t* ll_new</definition>
+        <argsstring>(void *fval)</argsstring>
+        <name>ll_new</name>
+        <param>
+          <type>void *</type>
+          <declname>fval</declname>
+        </param>
+        <briefdescription>
+<para>Initialize a new singly linked list, you can set all the parameters bellow to create an empty list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the value of the first node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new linked, possibly initialized with a first node. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="59" column="6" bodyfile="src/containers/linked_list.c" bodystart="59" bodyend="88"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" compoundref="linked__list_8h" startline="37">linked_list::last</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" compoundref="linked__list_8c" startline="6" endline="18">new_ll_node</references>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t ll_add_node</definition>
+        <argsstring>(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)</argsstring>
+        <name>ll_add_node</name>
+        <param>
+          <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type>enum <ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" kindref="member">LL_ADD_OP</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Add a new node created from the parameters to the linked list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>val_sz and val_isz exist as a convenience, they are free to be used in application specific ways. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The linked list to change </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to assign the list node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to insert the node, if not set to INSERT pos is ignored </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If op is INSERT where to insert the node in the list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success, -1 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="90" column="9" bodyfile="src/containers/linked_list.c" bodystart="90" bodyend="121"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" compoundref="linked__list_8h" startline="37">linked_list::last</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" compoundref="linked__list_8h" startline="45">LL_APPEND</references>
+        <references refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" compoundref="linked__list_8h" startline="46">LL_INSERT</references>
+        <references refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" compoundref="linked__list_8c" startline="35" endline="57">ll_insert_at</references>
+        <references refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" compoundref="linked__list_8h" startline="44">LL_PREPEND</references>
+        <references refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" compoundref="linked__list_8c" startline="6" endline="18">new_ll_node</references>
+        <references refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" compoundref="linked__list_8h" startline="19">singly_linked_list_node::next</references>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ll_free</definition>
+        <argsstring>(ll_t *self)</argsstring>
+        <name>ll_free</name>
+        <param>
+          <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.c" line="123" column="6" bodyfile="src/containers/linked_list.c" bodystart="123" bodyend="142"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" compoundref="linked__list_8h" startline="19">singly_linked_list_node::next</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="linked__list_8h" kindref="compound">linked_list.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;jemalloc/jemalloc.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4" refid="linked__list_8c_1af31d8b001c44b1abc5fbcec58065eae3" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ll_check_init(self)<sp/>((self-&gt;len)<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>(self-&gt;first)<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>(self-&gt;last)<sp/>!=<sp/>NULL)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" refkind="member"><highlight class="normal"><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*<ref refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" kindref="member">new_ll_node</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*val)</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*new_node;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((new_node<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref>)))<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Initialize<sp/>the<sp/>node<sp/>struct<sp/>members<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" kindref="member">dt_ptr</ref><sp/>=<sp/>val;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>new_node;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" refkind="member"><highlight class="normal"><ref refid="structdoubly__linked__list__node" kindref="compound">dll_node_t</ref><sp/>*<ref refid="linked__list_8c_1aada0bb9d1f1207603c7d437c4b0ce1c2" kindref="member">new_dll_node</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*val)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structdoubly__linked__list__node" kindref="compound">dll_node_t</ref><sp/>*new_node;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((new_node<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref>)))<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Initialize<sp/>the<sp/>node<sp/>struct<sp/>members<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" kindref="member">prev</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" kindref="member">next</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" kindref="member">dt_ptr</ref><sp/>=<sp/>val;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>new_node;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" refkind="member"><highlight class="normal">int32_t<sp/><ref refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" kindref="member">ll_insert_at</ref>(<ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*new_node,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*iter_curr;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*iter_prev;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>iteration<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(self-&gt;len<sp/>&lt;<sp/>pos)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>iter_curr<sp/>=<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;first;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Iterate<sp/>until<sp/>we<sp/>are<sp/>at<sp/>the<sp/>requested<sp/>position</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>pos;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iter_prev<sp/>=<sp/>iter_curr;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iter_curr<sp/>=<sp/>iter_curr-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>iter_prev-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref><sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>there<sp/>was<sp/>an<sp/>node<sp/>here<sp/>we<sp/>place<sp/>it<sp/>as<sp/>the<sp/>next<sp/>one,<sp/>otherwise<sp/>this<sp/>is<sp/>the<sp/>tail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref><sp/>=<sp/>iter_curr<sp/>!=<sp/>NULL<sp/>?<sp/>iter_curr<sp/>:<sp/>NULL;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" refkind="member"><highlight class="normal"><ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*<ref refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" kindref="member">ll_new</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*fval)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*new_ll;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*first_node;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fval<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((first_node<sp/>=<sp/><ref refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" kindref="member">new_ll_node</ref>(fval))<sp/>!=<sp/>NULL)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Failed<sp/>to<sp/>create<sp/>the<sp/>node<sp/>struct<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_node<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((new_ll<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structlinked__list" kindref="compound">ll_t</ref>)))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(first_node);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(first_node<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_ll-&gt;<ref refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" kindref="member">first</ref><sp/>=<sp/>first_node;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_ll-&gt;<ref refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" kindref="member">last</ref><sp/>=<sp/>first_node;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_ll-&gt;<ref refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" kindref="member">len</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_ll-&gt;<ref refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" kindref="member">first</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_ll-&gt;<ref refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" kindref="member">last</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_ll-&gt;<ref refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" kindref="member">len</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>new_ll;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" refkind="member"><highlight class="normal">int32_t<sp/><ref refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" kindref="member">ll_add_node</ref>(<ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*val,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" kindref="member">LL_ADD_OP</ref><sp/>op,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*new_node;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((new_node<sp/>=<sp/><ref refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" kindref="member">new_ll_node</ref>(val))<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>the<sp/>list<sp/>is<sp/>initialized<sp/>if<sp/>not<sp/>just<sp/>initialize<sp/>and<sp/>stop<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="linked__list_8c_1af31d8b001c44b1abc5fbcec58065eae3" kindref="member">ll_check_init</ref>(</highlight><highlight class="keyword">self</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;first<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;last<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;len<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(op)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" kindref="member">LL_PREPEND</ref>:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Change<sp/>the<sp/>new<sp/>node<sp/>next<sp/>to<sp/>point<sp/>at<sp/>the<sp/>previous<sp/>head,<sp/>and<sp/>set<sp/>it<sp/>as<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_node-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref><sp/>=<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;first;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;first<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Finally<sp/>increase<sp/>len</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;len<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" kindref="member">LL_APPEND</ref>:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>the<sp/>new<sp/>node<sp/>to<sp/>the<sp/>tail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;last-&gt;next<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;last<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;len<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" kindref="member">LL_INSERT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" kindref="member">ll_insert_at</ref>(</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/>new_node,<sp/>pos);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" kindref="member">ll_free</ref>(<ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*iter_curr;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*iter_next;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>iter_curr<sp/>=<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;first;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;len;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iter_next<sp/>=<sp/>iter_curr-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(iter_curr);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(iter_next-&gt;<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref><sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(iter_next);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iter_curr<sp/>=<sp/>iter_next;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>free(</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/containers/linked_list.c"/>
+  </compounddef>
+</doxygen>

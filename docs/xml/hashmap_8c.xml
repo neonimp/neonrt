@@ -1,0 +1,543 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="hashmap_8c" kind="file" language="C++">
+    <compoundname>hashmap.c</compoundname>
+    <includes refid="hashmap_8h" local="yes">hashmap.h</includes>
+    <includes local="no">jemalloc/jemalloc.h</includes>
+    <includes local="no">xxhash.h</includes>
+    <includes local="no">memory.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="1">
+        <label>src/containers/hashmap.c</label>
+        <link refid="hashmap_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>hashmap.h</label>
+        <link refid="hashmap_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="6">
+        <label>../rt_buffer/rt_buffer.h</label>
+        <link refid="rt__buffer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>stddef.h</label>
+      </node>
+      <node id="7">
+        <label>memory.h</label>
+      </node>
+      <node id="8">
+        <label>jemalloc/jemalloc.h</label>
+      </node>
+      <node id="9">
+        <label>xxhash.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structhashmap__node" prot="public">hashmap_node</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="hashmap_8c_1a54728187cee662ba0e680a55e1dd4bef" prot="public" static="no">
+        <name>check_init</name>
+        <param><defname>self</defname></param>
+        <initializer>((self) != NULL || (self)-&gt;data != NULL)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="12" column="9" bodyfile="src/containers/hashmap.c" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_load_factor</definition>
+        <argsstring>(hmap_t *self)</argsstring>
+        <name>update_load_factor</name>
+        <param>
+          <type><ref refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kindref="member">hmap_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="14" column="6" bodyfile="src/containers/hashmap.c" bodystart="14" bodyend="23"/>
+        <references refid="structhashmap__container_1aa202e51accad981236be649818f2d8c3" compoundref="hashmap_8h" startline="39">hashmap_container::current_load</references>
+        <references refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" compoundref="hashmap_8h" startline="30">hashmap_container::len</references>
+        <references refid="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" compoundref="hashmap_8h" startline="31">hashmap_container::set</references>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t make_index</definition>
+        <argsstring>(size_t mod, uint64_t nonce, rt_buff_t *key)</argsstring>
+        <name>make_index</name>
+        <param>
+          <type>size_t</type>
+          <declname>mod</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>nonce</declname>
+        </param>
+        <param>
+          <type><ref refid="rt__buffer_8h_1a5fe3fb8c3544e150d09f7b020540ea06" kindref="member">rt_buff_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="25" column="8" bodyfile="src/containers/hashmap.c" bodystart="25" bodyend="34"/>
+        <references refid="rt__buffer_8c_1a039150cb6b9a685b4cc33a6532a79ec5" compoundref="rt__buffer_8c" startline="32" endline="40">rt_buff_borrow</references>
+        <references refid="rt__buffer_8c_1abb767504584d542d819c76d09ebeded5" compoundref="rt__buffer_8c" startline="57" endline="60">rt_buff_sizeof</references>
+        <referencedby refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" compoundref="hashmap_8c" startline="106" endline="117">hashmap_evict</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="hashmap_8c_1a649840e5fc69944d322dfd812350a729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kindref="member">hmap_t</ref> *</type>
+        <definition>hmap_t* hashmap_new</definition>
+        <argsstring>(size_t init_len, uint8_t *nonce, uint32_t load_lim, uint8_t expand_factor)</argsstring>
+        <name>hashmap_new</name>
+        <param>
+          <type>size_t</type>
+          <declname>init_len</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>nonce</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>load_lim</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>expand_factor</declname>
+        </param>
+        <briefdescription>
+<para>Initialize a new hashmap with the options defined here, check the struct <ref refid="structhashmap__container" kindref="compound">hashmap_container</ref> for details on what each one does. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>init_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many nodes worth of space to pre-allocate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nonce</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Append 64 bytes of this value to keys before hashing, if null nothing is appended. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>load_lim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum load factor (used slots/currently allocated) before triggering expansion. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expand_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When expansion is triggered expand by this factor, recommended is 2. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A newly initialized hashmap configured with the received parameters </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="36" column="8" bodyfile="src/containers/hashmap.c" bodystart="36" bodyend="65"/>
+        <references refid="structhashmap__container_1aa202e51accad981236be649818f2d8c3" compoundref="hashmap_8h" startline="39">hashmap_container::current_load</references>
+        <references refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" compoundref="hashmap_8c" startline="8">hashmap_node::data</references>
+        <references refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" compoundref="hashmap_8h" startline="29">hashmap_container::data</references>
+        <references refid="structhashmap__container_1a9f0a1d93d8f645f240baf2dd107d1cc0" compoundref="hashmap_8h" startline="43">hashmap_container::expand_factor</references>
+        <references refid="structhashmap__container_1a5946bceee9dc0829de045044f6a144f5" compoundref="hashmap_8h" startline="41">hashmap_container::expand_trig</references>
+        <references refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" compoundref="hashmap_8c" startline="9">hashmap_node::key</references>
+        <references refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" compoundref="hashmap_8h" startline="30">hashmap_container::len</references>
+        <references refid="structhashmap__container_1a5214dc62167eb6b22e83358d25b55198" compoundref="hashmap_8h" startline="45">hashmap_container::no_expand_auto</references>
+        <references refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" compoundref="hashmap_8h" startline="37">hashmap_container::nonce</references>
+        <references refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" compoundref="hashmap_8c" startline="7">hashmap_node::reclaim</references>
+        <references refid="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" compoundref="hashmap_8h" startline="31">hashmap_container::set</references>
+      </memberdef>
+      <memberdef kind="function" id="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t hashmap_set</definition>
+        <argsstring>(hmap_t *self, rt_buff_t *key, void *value)</argsstring>
+        <name>hashmap_set</name>
+        <param>
+          <type><ref refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kindref="member">hmap_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="rt__buffer_8h_1a5fe3fb8c3544e150d09f7b020540ea06" kindref="member">rt_buff_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set the key to value on self. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hashmap to set the key on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A rt_buff to use as a key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to any value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success 1 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="67" column="9" bodyfile="src/containers/hashmap.c" bodystart="67" bodyend="88"/>
+        <references refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" compoundref="hashmap_8c" startline="8">hashmap_node::data</references>
+        <references refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" compoundref="hashmap_8h" startline="29">hashmap_container::data</references>
+        <references refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" compoundref="hashmap_8c" startline="9">hashmap_node::key</references>
+        <references refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" compoundref="hashmap_8h" startline="30">hashmap_container::len</references>
+        <references refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" compoundref="hashmap_8c" startline="25" endline="34">make_index</references>
+        <references refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" compoundref="hashmap_8h" startline="37">hashmap_container::nonce</references>
+        <references refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" compoundref="hashmap_8c" startline="7">hashmap_node::reclaim</references>
+        <references refid="rt__buffer_8c_1a039150cb6b9a685b4cc33a6532a79ec5" compoundref="rt__buffer_8c" startline="32" endline="40">rt_buff_borrow</references>
+        <references refid="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" compoundref="hashmap_8h" startline="31">hashmap_container::set</references>
+        <references refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" compoundref="hashmap_8c" startline="14" endline="23">update_load_factor</references>
+      </memberdef>
+      <memberdef kind="function" id="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void* hashmap_get</definition>
+        <argsstring>(hmap_t *self, rt_buff_t *key)</argsstring>
+        <name>hashmap_get</name>
+        <param>
+          <type><ref refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kindref="member">hmap_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="rt__buffer_8h_1a5fe3fb8c3544e150d09f7b020540ea06" kindref="member">rt_buff_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hashmap to operate on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A rt_buff to use as a key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="90" column="6" bodyfile="src/containers/hashmap.c" bodystart="90" bodyend="104"/>
+        <references refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" compoundref="hashmap_8c" startline="8">hashmap_node::data</references>
+        <references refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" compoundref="hashmap_8h" startline="29">hashmap_container::data</references>
+        <references refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" compoundref="hashmap_8c" startline="9">hashmap_node::key</references>
+        <references refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" compoundref="hashmap_8h" startline="30">hashmap_container::len</references>
+        <references refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" compoundref="hashmap_8c" startline="25" endline="34">make_index</references>
+        <references refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" compoundref="hashmap_8h" startline="37">hashmap_container::nonce</references>
+        <references refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" compoundref="hashmap_8c" startline="7">hashmap_node::reclaim</references>
+      </memberdef>
+      <memberdef kind="function" id="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void* hashmap_evict</definition>
+        <argsstring>(hmap_t *self, rt_buff_t *key)</argsstring>
+        <name>hashmap_evict</name>
+        <param>
+          <type><ref refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kindref="member">hmap_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="rt__buffer_8h_1a5fe3fb8c3544e150d09f7b020540ea06" kindref="member">rt_buff_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Mark a node for reuse, and return the value that was stored in it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hashmap to operate on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A rt_buff to use as a key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value held in the key previously </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="106" column="6" bodyfile="src/containers/hashmap.c" bodystart="106" bodyend="117"/>
+        <references refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" compoundref="hashmap_8c" startline="8">hashmap_node::data</references>
+        <references refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" compoundref="hashmap_8h" startline="29">hashmap_container::data</references>
+        <references refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" compoundref="hashmap_8h" startline="30">hashmap_container::len</references>
+        <references refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" compoundref="hashmap_8c" startline="25" endline="34">make_index</references>
+        <references refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" compoundref="hashmap_8h" startline="37">hashmap_container::nonce</references>
+        <references refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" compoundref="hashmap_8c" startline="7">hashmap_node::reclaim</references>
+      </memberdef>
+      <memberdef kind="function" id="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void hashmap_free</definition>
+        <argsstring>(hmap_t *self)</argsstring>
+        <name>hashmap_free</name>
+        <param>
+          <type><ref refid="hashmap_8h_1a25dc18ef717ac44b26d16317a472b21e" kindref="member">hmap_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+<para>Release the memory associated to a hashmap and it&apos;s nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hashmap to destroy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.c" line="119" column="6" bodyfile="src/containers/hashmap.c" bodystart="119" bodyend="132"/>
+        <references refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" compoundref="hashmap_8h" startline="29">hashmap_container::data</references>
+        <references refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" compoundref="hashmap_8c" startline="9">hashmap_node::key</references>
+        <references refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" compoundref="hashmap_8h" startline="30">hashmap_container::len</references>
+        <references refid="rt__buffer_8c_1a4da470bcb0ae4527593db158cb5a8991" compoundref="rt__buffer_8c" startline="71" endline="81">rt_buff_free</references>
+        <references refid="rt__buffer_8c_1ac7340ae596e0437520aa52a2b514c961" compoundref="rt__buffer_8c" startline="62" endline="69">rt_buff_return</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hashmap_8h" kindref="compound">hashmap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;jemalloc/jemalloc.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;xxhash.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="structhashmap__node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structhashmap__node" kindref="compound">hashmap_node</ref><sp/>{</highlight></codeline>
+<codeline lineno="7" refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" kindref="member">reclaim</ref>;</highlight></codeline>
+<codeline lineno="8" refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="9" refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structmanaged__buffer" kindref="compound">rt_buff_t</ref><sp/>*<ref refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="hashmap_8c_1a54728187cee662ba0e680a55e1dd4bef" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>check_init(self)<sp/>((self)<sp/>!=<sp/>NULL<sp/>||<sp/>(self)-&gt;data<sp/>!=<sp/>NULL)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" kindref="member">update_load_factor</ref>(<ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(self-&gt;set<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;current_load<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>preconditions<sp/>met,<sp/>now<sp/>we<sp/>can<sp/>spend<sp/>time<sp/>to<sp/>calculate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;current_load<sp/>=<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;set<sp/>/<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;len;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" kindref="member">make_index</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>mod,<sp/>uint64_t<sp/>nonce,<sp/><ref refid="structmanaged__buffer" kindref="compound">rt_buff_t</ref><sp/>*key)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>hash;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>hash<sp/>=<sp/>XXH3_64bits_withSeed(</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rt__buffer_8c_1a039150cb6b9a685b4cc33a6532a79ec5" kindref="member">rt_buff_borrow</ref>(key),</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rt__buffer_8c_1abb767504584d542d819c76d09ebeded5" kindref="member">rt_buff_sizeof</ref>(key),</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nonce);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hash<sp/>%<sp/>mod;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" refkind="member"><highlight class="normal"><ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*<ref refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" kindref="member">hashmap_new</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>init_len,<sp/>uint8_t<sp/>*nonce,<sp/>uint32_t<sp/>load_lim,<sp/>uint8_t<sp/>expand_factor)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*new_hmap;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((new_hmap<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structhashmap__container" kindref="compound">hmap_t</ref>)))<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((new_hmap-&gt;<ref refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" kindref="member">data</ref><sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structhashmap__node" kindref="compound">hmap_node_t</ref>)<sp/>*<sp/>init_len))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(new_hmap);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>our<sp/>nodes<sp/>to<sp/>sane<sp/>defaults,<sp/>don&apos;t<sp/>rely<sp/>on<sp/>allocation<sp/>being<sp/>clean</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>init_len;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" kindref="member">data</ref>[i].<ref refid="structhashmap__node_1aff591530a6cd1c4f252464700c01af78" kindref="member">reclaim</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" kindref="member">data</ref>[i].<ref refid="structhashmap__node_1a735984d41155bc1032e09bece8f8d66d" kindref="member">data</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" kindref="member">data</ref>[i].<ref refid="structhashmap__node_1a62f8f28ce929a73a8c4b2f1ecaa2cb4b" kindref="member">key</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" kindref="member">len</ref><sp/>=<sp/>init_len;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" kindref="member">set</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1aa202e51accad981236be649818f2d8c3" kindref="member">current_load</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a9f0a1d93d8f645f240baf2dd107d1cc0" kindref="member">expand_factor</ref><sp/>=<sp/>expand_factor;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a5946bceee9dc0829de045044f6a144f5" kindref="member">expand_trig</ref><sp/>=<sp/>load_lim;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1a5214dc62167eb6b22e83358d25b55198" kindref="member">no_expand_auto</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>new_hmap-&gt;<ref refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" kindref="member">nonce</ref><sp/>=<sp/>XXH3_64bits(nonce,<sp/>64);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>new_hmap;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" refkind="member"><highlight class="normal">int32_t<sp/><ref refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" kindref="member">hashmap_set</ref>(<ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/><ref refid="structmanaged__buffer" kindref="compound">rt_buff_t</ref><sp/>*key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*value)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="hashmap_8c_1a54728187cee662ba0e680a55e1dd4bef" kindref="member">check_init</ref>(</highlight><highlight class="keyword">self</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>index<sp/>=<sp/><ref refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" kindref="member">make_index</ref>(self-&gt;len,<sp/>self-&gt;nonce,<sp/>key);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rt__buffer_8c_1a039150cb6b9a685b4cc33a6532a79ec5" kindref="member">rt_buff_borrow</ref>(key);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(self-&gt;data[index].reclaim<sp/>||<sp/>self-&gt;data[index].key<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;data[index].key<sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;<ref refid="structmanaged__buffer_1abe222f6d3581e7920dcad5306cc906a8" kindref="member">data</ref>[index].data<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;data[index].reclaim<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;set<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" kindref="member">update_load_factor</ref>(</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" kindref="member">hashmap_get</ref>(<ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/><ref refid="structmanaged__buffer" kindref="compound">rt_buff_t</ref><sp/>*key)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="hashmap_8c_1a54728187cee662ba0e680a55e1dd4bef" kindref="member">check_init</ref>(</highlight><highlight class="keyword">self</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>index<sp/>=<sp/><ref refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" kindref="member">make_index</ref>(self-&gt;len,<sp/>self-&gt;nonce,<sp/>key);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!self-&gt;data[index].reclaim<sp/>&amp;&amp;<sp/>self-&gt;data[index].key<sp/>!=<sp/>NULL)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;data[index].data;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" kindref="member">hashmap_evict</ref>(<ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/><ref refid="structmanaged__buffer" kindref="compound">rt_buff_t</ref><sp/>*key)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="hashmap_8c_1a54728187cee662ba0e680a55e1dd4bef" kindref="member">check_init</ref>(</highlight><highlight class="keyword">self</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>index<sp/>=<sp/><ref refid="hashmap_8c_1a8b57f0ce7e665a3bf1149e9bc4382cdd" kindref="member">make_index</ref>(self-&gt;len,<sp/>self-&gt;nonce,<sp/>key);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;data[index].reclaim<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;data[index].data;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" kindref="member">hashmap_free</ref>(<ref refid="structhashmap__container" kindref="compound">hmap_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">-&gt;len;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(self-&gt;data[i].key<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rt__buffer_8c_1ac7340ae596e0437520aa52a2b514c961" kindref="member">rt_buff_return</ref>(self-&gt;data[i].key);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rt__buffer_8c_1a4da470bcb0ae4527593db158cb5a8991" kindref="member">rt_buff_free</ref>(self-&gt;data[i].key);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>free(self-&gt;data);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>free(</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/containers/hashmap.c"/>
+  </compounddef>
+</doxygen>

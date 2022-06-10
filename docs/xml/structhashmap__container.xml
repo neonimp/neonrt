@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structhashmap__container" kind="struct" language="C++" prot="public">
+    <compoundname>hashmap_container</compoundname>
+    <includes refid="hashmap_8h" local="no">hashmap.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" prot="public" static="no" mutable="no">
+        <type><ref refid="hashmap_8h_1ab9233a377da58454bab674f572b2a1ab" kindref="member">hmap_node_t</ref> *</type>
+        <definition>hmap_node_t* data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="29" column="15" bodyfile="src/containers/hashmap.h" bodystart="29" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" compoundref="hashmap_8c" startline="106" endline="117">hashmap_evict</referencedby>
+        <referencedby refid="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" compoundref="hashmap_8c" startline="119" endline="132">hashmap_free</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t len</definition>
+        <argsstring></argsstring>
+        <name>len</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="30" column="10" bodyfile="src/containers/hashmap.h" bodystart="30" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" compoundref="hashmap_8c" startline="106" endline="117">hashmap_evict</referencedby>
+        <referencedby refid="hashmap_8c_1ac91522a203c1e61da2e25226e1edac94" compoundref="hashmap_8c" startline="119" endline="132">hashmap_free</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+        <referencedby refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" compoundref="hashmap_8c" startline="14" endline="23">update_load_factor</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t set</definition>
+        <argsstring></argsstring>
+        <name>set</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="31" column="10" bodyfile="src/containers/hashmap.h" bodystart="31" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+        <referencedby refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" compoundref="hashmap_8c" startline="14" endline="23">update_load_factor</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t nonce</definition>
+        <argsstring></argsstring>
+        <name>nonce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A nonce used when hashing to make collisions more difficult <simplesect kind="attention"><para>The nonce of a hashmap should never be changed once set or keys will become irretrievable by hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="37" column="12" bodyfile="src/containers/hashmap.h" bodystart="37" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a5feed1aa6dd34b11f5aa1f8e2007efd0" compoundref="hashmap_8c" startline="106" endline="117">hashmap_evict</referencedby>
+        <referencedby refid="hashmap_8c_1aa182c5f85ff78966f6f5b460855c3518" compoundref="hashmap_8c" startline="90" endline="104">hashmap_get</referencedby>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a677123a939ba05d7ba7f79e2672be032" compoundref="hashmap_8c" startline="67" endline="88">hashmap_set</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1aa202e51accad981236be649818f2d8c3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t current_load</definition>
+        <argsstring></argsstring>
+        <name>current_load</name>
+        <briefdescription>
+<para>How much load the hashmap is under currently. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="39" column="12" bodyfile="src/containers/hashmap.h" bodystart="39" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+        <referencedby refid="hashmap_8c_1a9da9fdcd001aaa305040716ad4d08514" compoundref="hashmap_8c" startline="14" endline="23">update_load_factor</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1a5946bceee9dc0829de045044f6a144f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t expand_trig</definition>
+        <argsstring></argsstring>
+        <name>expand_trig</name>
+        <briefdescription>
+<para>How much load can trigger an expansion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="41" column="12" bodyfile="src/containers/hashmap.h" bodystart="41" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1a9f0a1d93d8f645f240baf2dd107d1cc0" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t expand_factor</definition>
+        <argsstring></argsstring>
+        <name>expand_factor</name>
+        <briefdescription>
+<para>Expand by this factor when expansion is triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="43" column="11" bodyfile="src/containers/hashmap.h" bodystart="43" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1a5214dc62167eb6b22e83358d25b55198" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t no_expand_auto</definition>
+        <argsstring></argsstring>
+        <name>no_expand_auto</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+<para>Disable expansion autonomy, should be left alone in most cases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="45" column="11" bodyfile="src/containers/hashmap.h" bodystart="45" bodyend="-1"/>
+        <referencedby refid="hashmap_8c_1a649840e5fc69944d322dfd812350a729" compoundref="hashmap_8c" startline="36" endline="65">hashmap_new</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structhashmap__container_1acb7bc06bed6f6408d719334fc41698c7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t reserved</definition>
+        <argsstring></argsstring>
+        <name>reserved</name>
+        <bitfield> 7</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/hashmap.h" line="46" column="11" bodyfile="src/containers/hashmap.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The container of a hashmap. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="attention"><para>One should never write to any of these fields directly, if you do make sure to check <ref refid="hashmap_8c" kindref="compound">hashmap.c</ref> for implementation details. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>hashmap_container</label>
+        <link refid="structhashmap__container"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>data</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>hashmap_node</label>
+        <link refid="structhashmap__node"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>key</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>managed_buffer</label>
+        <link refid="structmanaged__buffer"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/containers/hashmap.h" line="28" column="1" bodyfile="src/containers/hashmap.h" bodystart="28" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structhashmap__container_1aa202e51accad981236be649818f2d8c3" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>current_load</name></member>
+      <member refid="structhashmap__container_1a4b684f3d7a56f6b875cd605a377fb4f0" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>data</name></member>
+      <member refid="structhashmap__container_1a9f0a1d93d8f645f240baf2dd107d1cc0" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>expand_factor</name></member>
+      <member refid="structhashmap__container_1a5946bceee9dc0829de045044f6a144f5" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>expand_trig</name></member>
+      <member refid="structhashmap__container_1a7360b55975153b822efc5217b7734e6a" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>len</name></member>
+      <member refid="structhashmap__container_1a5214dc62167eb6b22e83358d25b55198" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>no_expand_auto</name></member>
+      <member refid="structhashmap__container_1af602af589d5bc1af695356386bcb32a9" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>nonce</name></member>
+      <member refid="structhashmap__container_1acb7bc06bed6f6408d719334fc41698c7" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>reserved</name></member>
+      <member refid="structhashmap__container_1a93117dee1e04da6ae0f1d97b53d17db0" prot="public" virt="non-virtual"><scope>hashmap_container</scope><name>set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

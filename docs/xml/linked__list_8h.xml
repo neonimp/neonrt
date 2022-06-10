@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="linked__list_8h" kind="file" language="C++">
+    <compoundname>linked_list.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includedby refid="linked__list_8c" local="yes">src/containers/linked_list.c</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="1">
+        <label>src/containers/linked_list.h</label>
+        <link refid="linked__list_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/containers/linked_list.c</label>
+        <link refid="linked__list_8c"/>
+      </node>
+      <node id="1">
+        <label>src/containers/linked_list.h</label>
+        <link refid="linked__list_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structsingly__linked__list__node" prot="public">singly_linked_list_node</innerclass>
+    <innerclass refid="structdoubly__linked__list__node" prot="public">doubly_linked_list_node</innerclass>
+    <innerclass refid="structlinked__list" prot="public">linked_list</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="linked__list_8h_1a0db503b3e3295d9dc10fea9698b8adc8" prot="public" static="no">
+        <name>_RTHOST_LL_</name>
+        <briefdescription>
+<para>Linked lists in singly and doubly flavors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="authors"><para>Matheus Xavier &lt;mxavier[AT]neonimp.com&gt; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="9" column="9" bodyfile="src/containers/linked_list.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="linked__list_8h_1a861497d1038f45d0fd389f0fb3a9f547" prot="public" static="no">
+        <name>ll_append_node</name>
+        <param><defname>self</defname></param>
+        <param><defname>val</defname></param>
+        <initializer>(<ref refid="linked__list_8h_1a36c2fbd5ef8f3b179af71c0b8528655a" kindref="member">ll_add_node</ref>((self), (val), <ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" kindref="member">LL_APPEND</ref>, 0))</initializer>
+        <briefdescription>
+<para>Shorthand to ll_add_node in append mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The linked list to append the node to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to give the linked list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success, -1 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="79" column="9" bodyfile="src/containers/linked_list.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="linked__list_8h_1a6d029aa7a25b64ff4889784557425342" prot="public" static="no">
+        <name>ll_prepend_node</name>
+        <param><defname>self</defname></param>
+        <param><defname>val</defname></param>
+        <initializer>(<ref refid="linked__list_8h_1a36c2fbd5ef8f3b179af71c0b8528655a" kindref="member">ll_add_node</ref>((self), (val), <ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" kindref="member">LL_PREPEND</ref>, 0))</initializer>
+        <briefdescription>
+<para>Shorthand to ll_add_node in prepend mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The linked list to append the node to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to give the linked list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success, -1 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="86" column="9" bodyfile="src/containers/linked_list.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>LL_ADD_OP</name>
+        <enumvalue id="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" prot="public">
+          <name>LL_PREPEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" prot="public">
+          <name>LL_APPEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" prot="public">
+          <name>LL_INSERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="43" column="1" bodyfile="src/containers/linked_list.h" bodystart="43" bodyend="47"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" prot="public" static="no">
+        <type>struct <ref refid="structsingly__linked__list__node" kindref="compound">singly_linked_list_node</ref></type>
+        <definition>typedef struct singly_linked_list_node ll_node_t</definition>
+        <argsstring></argsstring>
+        <name>ll_node_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="1" column="0" bodyfile="src/containers/linked_list.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="linked__list_8h_1a37aea01b50dd24da9ba1441fef63a08d" prot="public" static="no">
+        <type>struct <ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref></type>
+        <definition>typedef struct doubly_linked_list_node dll_node_t</definition>
+        <argsstring></argsstring>
+        <name>dll_node_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="1" column="0" bodyfile="src/containers/linked_list.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" prot="public" static="no">
+        <type>struct <ref refid="structlinked__list" kindref="compound">linked_list</ref></type>
+        <definition>typedef struct linked_list ll_t</definition>
+        <argsstring></argsstring>
+        <name>ll_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="1" column="0" bodyfile="src/containers/linked_list.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="linked__list_8h_1a2283fe14a6c5d022875599517b826eb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+        <definition>ll_t* ll_new</definition>
+        <argsstring>(void *fval)</argsstring>
+        <name>ll_new</name>
+        <param>
+          <type>void *</type>
+          <declname>fval</declname>
+        </param>
+        <briefdescription>
+<para>Initialize a new singly linked list, you can set all the parameters bellow to create an empty list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the value of the first node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new linked, possibly initialized with a first node. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="55" column="13" bodyfile="src/containers/linked_list.c" bodystart="59" bodyend="88" declfile="src/containers/linked_list.h" declline="55" declcolumn="13"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" compoundref="linked__list_8h" startline="37">linked_list::last</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" compoundref="linked__list_8c" startline="6" endline="18">new_ll_node</references>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8h_1a36c2fbd5ef8f3b179af71c0b8528655a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t ll_add_node</definition>
+        <argsstring>(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)</argsstring>
+        <name>ll_add_node</name>
+        <param>
+          <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type>enum <ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" kindref="member">LL_ADD_OP</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Add a new node created from the parameters to the linked list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>val_sz and val_isz exist as a convenience, they are free to be used in application specific ways. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The linked list to change </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to assign the list node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to insert the node, if not set to INSERT pos is ignored </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If op is INSERT where to insert the node in the list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success, -1 otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="67" column="16" bodyfile="src/containers/linked_list.c" bodystart="90" bodyend="121" declfile="src/containers/linked_list.h" declline="67" declcolumn="16"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" compoundref="linked__list_8h" startline="37">linked_list::last</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" compoundref="linked__list_8h" startline="45">LL_APPEND</references>
+        <references refid="linked__list_8c_1af31d8b001c44b1abc5fbcec58065eae3" compoundref="linked__list_8c" startline="4">ll_check_init</references>
+        <references refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" compoundref="linked__list_8h" startline="46">LL_INSERT</references>
+        <references refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" compoundref="linked__list_8c" startline="35" endline="57">ll_insert_at</references>
+        <references refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" compoundref="linked__list_8h" startline="44">LL_PREPEND</references>
+        <references refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" compoundref="linked__list_8c" startline="6" endline="18">new_ll_node</references>
+        <references refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" compoundref="linked__list_8h" startline="19">singly_linked_list_node::next</references>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8h_1abfb0c58d0881f329bb5ff904b06adf3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" kindref="member">ll_node_t</ref> *</type>
+        <definition>ll_node_t* ll_foreach</definition>
+        <argsstring>(ll_t *self)</argsstring>
+        <name>ll_foreach</name>
+        <param>
+          <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="69" column="18" declfile="src/containers/linked_list.h" declline="69" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="linked__list_8h_1a63661df87ef3fa8bfceaef58f1368df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ll_free</definition>
+        <argsstring>(ll_t *self)</argsstring>
+        <name>ll_free</name>
+        <param>
+          <type><ref refid="linked__list_8h_1ad437d58f75c679b226798d0c29bdc7e2" kindref="member">ll_t</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="71" column="13" bodyfile="src/containers/linked_list.c" bodystart="123" bodyend="142" declfile="src/containers/linked_list.h" declline="71" declcolumn="13"/>
+        <references refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" compoundref="linked__list_8h" startline="36">linked_list::first</references>
+        <references refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" compoundref="linked__list_8h" startline="38">linked_list::len</references>
+        <references refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" compoundref="linked__list_8h" startline="19">singly_linked_list_node::next</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="linked__list_8h_1a37aea01b50dd24da9ba1441fef63a08d" refkind="member"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>_RTHOST_LL_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="linked__list_8h_1a0db503b3e3295d9dc10fea9698b8adc8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_RTHOST_LL_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="structsingly__linked__list__node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsingly__linked__list__node" kindref="compound">singly_linked_list_node</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsingly__linked__list__node" kindref="compound">singly_linked_list_node</ref><sp/>*<ref refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" kindref="member">next</ref>;</highlight></codeline>
+<codeline lineno="21" refid="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" kindref="member">dt_ptr</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsingly__linked__list__node" kindref="compound">singly_linked_list_node</ref><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structdoubly__linked__list__node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref><sp/>*<ref refid="structdoubly__linked__list__node_1a541991696cb92caa20337ecfd6bf60f8" kindref="member">next</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref><sp/>*<ref refid="structdoubly__linked__list__node_1a40383b36bac2dce87a6a61ee591e7128" kindref="member">prev</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structdoubly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" kindref="member">dt_ptr</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdoubly__linked__list__node" kindref="compound">doubly_linked_list_node</ref><sp/><ref refid="structdoubly__linked__list__node" kindref="compound">dll_node_t</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structlinked__list" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structlinked__list" kindref="compound">linked_list</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*<ref refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" kindref="member">first</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*<ref refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" kindref="member">last</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" kindref="member">len</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structlinked__list" kindref="compound">linked_list</ref><sp/><ref refid="structlinked__list" kindref="compound">ll_t</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" kindref="member">LL_ADD_OP</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba404d8cbb7062a957cd2e0592c424bbc6" kindref="member">LL_PREPEND</ref>,</highlight></codeline>
+<codeline lineno="45" refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1bad298a244c0e494178322969c1092fb6f" kindref="member">LL_APPEND</ref>,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" kindref="member">LL_INSERT</ref></highlight></codeline>
+<codeline lineno="47" refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1ba7842c1ffd91757f139ebaf0e1a0cd754" refkind="member"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*<ref refid="linked__list_8h_1a2283fe14a6c5d022875599517b826eb6" kindref="member">ll_new</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*fval);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="linked__list_8h_1a36c2fbd5ef8f3b179af71c0b8528655a" kindref="member">ll_add_node</ref>(<ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*val,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a94920fce304b0c473c7eee6c72747d1b" kindref="member">LL_ADD_OP</ref><sp/>op,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="linked__list_8h_1abfb0c58d0881f329bb5ff904b06adf3f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structsingly__linked__list__node" kindref="compound">ll_node_t</ref><sp/>*<ref refid="linked__list_8h_1abfb0c58d0881f329bb5ff904b06adf3f" kindref="member">ll_foreach</ref>(<ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="linked__list_8h_1a63661df87ef3fa8bfceaef58f1368df1" kindref="member">ll_free</ref>(<ref refid="structlinked__list" kindref="compound">ll_t</ref><sp/>*</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="linked__list_8h_1a861497d1038f45d0fd389f0fb3a9f547" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ll_append_node(self,<sp/>val)<sp/>(ll_add_node((self),<sp/>(val),<sp/>LL_APPEND,<sp/>0))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="linked__list_8h_1a6d029aa7a25b64ff4889784557425342" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ll_prepend_node(self,<sp/>val)<sp/>(ll_add_node((self),<sp/>(val),<sp/>LL_PREPEND,<sp/>0))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>END<sp/>_RTHOST_LL_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="src/containers/linked_list.h"/>
+  </compounddef>
+</doxygen>

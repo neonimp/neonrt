@@ -1,0 +1,540 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="wire_8c" kind="file" language="C++">
+    <compoundname>wire.c</compoundname>
+    <includes refid="wire_8h" local="yes">wire.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>src/util/wire.c</label>
+        <link refid="wire_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>wire.h</label>
+        <link refid="wire_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>endian.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="wire_8c_1ac8016d4c4db158b8d9e95f0973739bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t read16le</definition>
+        <argsstring>(void *buffer)</argsstring>
+        <name>read16le</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads 2 bytes of the buffer as an uint16_t in little endian order from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This file is part of BareSDK and licensed under the: BSD 3-Clause License Copyright (c) 2021, Matheus Xavier All rights reserved. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="10" column="10" bodyfile="src/util/wire.c" bodystart="10" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a6192ec58340a967eaf4530b14e36cb54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t read16be</definition>
+        <argsstring>(void *buffer)</argsstring>
+        <name>read16be</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads 2 bytes of the buffer as an uint16_t in big endian order from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the read value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="15" column="10" bodyfile="src/util/wire.c" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a4530689aa1b10b5aae470bcac078986f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t read32le</definition>
+        <argsstring>(void *buffer)</argsstring>
+        <name>read32le</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads 4 bytes of the buffer as an uint32_t in little endian order from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the read value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="20" column="10" bodyfile="src/util/wire.c" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a6db418d1512e2419e8567328a16e60d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t read32be</definition>
+        <argsstring>(void *buffer)</argsstring>
+        <name>read32be</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads 4 bytes of the buffer as an uint32_t in big endian order from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the read value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="25" column="10" bodyfile="src/util/wire.c" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a2ea367735e5725a663de290b2669fa97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t read64le</definition>
+        <argsstring>(void *buffer)</argsstring>
+        <name>read64le</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads 8 bytes of the buffer as an uint64_t in little endian order from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the read value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="30" column="10" bodyfile="src/util/wire.c" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a3864b1b6a1628fe3362f25660c712c82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t read64be</definition>
+        <argsstring>(void *buffer)</argsstring>
+        <name>read64be</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads 8 bytes of the buffer as an uint64_t in big endian order from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the read value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="35" column="10" bodyfile="src/util/wire.c" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1ad2d79b3e7e6bdd714a09093600b47c2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void write16le</definition>
+        <argsstring>(void *buffer, uint16_t value)</argsstring>
+        <name>write16le</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Writes value as 2 bytes in little endian order to buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="40" column="6" bodyfile="src/util/wire.c" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1af50b4025390307c9decde69de46fb762" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void write16be</definition>
+        <argsstring>(void *buffer, uint16_t value)</argsstring>
+        <name>write16be</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Writes value as 2 bytes in big endian order to buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="45" column="6" bodyfile="src/util/wire.c" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a174840993bafe9356324cf630519f8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void write32le</definition>
+        <argsstring>(void *buffer, uint32_t value)</argsstring>
+        <name>write32le</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Writes value as 4 bytes in little endian order to buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="50" column="6" bodyfile="src/util/wire.c" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a87004cdb11a4626c0b78b3cebec20bcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void write32be</definition>
+        <argsstring>(void *buffer, uint32_t value)</argsstring>
+        <name>write32be</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Writes value as 4 bytes in big endian order to buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="55" column="6" bodyfile="src/util/wire.c" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1ae49bcb10b4472e9520df613c5c655c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void write64le</definition>
+        <argsstring>(void *buffer, uint64_t value)</argsstring>
+        <name>write64le</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Writes value as 8 bytes in little endian order to buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="60" column="6" bodyfile="src/util/wire.c" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a811a743c2ebc56f21a658f1ae44c8526" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void write64be</definition>
+        <argsstring>(void *buffer, uint64_t value)</argsstring>
+        <name>write64be</name>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Writes value as 8 bytes in big endian order to buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="65" column="6" bodyfile="src/util/wire.c" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="wire_8c_1a165d8c55da8cee302cf707949e98323a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t align</definition>
+        <argsstring>(size_t value, uint8_t alignment)</argsstring>
+        <name>align</name>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/util/wire.c" line="70" column="8" bodyfile="src/util/wire.c" bodystart="70" bodyend="73"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wire_8h" kindref="compound">wire.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="wire_8c_1ac8016d4c4db158b8d9e95f0973739bf1" refkind="member"><highlight class="normal">uint16_t<sp/><ref refid="wire_8c_1ac8016d4c4db158b8d9e95f0973739bf1" kindref="member">read16le</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1a185ba45353875b6922b19a2d1d839dea" kindref="member">NRT_READ16LE</ref>((uint8_t<sp/>*)buffer);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="wire_8c_1a6192ec58340a967eaf4530b14e36cb54" refkind="member"><highlight class="normal">uint16_t<sp/><ref refid="wire_8c_1a6192ec58340a967eaf4530b14e36cb54" kindref="member">read16be</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1ac9da063913697daf1de00d9c7b0d4cd1" kindref="member">NRT_READ16BE</ref>((uint8_t<sp/>*)buffer);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="wire_8c_1a4530689aa1b10b5aae470bcac078986f" refkind="member"><highlight class="normal">uint32_t<sp/><ref refid="wire_8c_1a4530689aa1b10b5aae470bcac078986f" kindref="member">read32le</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1a9b495ddf3b39ae81080154e295c084f1" kindref="member">NRT_READ32LE</ref>((uint8_t<sp/>*)buffer);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="wire_8c_1a6db418d1512e2419e8567328a16e60d5" refkind="member"><highlight class="normal">uint32_t<sp/><ref refid="wire_8c_1a6db418d1512e2419e8567328a16e60d5" kindref="member">read32be</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1a40433b828eb9604867a4cf802d78eee9" kindref="member">NRT_READ32BE</ref>((uint8_t<sp/>*)buffer);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="wire_8c_1a2ea367735e5725a663de290b2669fa97" refkind="member"><highlight class="normal">uint64_t<sp/><ref refid="wire_8c_1a2ea367735e5725a663de290b2669fa97" kindref="member">read64le</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1a79217b32c2056622baa4dad4a14f9187" kindref="member">NRT_READ64LE</ref>((uint8_t<sp/>*)buffer);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="wire_8c_1a3864b1b6a1628fe3362f25660c712c82" refkind="member"><highlight class="normal">uint64_t<sp/><ref refid="wire_8c_1a3864b1b6a1628fe3362f25660c712c82" kindref="member">read64be</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1ac66fdee8548a2105d67a44e7804f7930" kindref="member">NRT_READ64BE</ref>((uint8_t<sp/>*)buffer);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="wire_8c_1ad2d79b3e7e6bdd714a09093600b47c2d" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1ad2d79b3e7e6bdd714a09093600b47c2d" kindref="member">write16le</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint16_t<sp/>value)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="wire_8h_1a9b0516e23f35b9a3da140be4be1e4cae" kindref="member">NRT_WRITE16LE</ref>((uint8_t<sp/>*)buffer,<sp/>value);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="wire_8c_1af50b4025390307c9decde69de46fb762" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1af50b4025390307c9decde69de46fb762" kindref="member">write16be</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint16_t<sp/>value)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="wire_8h_1acf25b536ffaeb72808752ea7d24af856" kindref="member">NRT_WRITE16BE</ref>((uint8_t<sp/>*)buffer,<sp/>value);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="wire_8c_1a174840993bafe9356324cf630519f8bf" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1a174840993bafe9356324cf630519f8bf" kindref="member">write32le</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint32_t<sp/>value)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="wire_8h_1abf42d1c1bfd5b7dc57f3015a355cdc48" kindref="member">NRT_WRITE32LE</ref>((uint8_t<sp/>*)buffer,<sp/>value);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="wire_8c_1a87004cdb11a4626c0b78b3cebec20bcb" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1a87004cdb11a4626c0b78b3cebec20bcb" kindref="member">write32be</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint32_t<sp/>value)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="wire_8h_1a31a08a70dfa5775f8946a0718db61262" kindref="member">NRT_WRITE32BE</ref>((uint8_t<sp/>*)buffer,<sp/>value);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="wire_8c_1ae49bcb10b4472e9520df613c5c655c06" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1ae49bcb10b4472e9520df613c5c655c06" kindref="member">write64le</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint64_t<sp/>value)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="wire_8h_1aeba9c7260507c2d4ccd8cbed46741b0a" kindref="member">NRT_WRITE64LE</ref>((uint8_t<sp/>*)buffer,<sp/>value);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="wire_8c_1a811a743c2ebc56f21a658f1ae44c8526" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1a811a743c2ebc56f21a658f1ae44c8526" kindref="member">write64be</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint64_t<sp/>value)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="wire_8h_1a8363db86c2ee8f8df5f675f725ab6537" kindref="member">NRT_WRITE64BE</ref>((uint8_t<sp/>*)buffer,<sp/>value);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="wire_8c_1a165d8c55da8cee302cf707949e98323a" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="wire_8c_1a165d8c55da8cee302cf707949e98323a" kindref="member">align</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>value,<sp/>uint8_t<sp/>alignment)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="wire_8h_1ab06449599802dd97b52b2abf2c572a47" kindref="member">ALIGN</ref>(value,<sp/>alignment);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/util/wire.c"/>
+  </compounddef>
+</doxygen>

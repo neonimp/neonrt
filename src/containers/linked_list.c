@@ -1,6 +1,8 @@
 #include "linked_list.h"
 #include <jemalloc/jemalloc.h>
 
+#define ll_check_init(self) ((self->len) > 0 && (self->first) != NULL && (self->last) != NULL)
+
 ll_node_t *new_ll_node(void *val)
 {
 	ll_node_t *new_node;
@@ -30,7 +32,7 @@ dll_node_t *new_dll_node(void *val)
 	return new_node;
 }
 
-int ll_insert_at(ll_t *self, ll_node_t *new_node, size_t pos)
+int32_t ll_insert_at(ll_t *self, ll_node_t *new_node, size_t pos)
 {
 	ll_node_t *iter_curr;
 	ll_node_t *iter_prev;
@@ -85,26 +87,56 @@ ll_t *ll_new(void *fval)
 	return new_ll;
 }
 
-int ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
+int32_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 {
 	ll_node_t *new_node;
 
 	if ((new_node = new_ll_node(val)) == NULL)
 		return -1;
 
+	// Check if the list is initialized if not just initialize and stop here
+	if (!ll_check_init(self)) {
+		self->first = new_node;
+		self->last = new_node;
+		self->len = 1;
+	}
+
 	switch (op) {
-	case PREPEND:
+	case LL_PREPEND:
 		// Change the new node next to point at the previous head, and set it as first
 		new_node->next = self->first;
 		self->first = new_node;
 		// Finally increase len
 		self->len += 1;
 		return 0;
-	case APPEND: self->last->next = new_node;
+	case LL_APPEND:
+		// Add the new node to the tail
+		self->last->next = new_node;
 		self->last = new_node;
 		self->len += 1;
 		return 0;
-	case INSERT: return ll_insert_at(self, new_node, pos);
+	case LL_INSERT: return ll_insert_at(self, new_node, pos);
 	default: return -1;
 	}
+}
+
+void ll_free(ll_t *self)
+{
+	ll_node_t *iter_curr;
+	ll_node_t *iter_next;
+	size_t i;
+
+	iter_curr = self->first;
+
+	for (i = 0; i < self->len; i++) {
+		iter_next = iter_curr->next;
+		free(iter_curr);
+		if (iter_next->next == NULL) {
+			free(iter_next);
+			break;
+		}
+		iter_curr = iter_next;
+	}
+
+	free(self);
 }

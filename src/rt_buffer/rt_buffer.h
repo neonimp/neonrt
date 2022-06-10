@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <memory.h>
 
 struct managed_buffer;
 
@@ -22,7 +23,8 @@ typedef struct managed_buffer rt_buff_t;
  * @param val_len Length of the buffer `value`.
  * @return A pointer to an initialized rt_buff_t instance.
  */
-extern rt_buff_t *rt_buff_new(const char *value, size_t val_len);
+extern rt_buff_t *rt_buff_new(uint8_t *value, size_t val_len);
+
 /**
  * @brief Get a reference to the underlying buffer of a managed string to use
  * with functions that need a raw const char pointer.
@@ -33,6 +35,7 @@ extern rt_buff_t *rt_buff_new(const char *value, size_t val_len);
  * @return A reference to the underlying buffer.
  */
 extern const char *rt_buff_borrow(rt_buff_t *self);
+
 /**
  * @brief Get a write-able reference to the underlying buffer of a managed
  * string to use with functions that need a raw const char pointer, note that
@@ -47,6 +50,7 @@ extern const char *rt_buff_borrow(rt_buff_t *self);
  * @return A reference to the underlying buffer.
  */
 extern char *rt_buff_borrow_writable(rt_buff_t *self);
+
 /**
  * @brief Returns a borrowed reference to the underlying buffer and decreases
  * the reference counter.
@@ -55,12 +59,19 @@ extern char *rt_buff_borrow_writable(rt_buff_t *self);
 extern void rt_buff_return(rt_buff_t *self);
 
 /**
+ * @brief Get the size of the underlying buffer
+ * @param self Buffer to get the size of
+ * @return
+ */
+extern size_t rt_buff_sizeof(const rt_buff_t *self);
+
+/**
  * @brief Destroys a managed string if it's reference counter is 0, and there
  * is no lock on it, do not use a reference to a string passed to this function
  * after calling it.
  * @param self The string to attempt destruction on.
  * @return 0 if the string was deallocated successfully
- * or the refcount otherwise.
+ * or the refcount otherwise, check the result!.
  */
 extern uint64_t rt_buff_free(rt_buff_t *self);
 

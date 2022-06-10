@@ -23,4 +23,7 @@ target_include_directories(neonrt PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
 target_include_directories(neonrt PRIVATE ${PROJECT_SOURCE_DIR}/vendor/jemalloc/include)
 
 target_link_libraries(neonrt PRIVATE xxHash::xxhash)
-target_link_libraries(neonrt PRIVATE jemalloc)
+
+add_executable(test_guest test_guest/guest.c)
+target_link_libraries(test_guest PRIVATE neonrt)
+target_include_directories(test_guest PRIVATE src)

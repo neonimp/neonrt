@@ -1,0 +1,14 @@
+digraph "hashmap_evict"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="hashmap_evict",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Mark a node for reuse, and return the value that was stored in it."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="make_index",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hashmap_8c.html#a8b57f0ce7e665a3bf1149e9bc4382cdd",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="rt_buff_borrow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$rt__buffer_8c.html#a039150cb6b9a685b4cc33a6532a79ec5",tooltip="Get a reference to the underlying buffer of a managed string to use with functions that need a raw co..."];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="rt_buff_sizeof",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$rt__buffer_8c.html#abb767504584d542d819c76d09ebeded5",tooltip="Get the size of the underlying buffer."];
+}

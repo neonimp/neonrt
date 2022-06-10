@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structsingly__linked__list__node" kind="struct" language="C++" prot="public">
+    <compoundname>singly_linked_list_node</compoundname>
+    <includes refid="linked__list_8h" local="no">linked_list.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structsingly__linked__list__node" kindref="compound">singly_linked_list_node</ref> *</type>
+        <definition>struct singly_linked_list_node* next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="19" column="32" bodyfile="src/containers/linked_list.h" bodystart="19" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" compoundref="linked__list_8c" startline="90" endline="121">ll_add_node</referencedby>
+        <referencedby refid="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" compoundref="linked__list_8c" startline="123" endline="142">ll_free</referencedby>
+        <referencedby refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" compoundref="linked__list_8c" startline="35" endline="57">ll_insert_at</referencedby>
+        <referencedby refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" compoundref="linked__list_8c" startline="6" endline="18">new_ll_node</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* dt_ptr</definition>
+        <argsstring></argsstring>
+        <name>dt_ptr</name>
+        <briefdescription>
+<para>Pointer to the data held by this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="21" column="8" bodyfile="src/containers/linked_list.h" bodystart="21" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1afce5e1cccada7a1eeeed1de23c5a585a" compoundref="linked__list_8c" startline="6" endline="18">new_ll_node</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Simple linked list node struct. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>singly_linked_list_node</label>
+        <link refid="structsingly__linked__list__node"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/containers/linked_list.h" line="18" column="1" bodyfile="src/containers/linked_list.h" bodystart="18" bodyend="22"/>
+    <listofallmembers>
+      <member refid="structsingly__linked__list__node_1ae3a4b66b87c55a550ba2c5fe01b33802" prot="public" virt="non-virtual"><scope>singly_linked_list_node</scope><name>dt_ptr</name></member>
+      <member refid="structsingly__linked__list__node_1a6ac7f8775a90f1ccbebc6e6f4831106b" prot="public" virt="non-virtual"><scope>singly_linked_list_node</scope><name>next</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

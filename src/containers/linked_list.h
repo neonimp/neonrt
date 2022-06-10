@@ -41,9 +41,9 @@ struct linked_list {
 typedef struct linked_list ll_t;
 
 enum LL_ADD_OP {
-  PREPEND,
-  APPEND,
-  INSERT
+  LL_PREPEND,
+  LL_APPEND,
+  LL_INSERT
 };
 
 /**
@@ -64,6 +64,25 @@ extern ll_t *ll_new(void *fval);
  * @param pos If op is INSERT where to insert the node in the list
  * @return 0 on success, -1 otherwise
  */
-extern int ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
+extern int32_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
+
+extern ll_node_t *ll_foreach(ll_t *self);
+
+extern void ll_free(ll_t *self);
+
+/**
+ * @brief Shorthand to ll_add_node in append mode
+ * @param self The linked list to append the node to
+ * @param val The value to give the linked list
+ * @return 0 on success, -1 otherwise
+ */
+#define ll_append_node(self, val) (ll_add_node((self), (val), LL_APPEND, 0))
+/**
+ * @brief Shorthand to ll_add_node in prepend mode
+ * @param self The linked list to append the node to
+ * @param val The value to give the linked list
+ * @return 0 on success, -1 otherwise
+ */
+#define ll_prepend_node(self, val) (ll_add_node((self), (val), LL_PREPEND, 0))
 
 #endif /* END _RTHOST_LL_ */

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structlinked__list" kind="struct" language="C++" prot="public">
+    <compoundname>linked_list</compoundname>
+    <includes refid="linked__list_8h" local="no">linked_list.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" prot="public" static="no" mutable="no">
+        <type><ref refid="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" kindref="member">ll_node_t</ref> *</type>
+        <definition>ll_node_t* first</definition>
+        <argsstring></argsstring>
+        <name>first</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="36" column="13" bodyfile="src/containers/linked_list.h" bodystart="36" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" compoundref="linked__list_8c" startline="90" endline="121">ll_add_node</referencedby>
+        <referencedby refid="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" compoundref="linked__list_8c" startline="123" endline="142">ll_free</referencedby>
+        <referencedby refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" compoundref="linked__list_8c" startline="35" endline="57">ll_insert_at</referencedby>
+        <referencedby refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" compoundref="linked__list_8c" startline="59" endline="88">ll_new</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" prot="public" static="no" mutable="no">
+        <type><ref refid="linked__list_8h_1a420d4bae1086b6c996ca7e2886b60f41" kindref="member">ll_node_t</ref> *</type>
+        <definition>ll_node_t* last</definition>
+        <argsstring></argsstring>
+        <name>last</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="37" column="13" bodyfile="src/containers/linked_list.h" bodystart="37" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" compoundref="linked__list_8c" startline="90" endline="121">ll_add_node</referencedby>
+        <referencedby refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" compoundref="linked__list_8c" startline="59" endline="88">ll_new</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structlinked__list_1a7360b55975153b822efc5217b7734e6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t len</definition>
+        <argsstring></argsstring>
+        <name>len</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/containers/linked_list.h" line="38" column="10" bodyfile="src/containers/linked_list.h" bodystart="38" bodyend="-1"/>
+        <referencedby refid="linked__list_8c_1a36c2fbd5ef8f3b179af71c0b8528655a" compoundref="linked__list_8c" startline="90" endline="121">ll_add_node</referencedby>
+        <referencedby refid="linked__list_8c_1a63661df87ef3fa8bfceaef58f1368df1" compoundref="linked__list_8c" startline="123" endline="142">ll_free</referencedby>
+        <referencedby refid="linked__list_8c_1a30da680369bda415f38e26affaf5560f" compoundref="linked__list_8c" startline="35" endline="57">ll_insert_at</referencedby>
+        <referencedby refid="linked__list_8c_1a2283fe14a6c5d022875599517b826eb6" compoundref="linked__list_8c" startline="59" endline="88">ll_new</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>singly_linked_list_node</label>
+        <link refid="structsingly__linked__list__node"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>linked_list</label>
+        <link refid="structlinked__list"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>first</edgelabel>
+          <edgelabel>last</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/containers/linked_list.h" line="35" column="1" bodyfile="src/containers/linked_list.h" bodystart="35" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structlinked__list_1a4fea80fb9aaf32f378697027482645a7" prot="public" virt="non-virtual"><scope>linked_list</scope><name>first</name></member>
+      <member refid="structlinked__list_1a5e25b546c40d2c1188554c80f6b83f9e" prot="public" virt="non-virtual"><scope>linked_list</scope><name>last</name></member>
+      <member refid="structlinked__list_1a7360b55975153b822efc5217b7734e6a" prot="public" virt="non-virtual"><scope>linked_list</scope><name>len</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
