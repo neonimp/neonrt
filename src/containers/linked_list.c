@@ -1,5 +1,5 @@
 #include "linked_list.h"
-#include <jemalloc/jemalloc.h>
+#include <stdlib.h>
 
 #define ll_check_init(self) ((self->len) > 0 && (self->first) != NULL && (self->last) != NULL)
 

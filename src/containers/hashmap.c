@@ -1,5 +1,5 @@
 #include "hashmap.h"
-#include <jemalloc/jemalloc.h>
+#include <stdlib.h>
 #include <xxhash.h>
 #include <memory.h>
 
