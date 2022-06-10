@@ -1,11 +1,6 @@
 /**
- * @file NRT_wireutils.h
- * @brief Utilities for encoding/decoding integers to and from bytes in a stream little or big endian
- * @authors Matheus Xavier
- * This file is part of BareSDK and licensed under the:
- * BSD 3-Clause License
- * Copyright (c) 2021, Matheus Xavier
- * All rights reserved.
+ * @brief Ready to use hashmaps
+ * @authors Matheus Xavier <mxavier[AT]neonimp.com>
  */
 
 #ifndef NRT_WIRE_H
@@ -13,15 +8,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <endian.h>
-
-#if defined(__BYTE_ORDER) && __BYTE_ORDER == __BIG_ENDIAN || defined(__BIG_ENDIAN__) || defined(__ARMEB__) || defined(__THUMBEB__) || defined(__AARCH64EB__) || defined(_MIBSEB) || defined(__MIBSEB) || defined(__MIBSEB__)
-#define BE_ARCH
-#elif defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN || defined(__LITTLE_ENDIAN__) || defined(__ARMEL__) || defined(__THUMBEL__) || defined(__AARCH64EL__) || defined(_MIPSEL) || defined(__MIPSEL) || defined(__MIPSEL__)
-#define LE_ARCH
-#else
-#error Unable to determine arch
-#endif
 
 #define ALIGN(value, alignment) (((value) + (alignment - 1)) & ~(alignment - 1))
 
