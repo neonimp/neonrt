@@ -36,14 +36,15 @@ struct hashmap_container {
    */
   uint64_t nonce;
   /// How much load the hashmap is under currently
-  uint32_t current_load;
+  uint64_t current_load;
   /// How much load can trigger an expansion
   uint32_t expand_trig;
   /// Expand by this factor when expansion is triggered
   uint8_t expand_factor;
   /// Disable expansion autonomy, should be left alone in most cases
   uint8_t no_expand_auto: 1;
-  uint8_t reserved: 7;
+  uint8_t fast_realloc: 1;
+  uint8_t reserved: 6;
 };
 
 typedef struct hashmap_container hmap_t;
@@ -60,7 +61,7 @@ typedef struct hashmap_container hmap_t;
  * recommended is 2.
  * @return A newly initialized hashmap configured with the received parameters
  */
-extern hmap_t *hashmap_new(size_t init_len, uint8_t *nonce, uint32_t load_lim, uint8_t expand_factor);
+extern hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint32_t load_lim, uint8_t expand_factor);
 
 /**
  * @brief Set the key to value on self

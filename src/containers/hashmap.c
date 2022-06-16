@@ -11,7 +11,8 @@ struct hashmap_node {
 
 #define check_init(self) ((self) != NULL || (self)->data != NULL)
 
-void update_load_factor(hmap_t *self) {
+void update_load_factor(hmap_t *self)
+{
 	if (self == NULL)
 		return;
 
@@ -22,7 +23,48 @@ void update_load_factor(hmap_t *self) {
 	self->current_load = self->set / self->len;
 }
 
-size_t make_index(size_t mod, uint64_t nonce, rt_buff_t *key) {
+size_t resize_map(hmap_t *self)
+{
+	hmap_node_t *new_ptr;
+	size_t i;
+
+	// Allocate the expanded array
+	new_ptr = malloc(sizeof(hmap_node_t) * (self->len * self->expand_factor));
+
+	if (new_ptr == NULL)
+		return -1;
+
+	// Copy the old data to the new data array
+	memcpy(new_ptr, self->data, sizeof(hmap_node_t) * self->len);
+
+	// Set the iteration index to the current length to avoid
+	// overwriting data.
+	i = self->len;
+
+	// Update the length
+	self->len = self->len * self->expand_factor;
+
+	// Initialize all new slots to neutral values
+	for (; i < self->len; ++i) {
+		new_ptr[i].reclaim = true;
+		new_ptr[i].data = NULL;
+		new_ptr[i].key = NULL;
+	}
+
+	// Free the old array
+	free(self->data);
+
+	// Update the data pointer to the new aray
+	self->data = new_ptr;
+	// Update the stored load factor
+	update_load_factor(self);
+
+	return self->len;
+}
+
+
+size_t make_index(size_t mod, uint64_t nonce, rt_buff_t *key)
+{
 	uint64_t hash;
 
 	hash = XXH3_64bits_withSeed(
@@ -33,10 +75,9 @@ size_t make_index(size_t mod, uint64_t nonce, rt_buff_t *key) {
 	return hash % mod;
 }
 
-hmap_t *hashmap_new(size_t init_len, uint8_t *nonce, uint32_t load_lim, uint8_t expand_factor)
+hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint32_t load_lim, uint8_t expand_factor)
 {
 	hmap_t *new_hmap;
-	size_t i;
 
 	if ((new_hmap = malloc(sizeof(hmap_t))) == NULL)
 		return NULL;
@@ -47,7 +88,7 @@ hmap_t *hashmap_new(size_t init_len, uint8_t *nonce, uint32_t load_lim, uint8_t 
 	}
 
 	// Set our nodes to sane defaults, don't rely on allocation being clean
-	for (i = 0; i < init_len; ++i) {
+	for (size_t i = 0; i < init_len; ++i) {
 		new_hmap->data[i].reclaim = true;
 		new_hmap->data[i].data = NULL;
 		new_hmap->data[i].key = NULL;
@@ -81,6 +122,8 @@ int32_t hashmap_set(hmap_t *self, rt_buff_t *key, void *value)
 		self->data[index].reclaim = false;
 		self->set += 1;
 		update_load_factor(self);
+		if (!self->no_expand_auto && self->current_load >= self->expand_trig)
+			resize_map(self);
 		return 0;
 	}
 
@@ -103,7 +146,8 @@ void *hashmap_get(hmap_t *self, rt_buff_t *key)
 		return NULL;
 }
 
-void *hashmap_evict(hmap_t *self, rt_buff_t *key) {
+void *hashmap_evict(hmap_t *self, rt_buff_t *key)
+{
 	size_t index;
 
 	// Sanity check
@@ -116,27 +160,24 @@ void *hashmap_evict(hmap_t *self, rt_buff_t *key) {
 	return self->data[index].data;
 }
 
-void hashmap_evict_all(hmap_t *self) {
-	size_t i;
-
+void hashmap_evict_all(hmap_t *self)
+{
 	// Sanity check
 	if (!check_init(self))
 		return;
 
-	for (i = 0; i < self->len; i++) {
+	for (size_t i = 0; i < self->len; i++) {
 		self->data[i].reclaim = true;
 	}
 }
 
 void hashmap_free(hmap_t *self)
 {
-	size_t i;
-
 	// Sanity check
 	if (!check_init(self))
 		return;
 
-	for (i = 0; i < self->len; i++) {
+	for (size_t i = 0; i < self->len; i++) {
 		if (self->data[i].key != NULL) {
 			rt_buff_return(self->data[i].key);
 			rt_buff_free(self->data[i].key);
