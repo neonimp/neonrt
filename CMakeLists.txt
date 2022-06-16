@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(rthost C)
 
-set(CMAKE_C_STANDARD 90)
+set(CMAKE_C_STANDARD 99)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 file(GLOB_RECURSE RTHOST_HEADERS src/**/*.h)
