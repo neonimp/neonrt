@@ -32,28 +32,25 @@ dll_node_t *new_dll_node(void *val)
 	return new_node;
 }
 
-int32_t ll_insert_at(ll_t *self, ll_node_t *new_node, size_t pos)
+ll_node_t *ll_gnat_impl(ll_node_t *first, size_t at)
 {
-	ll_node_t *iter_curr;
-	ll_node_t *iter_prev;
-	size_t i;
+	size_t current;
+	ll_node_t *curr_n;
 
-	// Check for iteration bounds
-	if (self->len < pos)
-		return -1;
+	if (first == NULL)
+		return NULL;
 
-	iter_curr = self->first;
+	current = 0;
+	curr_n = first;
+	while (current < at) {
+		if (curr_n->next == NULL)
+			return NULL;
 
-	// Iterate until we are at the requested position
-	for (i = 0; i < pos; i++) {
-		iter_prev = iter_curr;
-		iter_curr = iter_curr->next;
+		curr_n = curr_n->next;
+		current++;
 	}
 
-	iter_prev->next = new_node;
-	// If there was an node here we place it as the next one, otherwise this is the tail
-	new_node->next = iter_curr != NULL ? iter_curr : NULL;
-	return 0;
+	return curr_n;
 }
 
 ll_t *ll_new(void *fval)
@@ -87,9 +84,10 @@ ll_t *ll_new(void *fval)
 	return new_ll;
 }
 
-int32_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
+size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 {
 	ll_node_t *new_node;
+	ll_node_t *prev_n;
 
 	if ((new_node = new_ll_node(val)) == NULL)
 		return -1;
@@ -108,33 +106,55 @@ int32_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 		self->first = new_node;
 		// Finally increase len
 		self->len += 1;
-		return 0;
+		return self->len;
 	case LL_APPEND:
 		// Add the new node to the tail
 		self->last->next = new_node;
 		self->last = new_node;
 		self->len += 1;
-		return 0;
-	case LL_INSERT: return ll_insert_at(self, new_node, pos);
-	default: return -1;
+		return self->len;
+	case LL_INSERT:
+		if (self->len < pos) {
+			free(new_node);
+			return -2;
+		} else if ((prev_n = ll_gnat_impl(self->first, pos - 1)) != NULL) {
+			new_node->next = prev_n->next != NULL ? prev_n->next : NULL;
+			prev_n->next = new_node;
+			self->len += 1;
+			return self->len;
+		} else {
+			free(new_node);
+			return -3;
+		}
+	default: free(new_node);
+		return -1;
 	}
+}
+
+extern ll_node_t *ll_gnat(ll_t *self, size_t at)
+{
+	if (self->first != NULL && at < self->len)
+		return ll_gnat_impl(self->first, at);
+	else if (at == self->len)
+		return self->last;
+	else
+		return NULL;
 }
 
 void ll_free(ll_t *self)
 {
 	ll_node_t *iter_curr;
 	ll_node_t *iter_next;
-	size_t i;
 
 	iter_curr = self->first;
 
-	for (i = 0; i < self->len; i++) {
+	for (size_t i = 0; i < self->len; i++) {
 		iter_next = iter_curr->next;
-		free(iter_curr);
-		if (iter_next->next == NULL) {
+		if (iter_curr->next == NULL) {
 			free(iter_next);
 			break;
 		}
+		free(iter_curr);
 		iter_curr = iter_next;
 	}
 

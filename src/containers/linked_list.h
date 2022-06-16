@@ -64,9 +64,16 @@ extern ll_t *ll_new(void *fval);
  * @param pos If op is INSERT where to insert the node in the list
  * @return 0 on success, -1 otherwise
  */
-extern int32_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
+extern size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
 
-extern ll_node_t *ll_foreach(ll_t *self);
+/**
+ * @brief Get node at position
+ * @param self Linked list to operate with Pointer to the first node
+ * @param at The position of the desired node
+ * @return A pointer to the node at that location or NULL, if:
+ * at > self.len or if the linked list is uninitialized.
+ */
+extern ll_node_t *ll_gnat(ll_t *self, size_t at);
 
 extern void ll_free(ll_t *self);
 
