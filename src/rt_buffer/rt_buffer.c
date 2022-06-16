@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-rt_buff_t *rt_buff_new(uint8_t *value, size_t val_len)
+rt_buff_t *rt_buff_new(const uint8_t *value, size_t val_len)
 {
 	rt_buff_t *rt_buff;
 

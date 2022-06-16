@@ -23,7 +23,7 @@ typedef struct managed_buffer rt_buff_t;
  * @param val_len Length of the buffer `value`.
  * @return A pointer to an initialized rt_buff_t instance.
  */
-extern rt_buff_t *rt_buff_new(uint8_t *value, size_t val_len);
+extern rt_buff_t *rt_buff_new(const uint8_t *value, size_t val_len);
 
 /**
  * @brief Get a reference to the underlying buffer of a managed string to use
