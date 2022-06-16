@@ -1,6 +1,7 @@
 #include "rt_buffer.h"
 #include "rt_buffer_private.h"
 #include <stdlib.h>
+#include <xxhash.h>
 #include <memory.h>
 
 rt_buff_t *rt_buff_new(const uint8_t *value, size_t val_len)
@@ -57,6 +58,20 @@ char *rt_buff_borrow_writable(rt_buff_t *self)
 extern size_t rt_buff_sizeof(const rt_buff_t *self)
 {
 	return self->len;
+}
+
+bool rt_buff_cmp(const rt_buff_t *left, const rt_buff_t *right)
+{
+	uint64_t lhash;
+	uint64_t rhash;
+
+	if (left->data != NULL && right->data != NULL) {
+		lhash = XXH3_64bits(left->data, left->len);
+		rhash = XXH3_64bits(right->data, right->len);
+		return lhash == rhash;
+	} else {
+		return false;
+	}
 }
 
 void rt_buff_return(rt_buff_t *self)

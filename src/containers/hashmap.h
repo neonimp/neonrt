@@ -1,5 +1,7 @@
 /**
- * @brief Ready to use hashmaps
+ * @brief Ready to use hashmaps, the hashmaps provided in the library have sane
+ * defaults aiming for good performance under most cases, but can be tuned if
+ * need be.
  * @authors Matheus Xavier <mxavier[AT]neonimp.com>
  */
 
@@ -43,7 +45,10 @@ struct hashmap_container {
   uint8_t expand_factor;
   /// Disable expansion autonomy, should be left alone in most cases
   uint8_t no_expand_auto: 1;
-  uint8_t fast_realloc: 1;
+  /// Whether to use linked lists to hold collisions or disallow them entirely,
+  /// using linked lists has a negligible performance penalty for most cases,
+  /// and allows the hashmap to work better under higher pressure thresholds.
+  uint8_t collision_iserr: 1;
   uint8_t reserved: 6;
 };
 
@@ -87,6 +92,14 @@ extern void *hashmap_get(hmap_t *self, rt_buff_t *key);
  * @return The value held in the key previously
  */
 extern void *hashmap_evict(hmap_t *self, rt_buff_t *key);
+
+/**
+ * @brief Force a hashmap resize regardless of the pressure factor and trigger
+ * control the factor of the resizing by setting expand_factor on self.
+ * @param self The hashmap to resize
+ * @return The new size or a negative number in case of error
+ */
+extern size_t resize_map(hmap_t *self);
 
 /**
  * @brief Evict all the slots in the hashmap, effectively clearing it

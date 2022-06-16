@@ -16,8 +16,10 @@ void update_load_factor(hmap_t *self)
 	if (self == NULL)
 		return;
 
-	if (self->set == 0)
+	if (self->set == 0 || self->len == 0) {
 		self->current_load = 0;
+		return;
+	}
 
 	// All preconditions met, now we can spend time to calculate
 	self->current_load = self->set / self->len;
@@ -63,7 +65,7 @@ size_t resize_map(hmap_t *self)
 }
 
 
-size_t make_index(size_t mod, uint64_t nonce, rt_buff_t *key)
+size_t calc_idx(size_t mod, uint64_t nonce, rt_buff_t *key)
 {
 	uint64_t hash;
 
@@ -113,7 +115,7 @@ int32_t hashmap_set(hmap_t *self, rt_buff_t *key, void *value)
 	if (!check_init(self))
 		return -1;
 
-	index = make_index(self->len, self->nonce, key);
+	index = calc_idx(self->len, self->nonce, key);
 
 	rt_buff_borrow(key);
 	if (self->data[index].reclaim || self->data[index].key == NULL) {
@@ -138,7 +140,7 @@ void *hashmap_get(hmap_t *self, rt_buff_t *key)
 	if (!check_init(self))
 		return NULL;
 
-	index = make_index(self->len, self->nonce, key);
+	index = calc_idx(self->len, self->nonce, key);
 
 	if (!self->data[index].reclaim && self->data[index].key != NULL)
 		return self->data[index].data;
@@ -154,9 +156,11 @@ void *hashmap_evict(hmap_t *self, rt_buff_t *key)
 	if (!check_init(self))
 		return NULL;
 
-	index = make_index(self->len, self->nonce, key);
+	index = calc_idx(self->len, self->nonce, key);
 
 	self->data[index].reclaim = true;
+	self->current_load -= 1;
+	update_load_factor(self);
 	return self->data[index].data;
 }
 
@@ -169,6 +173,8 @@ void hashmap_evict_all(hmap_t *self)
 	for (size_t i = 0; i < self->len; i++) {
 		self->data[i].reclaim = true;
 	}
+	self->current_load = 0;
+	update_load_factor(self);
 }
 
 void hashmap_free(hmap_t *self)

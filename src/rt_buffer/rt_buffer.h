@@ -66,6 +66,14 @@ extern void rt_buff_return(rt_buff_t *self);
 extern size_t rt_buff_sizeof(const rt_buff_t *self);
 
 /**
+ * @brief
+ * @param left
+ * @param right
+ * @return
+ */
+extern bool rt_buff_cmp(const rt_buff_t *left, const rt_buff_t *right);
+
+/**
  * @brief Destroys a managed string if it's reference counter is 0, and there
  * is no lock on it, do not use a reference to a string passed to this function
  * after calling it.
