@@ -28,7 +28,7 @@ typedef struct hashmap_node hmap_node_t;
  * make sure to check hashmap.c for implementation details.
  */
 struct hashmap_container {
-  hmap_node_t *data;
+  hmap_node_t *slots;
   size_t len;
   size_t set;
   /**
@@ -40,15 +40,20 @@ struct hashmap_container {
   /// How much load the hashmap is under currently
   uint64_t current_load;
   /// How much load can trigger an expansion
-  uint32_t expand_trig;
+  /// This number should be between 0 and 100
+  uint8_t expand_trig;
   /// Expand by this factor when expansion is triggered
   uint8_t expand_factor;
+  /// If the hashmap has resolved collisions this is set true
+  bool has_resolved_collisions;
   /// Disable expansion autonomy, should be left alone in most cases
   uint8_t no_expand_auto: 1;
-  /// Whether to use linked lists to hold collisions or disallow them entirely,
-  /// using linked lists has a negligible performance penalty for most cases,
-  /// and allows the hashmap to work better under higher pressure thresholds.
-  uint8_t collision_iserr: 1;
+  /**
+   * Whether to use linked lists to hold collisions or disallow them entirely,
+   * using linked lists has a negligible performance penalty for most cases,
+   * and allows the hashmap to work better under higher pressure thresholds.
+   */
+  uint8_t deny_collision: 1;
   uint8_t reserved: 6;
 };
 
@@ -66,14 +71,15 @@ typedef struct hashmap_container hmap_t;
  * recommended is 2.
  * @return A newly initialized hashmap configured with the received parameters
  */
-extern hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint32_t load_lim, uint8_t expand_factor);
+extern hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint8_t load_lim, uint8_t expand_factor);
 
 /**
  * @brief Set the key to value on self
  * @param self The hashmap to set the key on
  * @param key A rt_buff to use as a key
  * @param value Pointer to any value
- * @return 0 on success 1 otherwise
+ * @retur Less than zero on error, zero on success, more than zero on success
+ * with warnings.
  */
 extern int32_t hashmap_set(hmap_t *self, rt_buff_t *key, void *value);
 

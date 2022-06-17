@@ -59,7 +59,7 @@ ll_t *ll_new(void *fval)
 	ll_node_t *first_node;
 
 	if (fval != NULL) {
-		if ((first_node = new_ll_node(fval)) != NULL)
+		if ((first_node = new_ll_node(fval)) == NULL)
 			/* Failed to create the node struct */
 			return NULL;
 	} else {
@@ -131,12 +131,14 @@ size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 	}
 }
 
-extern ll_node_t *ll_gnat(ll_t *self, size_t at)
+ll_node_t *ll_gnat(ll_t *self, size_t at)
 {
 	if (self->first != NULL && at < self->len)
 		return ll_gnat_impl(self->first, at);
 	else if (at == self->len)
 		return self->last;
+	else if (at == 1)
+		return self->first;
 	else
 		return NULL;
 }

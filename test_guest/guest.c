@@ -9,10 +9,8 @@
 int main(void)
 {
 	ll_t *ll;
-	size_t i;
 	ll_node_t *node;
 	hmap_t *hmap;
-	hmap_node_t *map_node;
 	int urandom;
 	uint8_t nonce[64];
 
@@ -57,21 +55,22 @@ int main(void)
 
 	urandom = open("/dev/urandom", O_RDONLY);
 	read(urandom, nonce, 64);
-	hmap = hashmap_new(40, nonce, 1, 2);
+
+	hmap = hashmap_new(75, nonce, 0, 2);
 
 	ll = ll_new(NULL);
-	for (i = 0; i < 36; i++) {
+	for (size_t i = 0; i < 36; i++) {
 		ll_append_node(ll,
-		               rt_buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100)));
+		               rt_buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100) - 1));
 
 		hashmap_set(hmap,
-		            rt_buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100)),
+		            rt_buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100) - 1),
 		            lines + ((i + 1) % 36)
 		);
 	}
 
 	node = ll->first;
-	while (node->next != NULL) {
+	while (node != NULL) {
 		printf("%s\n", rt_buff_borrow(node->dt_ptr));
 		node = node->next;
 	}
@@ -79,7 +78,7 @@ int main(void)
 	printf("\nSome hashmap fun now\n\n");
 
 	node = ll->first;
-	while (node->next != NULL) {
+	while (node != NULL) {
 		printf("%s\n", (char *)hashmap_get(hmap, node->dt_ptr));
 		node = node->next;
 	}

@@ -9,17 +9,6 @@ file(GLOB_RECURSE RTHOST_SRC src/**/*.c)
 
 set(xxHash_DIR ${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial)
 
-# Find jemalloc
-if (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-    if (DEFINED JEMALLOC_ROOT_DIR)
-        find_package(JeMalloc)
-    else ()
-        set(JEMALLOC_FOUND true)
-    endif ()
-else ()
-    find_package(JeMalloc REQUIRED)
-endif ()
-
 # Find xxhash and add it's static library to the resulting binary
 set(XXHASH_BUILD_ENABLE_INLINE_API OFF)
 set(XXHASH_BUILD_XXHSUM OFF)
@@ -27,12 +16,27 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial/ ${PROJECT
 
 add_library(neonrt SHARED ${RTHOST_HEADERS} ${RTHOST_SRC})
 target_include_directories(neonrt PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
-target_include_directories(neonrt PRIVATE ${JEMALLOC_INCLUDE_DIR})
-
 target_link_libraries(neonrt PRIVATE xxHash::xxhash)
-target_link_libraries(neonrt PRIVATE ${JEMALLOC_LIBRARIES})
 
+add_library(neon STATIC ${RTHOST_HEADERS} ${RTHOST_SRC})
+target_include_directories(neon PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
+target_link_libraries(neon PRIVATE xxHash::xxhash)
 
 add_executable(test_guest test_guest/guest.c)
 target_link_libraries(test_guest PRIVATE neonrt)
 target_include_directories(test_guest PRIVATE src)
+
+# Find jemalloc, on FreeBSD it's the default system malloc
+if (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+    if (DEFINED JEMALLOC_ROOT_DIR)
+        find_package(JeMalloc)
+    else ()
+        set(JEMALLOC_FOUND true)
+    endif ()
+elseif (DEFINED USE_JEMALLOC)
+    find_package(JeMalloc REQUIRED)
+    target_link_libraries(neonrt PRIVATE ${JEMALLOC_LIBRARIES})
+    target_link_libraries(neon PRIVATE ${JEMALLOC_LIBRARIES})
+    target_include_directories(neonrt PRIVATE ${JEMALLOC_INCLUDE_DIR})
+    target_include_directories(neon PRIVATE ${JEMALLOC_INCLUDE_DIR})
+endif ()
