@@ -12,7 +12,7 @@ ll_node_t *new_ll_node(void *val)
 
 	/* Initialize the node struct members */
 	new_node->next = NULL;
-	new_node->dt_ptr = val;
+	new_node->data = val;
 
 	return new_node;
 }
@@ -128,6 +128,34 @@ size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 		}
 	default: free(new_node);
 		return -1;
+	}
+}
+
+void ll_remove_node(ll_t *self, size_t at)
+{
+	ll_node_t *ll_node;
+	ll_node_t *ll_node_prev;
+	size_t idx;
+
+	idx = 0;
+	ll_node_prev = NULL;
+	// Check if the node exists
+	if (self->len < at)
+		return;
+
+	ll_node = self->first;
+
+	while (ll_node != NULL && idx < at - 1) {
+		ll_node_prev = ll_node;
+		ll_node = ll_node->next;
+		idx += 1;
+	}
+
+	if (ll_node_prev != NULL && ll_node != NULL) {
+		ll_node_prev->next = ll_node->next;
+		self->len -= 1;
+		free(ll_node);
+		return;
 	}
 }
 

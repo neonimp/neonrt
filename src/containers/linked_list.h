@@ -18,7 +18,7 @@
 struct singly_linked_list_node {
   struct singly_linked_list_node *next;
   /// Pointer to the data held by this node
-  void *dt_ptr;
+  void *data;
 };
 
 typedef struct singly_linked_list_node ll_node_t;
@@ -65,6 +65,14 @@ extern ll_t *ll_new(void *fval);
  * @return 0 on success, -1 otherwise
  */
 extern size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
+
+/**
+ * @brief Removes the node at from self
+ * @param self Linked list to change
+ * @param at The index of the node to remove
+ * @return The value of the removed node
+ */
+extern void ll_remove_node(ll_t *self, size_t at);
 
 /**
  * @brief Get node at position

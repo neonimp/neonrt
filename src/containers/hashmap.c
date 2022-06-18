@@ -10,15 +10,8 @@
 #include <memory.h>
 
 struct hashmap_node {
-  bool evicted;
-  bool ll_container;
   void *data;
   rt_buff_t *key;
-};
-
-struct hashmap_ll_node {
-  rt_buff_t *key;
-  void *data;
 };
 
 typedef struct hashmap_ll_node hmap_lln_t;
@@ -39,18 +32,6 @@ void update_load_factor(hmap_t *self)
 	self->current_load = (self->set * 100) / self->len;
 }
 
-hmap_lln_t *new_hmap_ll_node(rt_buff_t *key, void *data)
-{
-	hmap_lln_t *node;
-
-	if ((node = malloc(sizeof(hmap_lln_t))) == NULL)
-		return NULL;
-
-	node->key = key;
-	node->data = data;
-	return node;
-}
-
 size_t calc_idx(size_t mod, uint64_t nonce, rt_buff_t *key)
 {
 	uint64_t hash;
@@ -63,131 +44,85 @@ size_t calc_idx(size_t mod, uint64_t nonce, rt_buff_t *key)
 	return hash % mod;
 }
 
-void reseat_keys(hmap_t *self, size_t old_sz)
+hmap_node_t *new_node(rt_buff_t *key, void *value)
 {
-	ll_node_t *cnode;
-	hmap_lln_t *cnode_v;
-	uint8_t n_nonce[8];
+	hmap_node_t *hmap_node;
 
-	NRT_WRITE64BE(n_nonce, self->nonce);
-	self->nonce = XXH3_64bits(n_nonce, 8);
-	self->no_expand_auto = true;
-	for (size_t i = 0; i < old_sz; ++i) {
-		// Skip evicted keys
-		if (self->slots[i].evicted)
-			continue;
+	if ((hmap_node = malloc(sizeof(hmap_node_t))) == NULL)
+		return NULL;
 
-		if (!self->slots[i].ll_container) {
-			self->slots[i].evicted = true;
-			// Not a collision resolution, so just move
-			hashmap_set(self, self->slots[i].key, self->slots[i].data);
-		} else if(self->slots[i].ll_container && !self->slots[i].evicted) {
-			// On a collision resolution node try to flatten
-			// This slot is a collision resolve, so we iterate the linked list
-			if ((cnode = ll_gnat(self->slots[i].data, 0)) == NULL)
-				continue;
-			self->slots[i].evicted = true;
-			while (cnode != NULL) {
-				cnode_v = cnode->dt_ptr;
-				hashmap_set(self, cnode_v->key, cnode_v->data);
-				free(cnode->dt_ptr);
-				cnode = cnode->next;
-			}
-			ll_free(self->slots[i].data);
-		}
+	hmap_node->key = key;
+	hmap_node->data = value;
+
+	return hmap_node;
+}
+
+int32_t set_key(hmap_node_t *locs, size_t len, uint64_t nonce, bool deny_collisions, rt_buff_t *key, void *value)
+{
+	size_t idx;
+	hmap_node_t *hmap_node;
+	void *tmp;
+
+	idx = calc_idx(len, nonce, key);
+
+	if (locs[idx].key == NULL && locs[idx].data == NULL) {
+		locs[idx].key = key;
+		locs[idx].data = value;
+		return 0;
+		// If the hashmap is allowed to resolve collisions we make this node a linked list
+	} else if (!deny_collisions) {
+		if ((hmap_node = new_node(locs[idx].key, locs[idx].data)) == NULL)
+			return -3;
+
+		tmp = locs[idx].data;
+		// Make the key NULL to indicate this is a linked list slot
+		locs[idx].key = NULL;
+		// Make the node into a linked list
+		locs[idx].data = ll_new(tmp);
+		// Append the hmap node to the linked list
+		ll_append_node(locs[idx].data, hmap_node);
+
+		return 0;
+	} else {
+		// If the hashmap is set to not resolve collisions error out.
+		return -1;
 	}
-	self->no_expand_auto = false;
+}
+
+void reseat_keys(hmap_t *self, hmap_node_t *new_loc, size_t new_len)
+{
+	size_t new_idx;
+	uint8_t new_nonce[8];
+	uint64_t new_nonce_int;
+
+
+	new_nonce = XXH3_64bits(new_nonce, 8);
+	NRT_WRITE64BE(new_nonce, (self->nonce ^ (self->current_load & self->len)));
+
+	for (size_t idx = 0; idx < self->len; ++idx) {
+		if (self->slots[idx].)
+	}
+
+
+	self->nonce = new_nonce_int;
 }
 
 size_t resize_map(hmap_t *self)
 {
-	hmap_node_t *node_store;
-	size_t old_sz;
-	size_t i;
+	hmap_node_t *hmap_nodes;
+	size_t new_len;
 
-	// Allocate the expanded array
-	node_store = malloc(sizeof(hmap_node_t) * (self->len * self->expand_factor));
+	new_len = self->len * self->expand_factor;
 
-	if (node_store == NULL)
-		return -1;
-
-	// Copy the old data to the new data array
-	memcpy(node_store, self->slots, sizeof(hmap_node_t) * self->len);
-
-	// Set the iteration index to the current length to avoid
-	// overwriting data.
-	i = self->len;
-	old_sz = self->len;
-
-	// Update the length
-	self->len = self->len * self->expand_factor;
-
-	// Initialize all new slots to neutral values
-	for (; i < self->len; ++i) {
-		node_store[i].evicted = true;
-		node_store[i].ll_container = false;
-		node_store[i].data = NULL;
-		node_store[i].key = NULL;
-	}
-
-	// Free the old array
-	free(self->slots);
-
-	// Update the data pointer to the new aray
-	self->slots = node_store;
-	// Update the stored load factor
-	// Reset the set counter because reseat calls hashmap_set
-	self->set = 0;
-	reseat_keys(self, old_sz);
-	update_load_factor(self);
-	return self->len;
-}
-
-int32_t hmap_make_ll_slot(hmap_t *self, size_t index, rt_buff_t *key, void *value)
-{
-	hmap_lln_t *lln;
-
-	// Check if the node at index is not already a linked list
-	if (!self->slots[index].ll_container) {
-		// Create a new hmap_ll_node with the current data
-		if ((lln = new_hmap_ll_node(self->slots[index].key, self->slots[index].data)) == NULL)
-			return -1;
-
-		// Create a new linked list on this slot
-		self->slots[index].data = ll_new(lln);
-		if (self->slots[index].data == NULL)
-			return -2;
-
-		// Make the new values into another hmap_ll_node
-		if ((lln = new_hmap_ll_node(key, value)) == NULL)
-			return -3;
-
-		// Append the node to the linked list
-		ll_append_node(self->slots[index].data, lln);
-
-		// Mark this hashmap as having resolved collisions
-		self->has_resolved_collisions = true;
-		// Remove the old key
-		self->slots[index].key = NULL;
-		self->set += 1;
-		update_load_factor(self);
-		// If not we initialize it to one
-		self->slots[index].ll_container = true;
+	if ((hmap_nodes = malloc(sizeof(hmap_node_t) * new_len)) == NULL)
 		return 1;
-	} else {
-		if (self->slots[index].data == NULL)
-			return -3;
-		// The slot already contains a linked list, just append
-		if ((lln = new_hmap_ll_node(key, value)) == NULL)
-			return -4;
 
-		// Append the node to the linked list
-		ll_append_node(self->slots[index].data, lln);
+	reseat_keys(self, hmap_nodes, new_len);
+	// Free the old data and replace the reference
+	free(self->slots);
+	self->slots = hmap_nodes;
 
-		self->set += 1;
-		update_load_factor(self);
-		return 2;
-	}
+	return 0;
 }
 
 hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint8_t load_lim, uint8_t expand_factor)
@@ -204,8 +139,6 @@ hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint8_t load_lim, uin
 
 	// Set our nodes to sane defaults, don't rely on allocation being clean
 	for (size_t i = 0; i < init_len; ++i) {
-		new_hmap->slots[i].evicted = true;
-		new_hmap->slots[i].ll_container = false;
 		new_hmap->slots[i].data = NULL;
 		new_hmap->slots[i].key = NULL;
 	}
@@ -225,42 +158,27 @@ hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint8_t load_lim, uin
 
 int32_t hashmap_set(hmap_t *self, rt_buff_t *key, void *value)
 {
-	size_t index;
-
-	// Sanity check
-	if (!check_init(self))
-		return -1;
-
-	index = calc_idx(self->len, self->nonce, key);
-
+	int32_t result;
 	// Borrow to make sure the buffer is not freed before the hashmap
 	// no longer holds a reference to it
 	rt_buff_borrow(key);
 	// Check if the index is free to use
-	if (self->slots[index].evicted && self->slots[index].key == NULL) {
-		self->slots[index].key = key;
-		self->slots[index].data = value;
-		self->slots[index].evicted = false;
-		self->set += 1;
-		update_load_factor(self);
-		if (!self->no_expand_auto && self->current_load >= self->expand_trig && resize_map(self) == 0)
-			return -1;
-
-		return 0;
-		// If the hashmap is allowed to resolve collisions we make this node a linked list
-	} else if (!self->deny_collision) {
-		return hmap_make_ll_slot(self, index, key, value);
-	} else {
-		// If the hashmap is set to not resolve collisions error out.
-		return -1;
+	if ((result = set_key(self->slots, self->len, self->nonce, self->deny_collision, key, value)) < 0) {
+		return result;
 	}
+
+	update_load_factor(self);
+	if (!self->no_expand_auto && self->current_load >= self->expand_trig && resize_map(self) != 0)
+		return -2;
+
+	return 0;
 }
 
 void *hashmap_get(hmap_t *self, rt_buff_t *key)
 {
 	size_t index;
-	ll_node_t *cnode;
-	hmap_lln_t const *cnode_v;
+	ll_node_t *ll_node;
+	hmap_node_t *hmap_node;
 
 	// Sanity check
 	if (!check_init(self))
@@ -268,17 +186,18 @@ void *hashmap_get(hmap_t *self, rt_buff_t *key)
 
 	index = calc_idx(self->len, self->nonce, key);
 
-	if (!self->slots[index].evicted && self->slots[index].key != NULL && !self->slots[index].ll_container) {
+	if (self->slots[index].data != NULL && self->slots[index].key != NULL) {
+		// Simple slot return value directly
 		return self->slots[index].data;
-	} else if (self->slots[index].ll_container) {
+	} else if (self->slots[index].key == NULL && self->slots[index].data != NULL) {
 		// This slot is a collision resolve, so we iterate the linked list
-		cnode = ll_gnat(self->slots[index].data, 0);
-		while (cnode != NULL) {
-			cnode_v = cnode->dt_ptr;
-			if (rt_buff_cmp(cnode_v->key, key))
-				return cnode_v->data;
+		ll_node = ll_gnat(self->slots[index].data, 0);
+		while (ll_node != NULL) {
+			hmap_node = ll_node->data;
+			if (rt_buff_cmp(hmap_node->key, key))
+				return hmap_node->data;
 
-			cnode = cnode->next;
+			ll_node = ll_node->next;
 		}
 		// If we scan the whole linked list and come up empty return NULL
 		return NULL;
@@ -287,20 +206,61 @@ void *hashmap_get(hmap_t *self, rt_buff_t *key)
 	}
 }
 
+void *evict_at_idx(hmap_t *self, size_t idx)
+{
+	void *old_val;
+	old_val = self->slots[idx].data;
+	self->slots[idx].key = NULL;
+	self->slots[idx].data = NULL;
+	self->current_load -= 1;
+	update_load_factor(self);
+	return old_val;
+}
+
+void *evict_at_idx_with_key(hmap_t *self, size_t idx, rt_buff_t *key)
+{
+	void *old_val;
+	ll_node_t *ll_node;
+	hmap_node_t *sub_node;
+	size_t ll_idx;
+
+	ll_idx = 0;
+	sub_node = NULL;
+	old_val = NULL;
+
+	ll_node = ll_gnat(self->slots[idx].data, 0);
+
+	while (ll_node != NULL) {
+		sub_node = ll_node->data;
+		if (rt_buff_cmp(sub_node->key, key)) {
+			old_val = sub_node->data;
+			ll_remove_node(self->slots[idx].data, ll_idx);
+			break;
+		}
+		ll_idx += 1;
+		ll_node = ll_node->next;
+	}
+
+	self->current_load -= 1;
+	update_load_factor(self);
+	return old_val;
+}
+
 void *hashmap_evict(hmap_t *self, rt_buff_t *key)
 {
-	size_t index;
+	size_t idx;
 
 	// Sanity check
 	if (!check_init(self))
 		return NULL;
 
-	index = calc_idx(self->len, self->nonce, key);
-
-	self->slots[index].evicted = true;
-	self->current_load -= 1;
-	update_load_factor(self);
-	return self->slots[index].data;
+	idx = calc_idx(self->len, self->nonce, key);
+	if (self->slots[idx].key != NULL && self->slots[idx].data != NULL)
+		return evict_at_idx(self, idx);
+	else if (self->slots[idx].key == NULL && self->slots[idx].data != NULL)
+		return evict_at_idx_with_key(self, idx, key);
+	else
+		return NULL;
 }
 
 void hashmap_evict_all(hmap_t *self)
@@ -310,7 +270,8 @@ void hashmap_evict_all(hmap_t *self)
 		return;
 
 	for (size_t i = 0; i < self->len; i++) {
-		self->slots[i].evicted = true;
+		if (self->slots[i].data != NULL)
+			hashmap_evict(self, self->slots[i].key);
 	}
 	self->current_load = 0;
 	update_load_factor(self);
@@ -324,18 +285,18 @@ void hashmap_free(hmap_t *self)
 	if (!check_init(self))
 		return;
 
-	for (size_t i = 0; i < self->len; i++) {
-		if (self->slots[i].key != NULL) {
-			rt_buff_return(self->slots[i].key);
-			rt_buff_free(self->slots[i].key);
+	for (size_t idx = 0; idx < self->len; idx++) {
+		if (self->slots[idx].key != NULL) {
+			rt_buff_return(self->slots[idx].key);
+			rt_buff_free(self->slots[idx].key);
 		}
-		if (self->slots[i].ll_container) {
-			cnode = ll_gnat(self->slots[i].data, 0);
+		if (self->slots[idx].key == NULL && self->slots[idx].data != NULL) {
+			cnode = ll_gnat(self->slots[idx].data, 0);
 			while (cnode != NULL) {
-				free(cnode->dt_ptr);
+				free(cnode->data);
 				cnode = cnode->next;
 			}
-			ll_free(self->slots[i].data);
+			ll_free(self->slots[idx].data);
 		}
 	}
 
