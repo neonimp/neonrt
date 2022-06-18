@@ -137,7 +137,7 @@ ll_node_t *ll_gnat(ll_t *self, size_t at)
 		return ll_gnat_impl(self->first, at);
 	else if (at == self->len)
 		return self->last;
-	else if (at == 1)
+	else if (at == 0)
 		return self->first;
 	else
 		return NULL;
@@ -150,12 +150,8 @@ void ll_free(ll_t *self)
 
 	iter_curr = self->first;
 
-	for (size_t i = 0; i < self->len; i++) {
+	while (iter_curr != NULL) {
 		iter_next = iter_curr->next;
-		if (iter_curr->next == NULL) {
-			free(iter_next);
-			break;
-		}
 		free(iter_curr);
 		iter_curr = iter_next;
 	}

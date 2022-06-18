@@ -56,7 +56,7 @@ int main(void)
 	urandom = open("/dev/urandom", O_RDONLY);
 	read(urandom, nonce, 64);
 
-	hmap = hashmap_new(75, nonce, 0, 2);
+	hmap = hashmap_new(40, nonce, 0, 2);
 
 	ll = ll_new(NULL);
 	for (size_t i = 0; i < 36; i++) {
@@ -78,8 +78,10 @@ int main(void)
 	printf("\nSome hashmap fun now\n\n");
 
 	node = ll->first;
+	char *tmp;
 	while (node != NULL) {
-		printf("%s\n", (char *)hashmap_get(hmap, node->dt_ptr));
+		tmp = (char *)hashmap_get(hmap, node->dt_ptr);
+		printf("%s\n", tmp);
 		node = node->next;
 	}
 
