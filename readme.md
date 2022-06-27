@@ -1,4 +1,4 @@
-# Neon Runtime
+# Neon Runtime [![CMake](https://github.com/neonimp/neonrt/actions/workflows/cmake.yml/badge.svg)](https://github.com/neonimp/neonrt/actions/workflows/cmake.yml)
 General toolkit for C applications can be compiled as a dynamic library or static library.
 
 I have developed this library primarily for my own purposes, as such the features it offers,
