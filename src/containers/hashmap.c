@@ -1,4 +1,3 @@
-// Ignoring this for this file as this is a false positive on this code.
 #include "hashmap.h"
 #include "../util/wire.h"
 #include "linked_list.h"
@@ -117,13 +116,13 @@ void hmap_complex_key_set_value(hmap_t *hmap, hmap_bucket_t *bucket, const void 
 		}
 		node_value->key = key_buff;
 		node_value->value = value;
-		ll_append_node(bucket->value, node_value);
+		ll_add_node(bucket->value, node_value, LL_APPEND, 0);
 		bucket->value_len += 1;
 	}
 	hmap->collisions += 1;
 }
 
-void *hmap_complex_key_unset_value(hmap_t *hmap, hmap_bucket_t *bucket, const void *key, size_t key_len)
+void *hmap_complex_key_unset_value(hmap_bucket_t *bucket, const void *key, size_t key_len)
 {
 	void *value;
 	size_t at_index;
@@ -156,7 +155,7 @@ size_t hmap_index(const hmap_t *hmap, const void *key, size_t key_len)
 	return index;
 }
 
-hmap_t *hmap_new(size_t capacity, size_t load_factor, size_t seed, hmap_hash_fn_t hash_fn)
+hmap_t *hmap_new(size_t capacity, size_t healthy_threshold, size_t seed, hmap_hash_fn_t hash_fn)
 {
 	hmap_t *hmap = hmap_malloc_fn(sizeof(hmap_t));
 	if (!hmap) {
@@ -165,7 +164,8 @@ hmap_t *hmap_new(size_t capacity, size_t load_factor, size_t seed, hmap_hash_fn_
 
 	hmap->capacity = capacity ? capacity : HASHMAP_DEFAULT_CAPACITY;
 	hmap->set = 0;
-	hmap->load_factor = load_factor ? load_factor : HASHMAP_DEFAULT_LOAD_FACTOR;
+	hmap->load_factor = 0;
+	hmap->healthy_threshold = healthy_threshold ? healthy_threshold : HASHMAP_DEFAULT_HEALTHY_THRESHOLD;
 	hmap->seed = seed ? seed : HASHMAP_DEFAULT_SEED;
 	hmap->hash_fn = hash_fn ? hash_fn : &XXH3_64bits_withSeed;
 	hmap->buckets = hmap_malloc_fn(sizeof(hmap_bucket_t) * capacity);
@@ -181,7 +181,7 @@ hmap_t *hmap_new(size_t capacity, size_t load_factor, size_t seed, hmap_hash_fn_
 
 hmap_t *hmap_new_default(void)
 {
-	return hmap_new(HASHMAP_DEFAULT_CAPACITY, HASHMAP_DEFAULT_LOAD_FACTOR, HASHMAP_DEFAULT_SEED, NULL);
+	return hmap_new(HASHMAP_DEFAULT_CAPACITY, HASHMAP_DEFAULT_HEALTHY_THRESHOLD, HASHMAP_DEFAULT_SEED, NULL);
 }
 
 void hmap_free(hmap_t *hmap)
@@ -217,15 +217,15 @@ void *hmap_get(hmap_t *hmap, const void *key, size_t key_len)
 
 	index = hmap_index(hmap, key, key_len);
 	bucket = &hmap->buckets[index];
-	if (bucket->key) {
+	if (bucket->is_complex) {
+		return hmap_complex_key_get_value(bucket, key, key_len);
+	} else if (bucket->key) {
 		if (rt_buff_cmp_raw(bucket->key, key, key_len)) {
 			return bucket->value;
 		} else if (!bucket->is_complex) {
 			hmap_set_error(hmap, "key does not match", "hmap_get", HMAP_ERROR_CODE_KEY_MISMATCH);
 			return NULL;
 		}
-	} else if (bucket->key == NULL && bucket->is_complex) {
-		return hmap_complex_key_get_value(bucket, key, key_len);
 	} else {
 		hmap_set_error(hmap, "key does not exist", "hmap_get", HMAP_ERROR_CODE_KEY_MISMATCH);
 		return NULL;
@@ -245,7 +245,29 @@ bool hmap_set(hmap_t *hmap, const void *key, size_t key_len, void *value, bool a
 	index = hmap_index(hmap, key, key_len);
 	bucket = &hmap->buckets[index];
 
-	if (!bucket->key) {
+	if (bucket->is_complex) {
+		hmap_complex_key_set_value(hmap, bucket, key, key_len, value);
+		hmap->set++;
+		update_load_factor(hmap);
+		return true;
+	} else if (bucket->key) {
+		if (rt_buff_cmp_raw(bucket->key, key, key_len)) {
+			if (allow_update) {
+				bucket->value = value;
+				hmap->set++;
+				update_load_factor(hmap);
+				return true;
+			} else {
+				hmap_set_error(hmap, "key already exists", "hmap_set", HMAP_ERROR_CODE_KEY_MISMATCH);
+				return false;
+			}
+		} else {
+			hmap_complex_key_set_value(hmap, bucket, key, key_len, value);
+			hmap->set++;
+			update_load_factor(hmap);
+			return true;
+		}
+	} else if (!bucket->key && !bucket->is_complex) {
 		key_buff = rt_buff_new_from_raw(key, key_len);
 		bucket->key = key_buff;
 		bucket->value = value;
@@ -253,24 +275,8 @@ bool hmap_set(hmap_t *hmap, const void *key, size_t key_len, void *value, bool a
 		hmap->set++;
 		update_load_factor(hmap);
 		return true;
-	} else if (rt_buff_cmp_raw(bucket->key, key, key_len)) {
-		if (allow_update) {
-			bucket->value = value;
-			return true;
-		} else {
-			hmap_set_error(hmap,
-			               "key already exists, and allow_update is false",
-			               "hmap_set",
-			               HMAP_ERROR_CODE_KEY_MISMATCH);
-			return false;
-		}
-	} else if (!bucket->is_complex) {
-		hmap_complex_key_set_value(hmap, bucket, key, key_len, value);
-		hmap->set++;
-		update_load_factor(hmap);
-		return true;
 	} else {
-		hmap_set_error(hmap, "key does not match", "hmap_set", HMAP_ERROR_CODE_KEY_MISMATCH);
+		hmap_set_error(hmap, "key does not exist", "hmap_set", HMAP_ERROR_CODE_KEY_MISMATCH);
 		return false;
 	}
 }
@@ -288,7 +294,7 @@ void *hashmap_unset(hmap_t *hmap, const void *key, size_t key_len)
 	bucket = &hmap->buckets[index];
 
 	if (bucket->is_complex) {
-		value = hmap_complex_key_unset_value(hmap, bucket, key, key_len);
+		value = hmap_complex_key_unset_value(bucket, key, key_len);
 		return value;
 	} else if (bucket->key) {
 		value = bucket->value;

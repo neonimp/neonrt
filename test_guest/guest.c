@@ -55,7 +55,7 @@ int main(void)
 		"36 Curabitur quis nibh quis nunc vestibulum feugiat.",
 	};
 
-	hmap = hmap_new(100, 75, 0, NULL);
+	hmap = hmap_new(40, 75, 0, NULL);
 	hmap_set_error_callback(hmap, hmap_error_callback);
 
 	ll = ll_new(NULL);

@@ -22,12 +22,14 @@ typedef struct hmap hmap_t;
 struct hmap_bucket;
 typedef struct hmap_bucket hmap_bucket_t;
 
+// Defaults
 #define HASHMAP_DEFAULT_CAPACITY 16
-#define HASHMAP_DEFAULT_LOAD_FACTOR 75
+#define HASHMAP_DEFAULT_HEALTHY_THRESHOLD 75
 #define HASHMAP_DEFAULT_SEED 0xBADC00FFEEDFACE0
 #define hmap_malloc_fn(size) malloc(size)
 #define hmap_free_fn(ptr) free(ptr)
 
+// Error codes
 #define HMAP_ERROR_CODE_OK 0
 #define HMAP_ERROR_CODE_MALLOC_FAILED 0x00000001
 #define HMAP_ERROR_CODE_KEY_MISMATCH 0x00000002
@@ -36,8 +38,8 @@ typedef struct hmap_bucket hmap_bucket_t;
 #define HMAP_ERROR_CODE_LOCKED 0x00000E10
 #define HMAP_ERROR_CODE_UNRECOVERABLE 0xDEADBEEF
 
+// Callback signatures
 typedef uint64_t(*hmap_hash_fn_t)(const void *data, size_t data_len, uint64_t seed);
-
 typedef void(*hmap_error_callback_t)(const hmap_t *hmap, const char *msg, uint32_t error_code);
 
 /**
@@ -53,7 +55,6 @@ struct hmap_bucket {
   bool is_complex;
 };
 
-
 /**
  * @brief Hashmap structure.
  */
@@ -64,6 +65,8 @@ struct hmap {
   size_t set;
   /// @brief Load factor of the hashmap.
   size_t load_factor;
+  /// @brief How much of a load factor is allowed before the hashmap is resized.
+  size_t healthy_threshold;
   /// @brief The seed used to help spread hashes.
   size_t seed;
   /// @brief The number of collisions in the hashmap.
@@ -83,16 +86,15 @@ struct hmap {
   bool locked;
 };
 
-
 /**
  * @brief Initialize a new hashmap.
  * @param capacity Hashmap capacity in buckets.
- * @param load_factor Automatically resized hashmap capacity when load factor is reached.
+ * @param healthy_threshould Automatically resized hashmap capacity when load factor is reached.
  * @param seed Help avoid hashmap collisions.
  * @param hash_fn The function used to hash data.
  * @return An initialized hashmap.
  */
-extern hmap_t *hmap_new(size_t capacity, size_t load_factor, size_t seed, hmap_hash_fn_t hash_fn);
+extern hmap_t *hmap_new(size_t capacity, size_t healthy_threshold, size_t seed, hmap_hash_fn_t hash_fn);
 
 /**
  * @brief Initialize a new hashmap with default values.
