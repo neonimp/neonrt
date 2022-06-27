@@ -1,307 +1,305 @@
 // Ignoring this for this file as this is a false positive on this code.
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "misc-no-recursion"
-
 #include "hashmap.h"
 #include "../util/wire.h"
 #include "linked_list.h"
-#include <stdlib.h>
 #include <xxhash.h>
 #include <memory.h>
 
-struct hashmap_node {
-  void *data;
+struct hmap_linked_node {
   rt_buff_t *key;
+  void *value;
 };
 
-typedef struct hashmap_ll_node hmap_lln_t;
+typedef struct hmap_linked_node hmap_linked_node_t;
 
-#define check_init(self) ((self) != NULL || (self)->slots != NULL)
-
-void update_load_factor(hmap_t *self)
+void default_error_callback(const hmap_t *hmap, const char *msg, uint32_t error_code)
 {
-	if (self == NULL)
-		return;
-
-	// Make sure we are not dividing by 0
-	if (self->set == 0 || self->len == 0) {
-		self->current_load = 0;
-		return;
-	}
-	// Calculate the load to percents in 0-100
-	self->current_load = (self->set * 100) / self->len;
+	(void)hmap;
+	(void)msg;
+	(void)error_code;
 }
 
-size_t calc_idx(size_t mod, uint64_t nonce, rt_buff_t *key)
+void update_load_factor(hmap_t *hmap)
 {
-	uint64_t hash;
-
-	hash = XXH3_64bits_withSeed(
-		rt_buff_borrow(key),
-		rt_buff_sizeof(key),
-		nonce);
-
-	return hash % mod;
+	hmap->load_factor = (hmap->set * 100) / hmap->capacity;
 }
 
-hmap_node_t *new_node(rt_buff_t *key, void *value)
+bool hmap_check(hmap_t *hmap, const char *fn_name)
 {
-	hmap_node_t *hmap_node;
-
-	if ((hmap_node = malloc(sizeof(hmap_node_t))) == NULL)
-		return NULL;
-
-	hmap_node->key = key;
-	hmap_node->data = value;
-
-	return hmap_node;
-}
-
-int32_t set_key(hmap_node_t *locs, size_t len, uint64_t nonce, bool deny_collisions, rt_buff_t *key, void *value)
-{
-	size_t idx;
-	hmap_node_t *hmap_node;
-	void *tmp;
-
-	idx = calc_idx(len, nonce, key);
-
-	if (locs[idx].key == NULL && locs[idx].data == NULL) {
-		locs[idx].key = key;
-		locs[idx].data = value;
-		return 0;
-		// If the hashmap is allowed to resolve collisions we make this node a linked list
-	} else if (!deny_collisions) {
-		if ((hmap_node = new_node(locs[idx].key, locs[idx].data)) == NULL)
-			return -3;
-
-		tmp = locs[idx].data;
-		// Make the key NULL to indicate this is a linked list slot
-		locs[idx].key = NULL;
-		// Make the node into a linked list
-		locs[idx].data = ll_new(tmp);
-		// Append the hmap node to the linked list
-		ll_append_node(locs[idx].data, hmap_node);
-
-		return 0;
+	if (hmap->locked) {
+		sprintf(hmap->last_error_msg, "%s: hashmap is locked", fn_name);
+		hmap->last_error_code = HMAP_ERROR_CODE_LOCKED;
+		hmap->error_callback(hmap, hmap->last_error_msg, hmap->last_error_code);
+		return false;
+	} else if (hmap->unrecoverable_error) {
+		sprintf(hmap->last_error_msg, "%s: hashmap is in an unrecoverable error state", fn_name);
+		hmap->last_error_code = HMAP_ERROR_CODE_UNRECOVERABLE;
+		hmap->error_callback(hmap, hmap->last_error_msg, hmap->last_error_code);
+		return false;
 	} else {
-		// If the hashmap is set to not resolve collisions error out.
-		return -1;
+		return true;
 	}
 }
 
-void reseat_keys(hmap_t *self, hmap_node_t *new_loc, size_t new_len)
+void hmap_set_error(hmap_t *hmap, const char *msg, const char *fn_name, uint32_t error_code)
 {
-	size_t new_idx;
-	uint8_t new_nonce[8];
-	uint64_t new_nonce_int;
+	sprintf(hmap->last_error_msg, "%s: %s", fn_name, msg);
+	hmap->last_error_code = error_code;
+	hmap->error_callback(hmap, hmap->last_error_msg, hmap->last_error_code);
+}
 
+void *linked_list_find(linked_list_t *list, const void *key, size_t key_len)
+{
+	ll_node_t *node;
+	hmap_linked_node_t *node_value;
 
-	new_nonce = XXH3_64bits(new_nonce, 8);
-	NRT_WRITE64BE(new_nonce, (self->nonce ^ (self->current_load & self->len)));
+	node = list->first;
 
-	for (size_t idx = 0; idx < self->len; ++idx) {
-		if (self->slots[idx].)
+	while (node != NULL) {
+		node_value = (hmap_linked_node_t *)node->data;
+		if (rt_buff_cmp_raw(node_value->key, (const uint8_t *)key, key_len)) {
+			return node_value->value;
+		}
+		node = node->next;
 	}
 
-
-	self->nonce = new_nonce_int;
+	return NULL;
 }
 
-size_t resize_map(hmap_t *self)
+void *hmap_complex_key_get_value(const hmap_bucket_t *bucket, const void *key, size_t key_len)
 {
-	hmap_node_t *hmap_nodes;
-	size_t new_len;
+	linked_list_t *list;
+	void *value;
 
-	new_len = self->len * self->expand_factor;
-
-	if ((hmap_nodes = malloc(sizeof(hmap_node_t) * new_len)) == NULL)
-		return 1;
-
-	reseat_keys(self, hmap_nodes, new_len);
-	// Free the old data and replace the reference
-	free(self->slots);
-	self->slots = hmap_nodes;
-
-	return 0;
+	if (bucket->is_complex) {
+		list = (linked_list_t *)bucket->value;
+		if ((value = linked_list_find(list, key, key_len)) != NULL) {
+			return value;
+		}
+	}
+	return NULL;
 }
 
-hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint8_t load_lim, uint8_t expand_factor)
+void hmap_complex_key_set_value(hmap_t *hmap, hmap_bucket_t *bucket, const void *key, size_t key_len, void *value)
 {
-	hmap_t *new_hmap;
+	hmap_linked_node_t *node_value;
+	rt_buff_t *key_buff;
 
-	if ((new_hmap = malloc(sizeof(hmap_t))) == NULL)
+	key_buff = rt_buff_new_from_raw(key, key_len);
+
+	if (!bucket->is_complex) {
+		node_value = (hmap_linked_node_t *)malloc(sizeof(hmap_linked_node_t));
+		if (!node_value) {
+			hmap_set_error(hmap, "malloc failed", __FUNCTION__, HMAP_ERROR_CODE_MALLOC_FAILED);
+			return;
+		}
+		node_value->key = bucket->key;
+		node_value->value = bucket->value;
+		bucket->value = ll_new(node_value);
+
+		node_value = (hmap_linked_node_t *)malloc(sizeof(hmap_linked_node_t));
+		if (!node_value) {
+			hmap_set_error(hmap, "malloc failed", __FUNCTION__, HMAP_ERROR_CODE_MALLOC_FAILED);
+			return;
+		}
+		node_value->key = key_buff;
+		node_value->value = value;
+		ll_append_node(bucket->value, node_value);
+
+		bucket->key = NULL;
+		bucket->is_complex = true;
+		bucket->value_len += 2;
+	} else {
+		node_value = (hmap_linked_node_t *)malloc(sizeof(hmap_linked_node_t));
+		if (!node_value) {
+			hmap_set_error(hmap, "malloc failed", __FUNCTION__, HMAP_ERROR_CODE_MALLOC_FAILED);
+			return;
+		}
+		node_value->key = key_buff;
+		node_value->value = value;
+		ll_append_node(bucket->value, node_value);
+		bucket->value_len += 1;
+	}
+	hmap->collisions += 1;
+}
+
+void *hmap_complex_key_unset_value(hmap_t *hmap, hmap_bucket_t *bucket, const void *key, size_t key_len)
+{
+	void *value;
+	size_t at_index;
+	ll_node_t *node;
+	hmap_linked_node_t *node_value;
+	linked_list_t *list;
+
+	list = (linked_list_t *)bucket->value;
+	node = list->first;
+	at_index = 0;
+
+	while (node != NULL) {
+		node_value = (hmap_linked_node_t *)node->data;
+		if (rt_buff_cmp_raw(node_value->key, (const uint8_t *)key, key_len)) {
+			value = node_value->value;
+			free(node_value);
+			ll_remove_node(list, at_index);
+			return value;
+		}
+		node = node->next;
+		at_index++;
+	}
+
+	return NULL;
+}
+
+size_t hmap_index(const hmap_t *hmap, const void *key, size_t key_len)
+{
+	size_t index = hmap->hash_fn(key, key_len, hmap->seed) % hmap->capacity;
+	return index;
+}
+
+hmap_t *hmap_new(size_t capacity, size_t load_factor, size_t seed, hmap_hash_fn_t hash_fn)
+{
+	hmap_t *hmap = hmap_malloc_fn(sizeof(hmap_t));
+	if (!hmap) {
 		return NULL;
-
-	if ((new_hmap->slots = malloc(sizeof(hmap_node_t) * init_len)) == NULL) {
-		free(new_hmap);
-		return NULL;
 	}
 
-	// Set our nodes to sane defaults, don't rely on allocation being clean
-	for (size_t i = 0; i < init_len; ++i) {
-		new_hmap->slots[i].data = NULL;
-		new_hmap->slots[i].key = NULL;
-	}
-
-	new_hmap->len = init_len;
-	new_hmap->set = 0;
-	new_hmap->current_load = 0;
-	new_hmap->expand_factor = expand_factor;
-	new_hmap->expand_trig = load_lim ? load_lim : 75;
-	new_hmap->has_resolved_collisions = false;
-	new_hmap->no_expand_auto = false;
-	new_hmap->deny_collision = false;
-	new_hmap->nonce = XXH3_64bits(nonce, 64);
-
-	return new_hmap;
+	hmap->capacity = capacity ? capacity : HASHMAP_DEFAULT_CAPACITY;
+	hmap->set = 0;
+	hmap->load_factor = load_factor ? load_factor : HASHMAP_DEFAULT_LOAD_FACTOR;
+	hmap->seed = seed ? seed : HASHMAP_DEFAULT_SEED;
+	hmap->hash_fn = hash_fn ? hash_fn : &XXH3_64bits_withSeed;
+	hmap->buckets = hmap_malloc_fn(sizeof(hmap_bucket_t) * capacity);
+	hmap->error_callback = default_error_callback;
+	hmap->last_error_code = 0;
+	hmap->unrecoverable_error = false;
+	hmap->collisions = 0;
+	hmap->locked = false;
+	memset(hmap->last_error_msg, 0, 256);
+	memset(hmap->buckets, 0, sizeof(hmap_bucket_t) * capacity);
+	return hmap;
 }
 
-int32_t hashmap_set(hmap_t *self, rt_buff_t *key, void *value)
+hmap_t *hmap_new_default(void)
 {
-	int32_t result;
-	// Borrow to make sure the buffer is not freed before the hashmap
-	// no longer holds a reference to it
-	rt_buff_borrow(key);
-	// Check if the index is free to use
-	if ((result = set_key(self->slots, self->len, self->nonce, self->deny_collision, key, value)) < 0) {
-		return result;
-	}
-
-	update_load_factor(self);
-	if (!self->no_expand_auto && self->current_load >= self->expand_trig && resize_map(self) != 0)
-		return -2;
-
-	return 0;
+	return hmap_new(HASHMAP_DEFAULT_CAPACITY, HASHMAP_DEFAULT_LOAD_FACTOR, HASHMAP_DEFAULT_SEED, NULL);
 }
 
-void *hashmap_get(hmap_t *self, rt_buff_t *key)
+void hmap_free(hmap_t *hmap)
+{
+	if (hmap) {
+		for (size_t i = 0; i < hmap->capacity; i++) {
+			hmap_bucket_t *bucket = &hmap->buckets[i];
+			if (bucket->is_complex) {
+				ll_free(bucket->value);
+			}
+			if (bucket->key) {
+				rt_buff_free(bucket->key);
+			}
+		}
+
+		hmap_free_fn(hmap->buckets);
+		hmap_free_fn(hmap);
+	}
+}
+
+void hmap_set_error_callback(hmap_t *hmap, hmap_error_callback_t error_callback)
+{
+	hmap->error_callback = error_callback;
+}
+
+void *hmap_get(hmap_t *hmap, const void *key, size_t key_len)
 {
 	size_t index;
-	ll_node_t *ll_node;
-	hmap_node_t *hmap_node;
+	hmap_bucket_t *bucket;
 
-	// Sanity check
-	if (!check_init(self))
-		return NULL;
+	if (!hmap_check(hmap, "hmap_get"))
+		return false;
 
-	index = calc_idx(self->len, self->nonce, key);
-
-	if (self->slots[index].data != NULL && self->slots[index].key != NULL) {
-		// Simple slot return value directly
-		return self->slots[index].data;
-	} else if (self->slots[index].key == NULL && self->slots[index].data != NULL) {
-		// This slot is a collision resolve, so we iterate the linked list
-		ll_node = ll_gnat(self->slots[index].data, 0);
-		while (ll_node != NULL) {
-			hmap_node = ll_node->data;
-			if (rt_buff_cmp(hmap_node->key, key))
-				return hmap_node->data;
-
-			ll_node = ll_node->next;
+	index = hmap_index(hmap, key, key_len);
+	bucket = &hmap->buckets[index];
+	if (bucket->key) {
+		if (rt_buff_cmp_raw(bucket->key, key, key_len)) {
+			return bucket->value;
+		} else if (!bucket->is_complex) {
+			hmap_set_error(hmap, "key does not match", "hmap_get", HMAP_ERROR_CODE_KEY_MISMATCH);
+			return NULL;
 		}
-		// If we scan the whole linked list and come up empty return NULL
-		return NULL;
+	} else if (bucket->key == NULL && bucket->is_complex) {
+		return hmap_complex_key_get_value(bucket, key, key_len);
 	} else {
+		hmap_set_error(hmap, "key does not exist", "hmap_get", HMAP_ERROR_CODE_KEY_MISMATCH);
+		return NULL;
+	}
+	return NULL;
+}
+
+bool hmap_set(hmap_t *hmap, const void *key, size_t key_len, void *value, bool allow_update)
+{
+	size_t index;
+	hmap_bucket_t *bucket;
+	rt_buff_t *key_buff;
+
+	if (!hmap_check(hmap, "hmap_set"))
+		return false;
+
+	index = hmap_index(hmap, key, key_len);
+	bucket = &hmap->buckets[index];
+
+	if (!bucket->key) {
+		key_buff = rt_buff_new_from_raw(key, key_len);
+		bucket->key = key_buff;
+		bucket->value = value;
+		bucket->is_complex = false;
+		hmap->set++;
+		update_load_factor(hmap);
+		return true;
+	} else if (rt_buff_cmp_raw(bucket->key, key, key_len)) {
+		if (allow_update) {
+			bucket->value = value;
+			return true;
+		} else {
+			hmap_set_error(hmap,
+			               "key already exists, and allow_update is false",
+			               "hmap_set",
+			               HMAP_ERROR_CODE_KEY_MISMATCH);
+			return false;
+		}
+	} else if (!bucket->is_complex) {
+		hmap_complex_key_set_value(hmap, bucket, key, key_len, value);
+		hmap->set++;
+		update_load_factor(hmap);
+		return true;
+	} else {
+		hmap_set_error(hmap, "key does not match", "hmap_set", HMAP_ERROR_CODE_KEY_MISMATCH);
+		return false;
+	}
+}
+
+void *hashmap_unset(hmap_t *hmap, const void *key, size_t key_len)
+{
+	size_t index;
+	hmap_bucket_t *bucket;
+	void *value;
+
+	if (!hmap_check(hmap, "hashmap_unset"))
+		return false;
+
+	index = hmap_index(hmap, key, key_len);
+	bucket = &hmap->buckets[index];
+
+	if (bucket->is_complex) {
+		value = hmap_complex_key_unset_value(hmap, bucket, key, key_len);
+		return value;
+	} else if (bucket->key) {
+		value = bucket->value;
+		bucket->value = NULL;
+		rt_buff_free(bucket->key);
+		bucket->key = NULL;
+		update_load_factor(hmap);
+		hmap->set--;
+		return value;
+	} else {
+		hmap_set_error(hmap, "key does not exist", "hashmap_unset", HMAP_ERROR_CODE_KEY_MISMATCH);
 		return NULL;
 	}
 }
-
-void *evict_at_idx(hmap_t *self, size_t idx)
-{
-	void *old_val;
-	old_val = self->slots[idx].data;
-	self->slots[idx].key = NULL;
-	self->slots[idx].data = NULL;
-	self->current_load -= 1;
-	update_load_factor(self);
-	return old_val;
-}
-
-void *evict_at_idx_with_key(hmap_t *self, size_t idx, rt_buff_t *key)
-{
-	void *old_val;
-	ll_node_t *ll_node;
-	hmap_node_t *sub_node;
-	size_t ll_idx;
-
-	ll_idx = 0;
-	sub_node = NULL;
-	old_val = NULL;
-
-	ll_node = ll_gnat(self->slots[idx].data, 0);
-
-	while (ll_node != NULL) {
-		sub_node = ll_node->data;
-		if (rt_buff_cmp(sub_node->key, key)) {
-			old_val = sub_node->data;
-			ll_remove_node(self->slots[idx].data, ll_idx);
-			break;
-		}
-		ll_idx += 1;
-		ll_node = ll_node->next;
-	}
-
-	self->current_load -= 1;
-	update_load_factor(self);
-	return old_val;
-}
-
-void *hashmap_evict(hmap_t *self, rt_buff_t *key)
-{
-	size_t idx;
-
-	// Sanity check
-	if (!check_init(self))
-		return NULL;
-
-	idx = calc_idx(self->len, self->nonce, key);
-	if (self->slots[idx].key != NULL && self->slots[idx].data != NULL)
-		return evict_at_idx(self, idx);
-	else if (self->slots[idx].key == NULL && self->slots[idx].data != NULL)
-		return evict_at_idx_with_key(self, idx, key);
-	else
-		return NULL;
-}
-
-void hashmap_evict_all(hmap_t *self)
-{
-	// Sanity check
-	if (!check_init(self))
-		return;
-
-	for (size_t i = 0; i < self->len; i++) {
-		if (self->slots[i].data != NULL)
-			hashmap_evict(self, self->slots[i].key);
-	}
-	self->current_load = 0;
-	update_load_factor(self);
-}
-
-void hashmap_free(hmap_t *self)
-{
-	ll_node_t *cnode;
-
-	// Sanity check
-	if (!check_init(self))
-		return;
-
-	for (size_t idx = 0; idx < self->len; idx++) {
-		if (self->slots[idx].key != NULL) {
-			rt_buff_return(self->slots[idx].key);
-			rt_buff_free(self->slots[idx].key);
-		}
-		if (self->slots[idx].key == NULL && self->slots[idx].data != NULL) {
-			cnode = ll_gnat(self->slots[idx].data, 0);
-			while (cnode != NULL) {
-				free(cnode->data);
-				cnode = cnode->next;
-			}
-			ll_free(self->slots[idx].data);
-		}
-	}
-
-	free(self->slots);
-	free(self);
-}
-
-#pragma clang diagnostic pop

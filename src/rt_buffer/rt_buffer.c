@@ -74,6 +74,20 @@ bool rt_buff_cmp(const rt_buff_t *left, const rt_buff_t *right)
 	}
 }
 
+bool rt_buff_cmp_raw(const rt_buff_t *left, const uint8_t *right, size_t len)
+{
+	uint64_t lhash;
+	uint64_t rhash;
+
+	if (left->data != NULL && right != NULL) {
+		lhash = XXH3_64bits(left->data, left->len);
+		rhash = XXH3_64bits(right, len);
+		return lhash == rhash;
+	} else {
+		return false;
+	}
+}
+
 void rt_buff_return(rt_buff_t *self)
 {
 	self->ref_ct -= 1;
@@ -81,6 +95,19 @@ void rt_buff_return(rt_buff_t *self)
 		self->lock = self->lock;
 		self->needs_sync = self->needs_sync;
 	}
+}
+
+bool rt_buff_return_n(rt_buff_t *self, size_t n)
+{
+	if ((self->ref_ct - n) <= 0)
+		return false;
+
+	self->ref_ct -= n;
+	if (self->lock && self->needs_sync) {
+		self->lock = self->lock;
+		self->needs_sync = self->needs_sync;
+	}
+	return true;
 }
 
 uint64_t rt_buff_free(rt_buff_t *self)

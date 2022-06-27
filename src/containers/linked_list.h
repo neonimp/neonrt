@@ -38,7 +38,7 @@ struct linked_list {
   size_t len;
 };
 
-typedef struct linked_list ll_t;
+typedef struct linked_list linked_list_t;
 
 enum LL_ADD_OP {
   LL_PREPEND,
@@ -52,7 +52,7 @@ enum LL_ADD_OP {
  * @param fval Pointer to the value of the first node.
  * @return A new linked, possibly initialized with a first node.
  */
-extern ll_t *ll_new(void *fval);
+extern linked_list_t *ll_new(void *fval);
 
 /**
  * @brief Add a new node created from the parameters to the linked list
@@ -64,7 +64,7 @@ extern ll_t *ll_new(void *fval);
  * @param pos If op is INSERT where to insert the node in the list
  * @return 0 on success, -1 otherwise
  */
-extern size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
+extern size_t ll_add_node(linked_list_t *self, void *val, enum LL_ADD_OP op, size_t pos);
 
 /**
  * @brief Removes the node at from self
@@ -72,7 +72,7 @@ extern size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos);
  * @param at The index of the node to remove
  * @return The value of the removed node
  */
-extern void ll_remove_node(ll_t *self, size_t at);
+extern void ll_remove_node(linked_list_t *self, size_t at);
 
 /**
  * @brief Get node at position
@@ -81,9 +81,9 @@ extern void ll_remove_node(ll_t *self, size_t at);
  * @return A pointer to the node at that location or NULL, if:
  * at > self.len or if the linked list is uninitialized.
  */
-extern ll_node_t *ll_gnat(ll_t *self, size_t at);
+extern ll_node_t *ll_gnat(linked_list_t *self, size_t at);
 
-extern void ll_free(ll_t *self);
+extern void ll_free(linked_list_t *self);
 
 /**
  * @brief Shorthand to ll_add_node in append mode

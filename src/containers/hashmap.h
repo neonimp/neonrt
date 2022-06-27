@@ -13,110 +13,134 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <malloc.h>
 #include "../rt_buffer/rt_buffer.h"
 
-/**
- * @brief A single node of the hashmap
- */
-struct hashmap_node;
+struct hmap;
+typedef struct hmap hmap_t;
 
-typedef struct hashmap_node hmap_node_t;
+struct hmap_bucket;
+typedef struct hmap_bucket hmap_bucket_t;
+
+#define HASHMAP_DEFAULT_CAPACITY 16
+#define HASHMAP_DEFAULT_LOAD_FACTOR 75
+#define HASHMAP_DEFAULT_SEED 0xBADC00FFEEDFACE0
+#define hmap_malloc_fn(size) malloc(size)
+#define hmap_free_fn(ptr) free(ptr)
+
+#define HMAP_ERROR_CODE_OK 0
+#define HMAP_ERROR_CODE_MALLOC_FAILED 0x00000001
+#define HMAP_ERROR_CODE_KEY_MISMATCH 0x00000002
+#define HMAP_ERROR_CODE_KEY_NOT_FOUND 0x00000003
+#define HMAP_ERROR_CODE_KEY_ERROR 0x00000004
+#define HMAP_ERROR_CODE_LOCKED 0x00000E10
+#define HMAP_ERROR_CODE_UNRECOVERABLE 0xDEADBEEF
+
+typedef uint64_t(*hmap_hash_fn_t)(const void *data, size_t data_len, uint64_t seed);
+
+typedef void(*hmap_error_callback_t)(const hmap_t *hmap, const char *msg, uint32_t error_code);
 
 /**
- * @brief The container of a hashmap
- * @attention One should never write to any of these fields directly, if you do
- * make sure to check hashmap.c for implementation details.
+ * @brief Hashmap bucket structure.
  */
-struct hashmap_container {
-  hmap_node_t *slots;
-  size_t len;
-  size_t set;
-  /**
-   * A nonce used when hashing to make collisions more difficult
-   * @attention The nonce of a hashmap should never be changed once set or
-   * keys will become irretrievable by hash
-   */
-  uint64_t nonce;
-  /// How much load the hashmap is under currently
-  uint64_t current_load;
-  /// How much load can trigger an expansion
-  /// This number should be between 0 and 100
-  uint8_t expand_trig;
-  /// Expand by this factor when expansion is triggered
-  uint8_t expand_factor;
-  /// If the hashmap has resolved collisions this is set true
-  bool has_resolved_collisions;
-  /// Disable expansion autonomy, should be left alone in most cases
-  uint8_t no_expand_auto: 1;
-  /**
-   * Whether to use linked lists to hold collisions or disallow them entirely,
-   * using linked lists has a negligible performance penalty for most cases,
-   * and allows the hashmap to work better under higher pressure thresholds.
-   */
-  uint8_t deny_collision: 1;
-  uint8_t reserved: 6;
+struct hmap_bucket {
+  /// @brief the key of the bucket.
+  rt_buff_t *key;
+  /// @brief The value associated with the key.
+  void *value;
+  size_t value_len;
+  /// @brief Whether the bucket is linked or not.
+  bool is_complex;
 };
 
-typedef struct hashmap_container hmap_t;
 
 /**
- * @brief Initialize a new hashmap with the options defined here, check the
- * struct hashmap_container for details on what each one does.
- * @param init_len How many nodes worth of space to pre-allocate
- * @param nonce Append 64 bytes of this value to keys before hashing, if null
- * nothing is appended.
- * @param load_lim Maximum load factor (used slots/currently allocated) before
- * triggering expansion.
- * @param expand_factor When expansion is triggered expand by this factor,
- * recommended is 2.
- * @return A newly initialized hashmap configured with the received parameters
+ * @brief Hashmap structure.
  */
-extern hmap_t *hashmap_new(size_t init_len, const uint8_t *nonce, uint8_t load_lim, uint8_t expand_factor);
+struct hmap {
+  /// @brief The capacity of the hashmap.
+  size_t capacity;
+  /// @brief Number of elements in the hashmap.
+  size_t set;
+  /// @brief Load factor of the hashmap.
+  size_t load_factor;
+  /// @brief The seed used to help spread hashes.
+  size_t seed;
+  /// @brief The number of collisions in the hashmap.
+  size_t collisions;
+  /// @brief Hash function to use.
+  hmap_hash_fn_t hash_fn;
+  /// @brief The buckets of the hashmap.
+  hmap_bucket_t *buckets;
+  /// @brief Error callback function.
+  hmap_error_callback_t error_callback;
+  char last_error_msg[256];
+  /// @brief Last error code.
+  uint32_t last_error_code;
+  /// @brief If true, the hashmap is in an unrecoverable error state.
+  bool unrecoverable_error;
+  /// @brief If true, the hashmap is locked and will fail operations.
+  bool locked;
+};
+
 
 /**
- * @brief Set the key to value on self
- * @param self The hashmap to set the key on
- * @param key A rt_buff to use as a key
- * @param value Pointer to any value
- * @retur Less than zero on error, zero on success, more than zero on success
- * with warnings.
+ * @brief Initialize a new hashmap.
+ * @param capacity Hashmap capacity in buckets.
+ * @param load_factor Automatically resized hashmap capacity when load factor is reached.
+ * @param seed Help avoid hashmap collisions.
+ * @param hash_fn The function used to hash data.
+ * @return An initialized hashmap.
  */
-extern int32_t hashmap_set(hmap_t *self, rt_buff_t *key, void *value);
+extern hmap_t *hmap_new(size_t capacity, size_t load_factor, size_t seed, hmap_hash_fn_t hash_fn);
 
 /**
- * @brief
- * @param self The hashmap to operate on
- * @param key A rt_buff to use as a key
- * @return
+ * @brief Initialize a new hashmap with default values.
+ * @return An initialized hashmap.
  */
-extern void *hashmap_get(hmap_t *self, rt_buff_t *key);
+extern hmap_t *hmap_new_default(void);
 
 /**
- * @brief Mark a node for reuse, and return the value that was stored in it
- * @param self The hashmap to operate on
- * @param key A rt_buff to use as a key
- * @return The value held in the key previously
+ * @brief Free a hashmap.
+ * @param hmap The hashmap to free.
  */
-extern void *hashmap_evict(hmap_t *self, rt_buff_t *key);
+extern void hmap_free(hmap_t *hmap);
 
 /**
- * @brief Force a hashmap resize regardless of the pressure factor and trigger
- * control the factor of the resizing by setting expand_factor on self.
- * @param self The hashmap to resize
- * @return The new size or a negative number in case of error
+ * @brief Set a hashmap error callback.
+ * @param hmap The hashmap.
+ * @param error_callback The callback to set.
  */
-extern size_t resize_map(hmap_t *self);
+extern void hmap_set_error_callback(hmap_t *hmap, hmap_error_callback_t error_callback);
 
 /**
- * @brief Evict all the slots in the hashmap, effectively clearing it
- * @param self The hashmap to clear
+ * @brief Set a value in the hashmap.
+ * @param hmap The hashmap.
+ * @param key The key to set.
+ * @param key_len The key length.
+ * @param value The value to set.
+ * @param allow_update If true, the value will be updated if the key already exists.
+ * @return True if the value was set, false otherwise, see hmap_last_error for more information.
  */
-extern void hashmap_evict_all(hmap_t *self);
+extern bool hmap_set(hmap_t *hmap, const void *key, size_t key_len, void *value, bool allow_update);
 
 /**
- * @brief Release the memory associated to a hashmap and it's nodes
- * @param self The hashmap to destroy
+ * @brief Get a value from the hashmap.
+ * @param hmap The hashmap.
+ * @param key The key to get.
+ * @param key_len The key length.
+ * @param value The value to get.
+ * @return The value if found, NULL otherwise, see hmap_last_error for more information.
  */
-extern void hashmap_free(hmap_t *self);
+extern void *hmap_get(hmap_t *hmap, const void *key, size_t key_len);
+
+/**
+ * @brief Remove a value from the hashmap.
+ * @param hmap The hashmap.
+ * @param key The key to remove.
+ * @param key_len The key length.
+ * @return The value if found, NULL otherwise, see hmap_last_error for more information.
+ */
+extern void *hashmap_unset(hmap_t *hmap, const void *key, size_t key_len);
 
 #endif /* END _RTHOST_HASHMAP_ */

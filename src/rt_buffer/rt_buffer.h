@@ -59,6 +59,14 @@ extern char *rt_buff_borrow_writable(rt_buff_t *self);
 extern void rt_buff_return(rt_buff_t *self);
 
 /**
+ * @brief Return n borrowed references back.
+ * @param self Reference to the managed string.
+ * @param n Number of references to return.
+ * @return True if the references were returned, false if there were not enough
+ */
+extern bool rt_buff_return_n(rt_buff_t *self, size_t n);
+
+/**
  * @brief Get the size of the underlying buffer
  * @param self Buffer to get the size of
  * @return
@@ -66,12 +74,21 @@ extern void rt_buff_return(rt_buff_t *self);
 extern size_t rt_buff_sizeof(const rt_buff_t *self);
 
 /**
- * @brief
- * @param left
- * @param right
- * @return
+ * @brief Compare two managed buffers.
+ * @param left Reference to the left managed buffer.
+ * @param right Reference to the right managed buffer.
+ * @return true if the buffers are equal, false otherwise.
  */
 extern bool rt_buff_cmp(const rt_buff_t *left, const rt_buff_t *right);
+
+/**
+ * @brief Compare a managed buffer with a raw buffer.
+ * @param left Reference to the left managed buffer.
+ * @param right Reference to the right raw buffer.
+ * @param len Length of the raw buffer.
+ * @return true if the buffers are equal, false otherwise.
+ */
+extern bool rt_buff_cmp_raw(const rt_buff_t *left, const uint8_t *right, size_t len);
 
 /**
  * @brief Destroys a managed string if it's reference counter is 0, and there
@@ -82,5 +99,8 @@ extern bool rt_buff_cmp(const rt_buff_t *left, const rt_buff_t *right);
  * or the refcount otherwise, check the result!.
  */
 extern uint64_t rt_buff_free(rt_buff_t *self);
+
+#define rt_buff_from_cstr(str, len) rt_buff_new((const uint8_t *)str, len)
+#define rt_buff_new_from_raw(str, len) rt_buff_new((const uint8_t *)str, len)
 
 #endif /* END _RTHOST_STRING_ */

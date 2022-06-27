@@ -53,9 +53,9 @@ ll_node_t *ll_gnat_impl(ll_node_t *first, size_t at)
 	return curr_n;
 }
 
-ll_t *ll_new(void *fval)
+linked_list_t *ll_new(void *fval)
 {
-	ll_t *new_ll;
+	linked_list_t *new_ll;
 	ll_node_t *first_node;
 
 	if (fval != NULL) {
@@ -66,7 +66,7 @@ ll_t *ll_new(void *fval)
 		first_node = NULL;
 	}
 
-	if ((new_ll = malloc(sizeof(ll_t))) == NULL) {
+	if ((new_ll = malloc(sizeof(linked_list_t))) == NULL) {
 		free(first_node);
 		return NULL;
 	}
@@ -84,7 +84,7 @@ ll_t *ll_new(void *fval)
 	return new_ll;
 }
 
-size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
+size_t ll_add_node(linked_list_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 {
 	ll_node_t *new_node;
 	ll_node_t *prev_n;
@@ -131,7 +131,7 @@ size_t ll_add_node(ll_t *self, void *val, enum LL_ADD_OP op, size_t pos)
 	}
 }
 
-void ll_remove_node(ll_t *self, size_t at)
+void ll_remove_node(linked_list_t *self, size_t at)
 {
 	ll_node_t *ll_node;
 	ll_node_t *ll_node_prev;
@@ -159,7 +159,7 @@ void ll_remove_node(ll_t *self, size_t at)
 	}
 }
 
-ll_node_t *ll_gnat(ll_t *self, size_t at)
+ll_node_t *ll_gnat(linked_list_t *self, size_t at)
 {
 	if (self->first != NULL && at < self->len)
 		return ll_gnat_impl(self->first, at);
@@ -171,7 +171,7 @@ ll_node_t *ll_gnat(ll_t *self, size_t at)
 		return NULL;
 }
 
-void ll_free(ll_t *self)
+void ll_free(linked_list_t *self)
 {
 	ll_node_t *iter_curr;
 	ll_node_t *iter_next;
