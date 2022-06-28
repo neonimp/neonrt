@@ -9,7 +9,7 @@ file(GLOB_RECURSE RTHOST_SRC src/**/*.c)
 
 set(xxHash_DIR ${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial)
 
-set(NEON_CFLAGS -Wall -Wpedantic -Werror -O2)
+set(NEON_CFLAGS -Wall -Wpedantic -O2)
 set(NEON_LINK_FLAGS --no-undefined)
 
 # Find xxhash and add it's static library to the resulting binary
