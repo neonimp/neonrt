@@ -25,7 +25,13 @@ typedef struct hmap_bucket hmap_bucket_t;
 // Defaults
 #define HASHMAP_DEFAULT_CAPACITY 16
 #define HASHMAP_DEFAULT_HEALTHY_THRESHOLD 75
-#define HASHMAP_DEFAULT_SEED 0xBADC00FFEEDFACE0
+#define HASHMAP_DEFAULT_SEED 0x19E3779B97F4A7C1
+#define HASHMAP_MULTIPLIER 0x9E3779B97F4A7C13
+#ifndef SIZE_MAX
+#define HMAP_UNHEALTHY_THRESHOLD_DISABLE ~0UL
+#else
+#define HMAP_UNHEALTHY_THRESHOLD_DISABLE SIZE_MAX
+#endif
 #define hmap_malloc_fn(size) malloc(size)
 #define hmap_free_fn(ptr) free(ptr)
 
@@ -35,12 +41,14 @@ typedef struct hmap_bucket hmap_bucket_t;
 #define HMAP_ERROR_CODE_KEY_MISMATCH 0x00000002
 #define HMAP_ERROR_CODE_KEY_NOT_FOUND 0x00000003
 #define HMAP_ERROR_CODE_KEY_ERROR 0x00000004
+#define HMAP_ERROR_CODE_REHASH_FAILED 0x00000005
 #define HMAP_ERROR_CODE_LOCKED 0x00000E10
 #define HMAP_ERROR_CODE_UNRECOVERABLE 0xDEADBEEF
 
 // Callback signatures
 typedef uint64_t(*hmap_hash_fn_t)(const void *data, size_t data_len, uint64_t seed);
 typedef void(*hmap_error_callback_t)(const hmap_t *hmap, const char *msg, uint32_t error_code);
+typedef void(*hmap_unhealthy_callback_t)(hmap_t *hmap, size_t current_load);
 
 /**
  * @brief Hashmap bucket structure.
@@ -66,7 +74,9 @@ struct hmap {
   /// @brief Load factor of the hashmap.
   size_t load_factor;
   /// @brief How much of a load factor is allowed before the hashmap is resized.
-  size_t healthy_threshold;
+  /// @note This is a percentage, so a value of 75 means that 75% of the capacity.
+  /// @note Set to size_t_max to disable.
+  size_t unhealthy_threshold;
   /// @brief The seed used to help spread hashes.
   size_t seed;
   /// @brief The number of collisions in the hashmap.
@@ -77,6 +87,8 @@ struct hmap {
   hmap_bucket_t *buckets;
   /// @brief Error callback function.
   hmap_error_callback_t error_callback;
+  /// @brief Unhealthy callback function.
+  hmap_unhealthy_callback_t unhealthy_callback;
   char last_error_msg[256];
   /// @brief Last error code.
   uint32_t last_error_code;
@@ -116,6 +128,14 @@ extern void hmap_free(hmap_t *hmap);
 extern void hmap_set_error_callback(hmap_t *hmap, hmap_error_callback_t error_callback);
 
 /**
+ * @brief Set a hashmap unhealthy callback, it will be called when current_load
+ * is greater than healthy_threshold.
+ * @param hmap The hashmap.
+ * @param unhealthy_callback The callback to set.
+ */
+extern void hmap_set_unhealthy_callback(hmap_t *hmap, hmap_unhealthy_callback_t unhealthy_callback);
+
+/**
  * @brief Set a value in the hashmap.
  * @param hmap The hashmap.
  * @param key The key to set.
@@ -144,5 +164,12 @@ extern void *hmap_get(hmap_t *hmap, const void *key, size_t key_len);
  * @return The value if found, NULL otherwise, see hmap_last_error for more information.
  */
 extern void *hashmap_unset(hmap_t *hmap, const void *key, size_t key_len);
+
+/**
+ * @brief Resize the hashmap.
+ * @param hmap The hashmap.
+ * @param new_cap The new capacity.
+ */
+void hmap_resize(hmap_t *hmap, size_t new_cap);
 
 #endif /* END _RTHOST_HASHMAP_ */

@@ -11,18 +11,6 @@ struct hmap_linked_node {
 
 typedef struct hmap_linked_node hmap_linked_node_t;
 
-void default_error_callback(const hmap_t *hmap, const char *msg, uint32_t error_code)
-{
-	(void)hmap;
-	(void)msg;
-	(void)error_code;
-}
-
-void update_load_factor(hmap_t *hmap)
-{
-	hmap->load_factor = (hmap->set * 100) / hmap->capacity;
-}
-
 bool hmap_check(hmap_t *hmap, const char *fn_name)
 {
 	if (hmap->locked) {
@@ -38,6 +26,46 @@ bool hmap_check(hmap_t *hmap, const char *fn_name)
 	} else {
 		return true;
 	}
+}
+
+void default_error_callback(const hmap_t *hmap, const char *msg, uint32_t error_code)
+{
+	(void)hmap;
+	(void)msg;
+	(void)error_code;
+}
+
+void default_unhealthy_callback(hmap_t *hmap, size_t current_load)
+{
+	if (!hmap_check(hmap, "default_unhealthy_callback")) {
+		sprintf(hmap->last_error_msg, "default_unhealthy_callback: hashmap load factor %zu", current_load);
+		hmap->last_error_code = HMAP_ERROR_CODE_LOCKED;
+		hmap->error_callback(hmap, hmap->last_error_msg, hmap->last_error_code);
+	}
+
+	if (hmap->unhealthy_threshold != HMAP_UNHEALTHY_THRESHOLD_DISABLE && current_load > hmap->unhealthy_threshold) {
+		hmap_resize(hmap, hmap->capacity * 2);
+	}
+}
+
+void update_load_factor(hmap_t *hmap)
+{
+	hmap->load_factor = (hmap->set * 100) / hmap->capacity;
+	if (hmap->load_factor > hmap->unhealthy_threshold) {
+		hmap->unhealthy_callback(hmap, hmap->load_factor);
+	}
+}
+
+size_t hmap_hash(const hmap_t *hmap, const void *key, size_t key_len)
+{
+	size_t index = (hmap->hash_fn(key, key_len, hmap->seed) * HASHMAP_MULTIPLIER) % hmap->capacity;
+	return index;
+}
+
+size_t hmap_hash_private(const hmap_t *hmap, size_t mod, const void *key, size_t key_len)
+{
+	size_t index = (hmap->hash_fn(key, key_len, hmap->seed) * HASHMAP_MULTIPLIER) % mod;
+	return index;
 }
 
 void hmap_set_error(hmap_t *hmap, const char *msg, const char *fn_name, uint32_t error_code)
@@ -149,10 +177,142 @@ void *hmap_complex_key_unset_value(hmap_bucket_t *bucket, const void *key, size_
 	return NULL;
 }
 
-size_t hmap_index(const hmap_t *hmap, const void *key, size_t key_len)
+void hmap_rehash_complex(hmap_t *hmap, hmap_bucket_t *new_bucket, hmap_linked_node_t *node_value)
 {
-	size_t index = hmap->hash_fn(key, key_len, hmap->seed) % hmap->capacity;
-	return index;
+	if (new_bucket->is_complex || (new_bucket->key != NULL && new_bucket->value != NULL)) {
+		hmap_complex_key_set_value(hmap, new_bucket,
+		                           rt_buff_borrow(node_value->key),
+		                           rt_buff_sizeof(node_value->key),
+		                           node_value->value);
+		hmap->collisions += 1;
+	} else if (new_bucket->key == NULL && new_bucket->value == NULL) {
+		new_bucket->key = node_value->key;
+		new_bucket->value = node_value->value;
+		new_bucket->is_complex = false;
+		new_bucket->value_len = 0;
+	}
+}
+
+void hmap_rehash(hmap_t *hmap, hmap_bucket_t *new_buckets, size_t new_cap)
+{
+	size_t new_hash;
+	linked_list_t *list;
+	ll_node_t *node;
+	hmap_linked_node_t *node_value;
+	hmap_bucket_t *old_bucket;
+	hmap_bucket_t *new_bucket;
+
+	list = NULL;
+	node_value = NULL;
+	old_bucket = NULL;
+	new_bucket = NULL;
+
+	for (size_t i = 0; i < hmap->capacity; ++i) {
+		old_bucket = &hmap->buckets[i];
+		if (old_bucket->key == NULL && old_bucket->value == NULL) {
+			continue;
+		}
+
+		if (old_bucket->is_complex) {
+			list = (linked_list_t *)old_bucket->value;
+			node = list->first;
+			while (node != NULL) {
+				node_value = (hmap_linked_node_t *)node->data;
+				new_hash = hmap_hash_private(hmap, new_cap,
+				                             rt_buff_borrow(node_value->key),
+				                             rt_buff_sizeof(node_value->key));
+				new_bucket = new_buckets + new_hash;
+				hmap_rehash_complex(hmap, new_bucket, node_value);
+				node = node->next;
+			}
+		} else {
+			new_hash = hmap_hash_private(hmap, new_cap,
+			                             rt_buff_borrow(old_bucket->key),
+			                             rt_buff_sizeof(old_bucket->key));
+			new_bucket = new_buckets + new_hash;
+			if (new_bucket->key == NULL && new_bucket->value == NULL) {
+				new_bucket->key = old_bucket->key;
+				new_bucket->value = old_bucket->value;
+				new_bucket->is_complex = false;
+				new_bucket->value_len = 0;
+			} else {
+				hmap_complex_key_set_value(hmap, new_bucket,
+				                           rt_buff_borrow(old_bucket->key),
+				                           rt_buff_sizeof(old_bucket->key),
+				                           old_bucket->value);
+				hmap->collisions += 1;
+			}
+		}
+	}
+}
+
+void hmap_free_buckets(hmap_bucket_t *buckets, size_t capacity)
+{
+	linked_list_t *list;
+	ll_node_t *node;
+	hmap_linked_node_t *node_value;
+
+	list = NULL;
+	node = NULL;
+	node_value = NULL;
+
+	for (size_t i = 0; i < capacity; ++i) {
+		if (buckets[i].is_complex) {
+			list = (linked_list_t *)buckets[i].value;
+			node = list->first;
+			while (node != NULL) {
+				node_value = (hmap_linked_node_t *)node->data;
+				free(node_value);
+				node = node->next;
+			}
+			ll_free(list);
+		}
+	}
+	free(buckets);
+}
+
+void hmap_resize(hmap_t *hmap, size_t new_cap)
+{
+	hmap_bucket_t *new_buckets;
+	hmap_bucket_t *old_buckets;
+	size_t old_cap;
+	size_t set;
+
+	hmap->locked = true;
+	set = hmap->set;
+
+	new_buckets = (hmap_bucket_t *)malloc(new_cap * sizeof(hmap_bucket_t));
+	if (!new_buckets) {
+		hmap_set_error(hmap,
+		               "malloc failed during resize backing off",
+		               __FUNCTION__,
+		               HMAP_ERROR_CODE_MALLOC_FAILED);
+		return;
+	}
+	memset(new_buckets, 0, new_cap * sizeof(hmap_bucket_t));
+	// Reset collisions to 0
+	hmap->collisions = 0;
+	// Rehash all the elements into the new buckets.
+	hmap_rehash(hmap, new_buckets, new_cap);
+	if (hmap->last_error_code != HMAP_ERROR_CODE_OK) {
+		hmap_free_buckets(new_buckets, new_cap);
+		hmap_set_error(hmap,
+		               "rehash failed during resize backing off",
+		               __FUNCTION__,
+		               HMAP_ERROR_CODE_REHASH_FAILED);
+		return;
+	}
+	// Swap the old and new buckets.
+	old_buckets = hmap->buckets;
+	old_cap = hmap->capacity;
+	hmap->buckets = new_buckets;
+	hmap->capacity = new_cap;
+	hmap->set = set;
+
+	// Free the old buckets.
+	hmap_free_buckets(old_buckets, old_cap);
+	update_load_factor(hmap);
+	hmap->locked = false;
 }
 
 hmap_t *hmap_new(size_t capacity, size_t healthy_threshold, size_t seed, hmap_hash_fn_t hash_fn)
@@ -165,11 +325,12 @@ hmap_t *hmap_new(size_t capacity, size_t healthy_threshold, size_t seed, hmap_ha
 	hmap->capacity = capacity ? capacity : HASHMAP_DEFAULT_CAPACITY;
 	hmap->set = 0;
 	hmap->load_factor = 0;
-	hmap->healthy_threshold = healthy_threshold ? healthy_threshold : HASHMAP_DEFAULT_HEALTHY_THRESHOLD;
+	hmap->unhealthy_threshold = healthy_threshold ? healthy_threshold : HASHMAP_DEFAULT_HEALTHY_THRESHOLD;
 	hmap->seed = seed ? seed : HASHMAP_DEFAULT_SEED;
 	hmap->hash_fn = hash_fn ? hash_fn : &XXH3_64bits_withSeed;
 	hmap->buckets = hmap_malloc_fn(sizeof(hmap_bucket_t) * capacity);
 	hmap->error_callback = default_error_callback;
+	hmap->unhealthy_callback = default_unhealthy_callback;
 	hmap->last_error_code = 0;
 	hmap->unrecoverable_error = false;
 	hmap->collisions = 0;
@@ -187,24 +348,19 @@ hmap_t *hmap_new_default(void)
 void hmap_free(hmap_t *hmap)
 {
 	if (hmap) {
-		for (size_t i = 0; i < hmap->capacity; i++) {
-			hmap_bucket_t *bucket = &hmap->buckets[i];
-			if (bucket->is_complex) {
-				ll_free(bucket->value);
-			}
-			if (bucket->key) {
-				rt_buff_free(bucket->key);
-			}
-		}
-
-		hmap_free_fn(hmap->buckets);
-		hmap_free_fn(hmap);
+		hmap_free_buckets(hmap->buckets, hmap->capacity);
+		free(hmap);
 	}
 }
 
 void hmap_set_error_callback(hmap_t *hmap, hmap_error_callback_t error_callback)
 {
 	hmap->error_callback = error_callback;
+}
+
+void hmap_set_unhealthy_callback(hmap_t *hmap, hmap_unhealthy_callback_t unhealthy_callback)
+{
+	hmap->unhealthy_callback = unhealthy_callback;
 }
 
 void *hmap_get(hmap_t *hmap, const void *key, size_t key_len)
@@ -215,7 +371,7 @@ void *hmap_get(hmap_t *hmap, const void *key, size_t key_len)
 	if (!hmap_check(hmap, "hmap_get"))
 		return false;
 
-	index = hmap_index(hmap, key, key_len);
+	index = hmap_hash(hmap, key, key_len);
 	bucket = &hmap->buckets[index];
 	if (bucket->is_complex) {
 		return hmap_complex_key_get_value(bucket, key, key_len);
@@ -242,7 +398,7 @@ bool hmap_set(hmap_t *hmap, const void *key, size_t key_len, void *value, bool a
 	if (!hmap_check(hmap, "hmap_set"))
 		return false;
 
-	index = hmap_index(hmap, key, key_len);
+	index = hmap_hash(hmap, key, key_len);
 	bucket = &hmap->buckets[index];
 
 	if (bucket->is_complex) {
@@ -290,7 +446,7 @@ void *hashmap_unset(hmap_t *hmap, const void *key, size_t key_len)
 	if (!hmap_check(hmap, "hashmap_unset"))
 		return false;
 
-	index = hmap_index(hmap, key, key_len);
+	index = hmap_hash(hmap, key, key_len);
 	bucket = &hmap->buckets[index];
 
 	if (bucket->is_complex) {

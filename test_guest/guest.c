@@ -2,8 +2,9 @@
 #include <rt_buffer/rt_buffer.h>
 #include <containers/linked_list.h>
 #include <containers/hashmap.h>
+#include <util/wire.h>
+#include <util/sip_wrapper.c>
 #include <memory.h>
-#include <util/mum_hash.h>
 
 void hmap_error_callback(__attribute__((unused)) const hmap_t *hmap, const char *msg, uint32_t error_code)
 {
@@ -64,7 +65,7 @@ int main(void)
 		               rt_buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100)));
 
 		hmap_set(hmap, (uint8_t *)(lines + i), strnlen(lines[i], 100), lines + i, false);
-		printf("%lu, %lu\n", hmap->load_factor, hmap->collisions);
+		printf("%lu, %lu, %lu\n", hmap->set, hmap->load_factor, hmap->collisions);
 	}
 
 	printf("\nSome hashmap fun now\n\n");
