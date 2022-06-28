@@ -117,7 +117,7 @@ void hmap_complex_key_set_value(hmap_t *hmap, hmap_bucket_t *bucket, const void 
 	if (!bucket->is_complex) {
 		node_value = (hmap_linked_node_t *)malloc(sizeof(hmap_linked_node_t));
 		if (!node_value) {
-			hmap_set_error(hmap, "malloc failed", __FUNCTION__, HMAP_ERROR_CODE_MALLOC_FAILED);
+			hmap_set_error(hmap, "malloc failed", __func__, HMAP_ERROR_CODE_MALLOC_FAILED);
 			return;
 		}
 		node_value->key = bucket->key;
@@ -126,7 +126,7 @@ void hmap_complex_key_set_value(hmap_t *hmap, hmap_bucket_t *bucket, const void 
 
 		node_value = (hmap_linked_node_t *)malloc(sizeof(hmap_linked_node_t));
 		if (!node_value) {
-			hmap_set_error(hmap, "malloc failed", __FUNCTION__, HMAP_ERROR_CODE_MALLOC_FAILED);
+			hmap_set_error(hmap, "malloc failed", __func__, HMAP_ERROR_CODE_MALLOC_FAILED);
 			return;
 		}
 		node_value->key = key_buff;
@@ -139,7 +139,7 @@ void hmap_complex_key_set_value(hmap_t *hmap, hmap_bucket_t *bucket, const void 
 	} else {
 		node_value = (hmap_linked_node_t *)malloc(sizeof(hmap_linked_node_t));
 		if (!node_value) {
-			hmap_set_error(hmap, "malloc failed", __FUNCTION__, HMAP_ERROR_CODE_MALLOC_FAILED);
+			hmap_set_error(hmap, "malloc failed", __func__, HMAP_ERROR_CODE_MALLOC_FAILED);
 			return;
 		}
 		node_value->key = key_buff;
@@ -285,7 +285,7 @@ void hmap_resize(hmap_t *hmap, size_t new_cap)
 	if (!new_buckets) {
 		hmap_set_error(hmap,
 		               "malloc failed during resize backing off",
-		               __FUNCTION__,
+		               __func__,
 		               HMAP_ERROR_CODE_MALLOC_FAILED);
 		return;
 	}
@@ -298,7 +298,7 @@ void hmap_resize(hmap_t *hmap, size_t new_cap)
 		hmap_free_buckets(new_buckets, new_cap);
 		hmap_set_error(hmap,
 		               "rehash failed during resize backing off",
-		               __FUNCTION__,
+		               __func__,
 		               HMAP_ERROR_CODE_REHASH_FAILED);
 		return;
 	}
