@@ -3,7 +3,6 @@
 #include <containers/linked_list.h>
 #include <containers/hashmap.h>
 #include <util/wire.h>
-#include <util/sip_wrapper.c>
 #include <memory.h>
 
 void hmap_error_callback(__attribute__((unused)) const hmap_t *hmap, const char *msg, uint32_t error_code)
