@@ -74,8 +74,7 @@ int main(void)
 	while (node != NULL) {
 		printf("%s: ", rt_buff_borrow(node->data));
 		tmp = (char *)hmap_get(hmap, rt_buff_borrow(node->data), rt_buff_sizeof(node->data));
-		rt_buff_return(node->data);
-		rt_buff_return(node->data);
+		rt_buff_return_n(node->data, 2);
 		printf("%s\n", tmp);
 		node = node->next;
 	}

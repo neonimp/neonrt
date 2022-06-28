@@ -121,3 +121,17 @@ uint64_t rt_buff_free(rt_buff_t *self)
 		return self->ref_ct;
 	}
 }
+
+uint64_t rt_buff_force_free(rt_buff_t *self)
+{
+	if (!self->lock && self->ref_ct == 0) {
+		free(self->data);
+		free(self);
+		return 0;
+	} else {
+		self->ref_ct = 0;
+		free(self->data);
+		free(self);
+		return 0;
+	}
+}

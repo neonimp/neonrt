@@ -100,6 +100,18 @@ extern bool rt_buff_cmp_raw(const rt_buff_t *left, const uint8_t *right, size_t 
  */
 extern uint64_t rt_buff_free(rt_buff_t *self);
 
+/**
+ * @brief Force free a managed buffer, even if it's reference counter is not 0,
+ * and there is no lock on it, do not use a reference to a buffer passed to this,
+ * function after calling it. Useful ensure that a buffer is deallocated even if
+ * it's reference counter is not 0, at the exit of a program.
+ * @param self The string to attempt destruction on.
+ * @return 0 if the string was deallocated successfully
+ * @warning This function is not thread safe.
+ * @warning This function can cause dangling pointers.
+ */
+extern uint64_t rt_buff_force_free(rt_buff_t *self);
+
 #define rt_buff_from_cstr(str, len) rt_buff_new((const uint8_t *)str, len)
 #define rt_buff_new_from_raw(str, len) rt_buff_new((const uint8_t *)str, len)
 
