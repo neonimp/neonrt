@@ -68,111 +68,103 @@
 #include <stdio.h>
 #define TRACE                                                                  \
     do {                                                                       \
-        printf("(%3zu) v0 %016" PRIx64 "\n", inlen, v0);                       \
-        printf("(%3zu) v1 %016" PRIx64 "\n", inlen, v1);                       \
-        printf("(%3zu) v2 %016" PRIx64 "\n", inlen, v2);                       \
-        printf("(%3zu) v3 %016" PRIx64 "\n", inlen, v3);                       \
+	printf("(%3zu) v0 %016" PRIx64 "\n", inlen, v0);                       \
+	printf("(%3zu) v1 %016" PRIx64 "\n", inlen, v1);                       \
+	printf("(%3zu) v2 %016" PRIx64 "\n", inlen, v2);                       \
+	printf("(%3zu) v3 %016" PRIx64 "\n", inlen, v3);                       \
     } while (0)
 #else
 #define TRACE
 #endif
 
 int siphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
-            const size_t outlen) {
+            const size_t outlen)
+{
 
-    const unsigned char *ni = (const unsigned char *)in;
-    const unsigned char *kk = (const unsigned char *)k;
+	const unsigned char *ni = (const unsigned char *)in;
+	const unsigned char *kk = (const unsigned char *)k;
 
-    assert((outlen == 8) || (outlen == 16));
-    uint64_t v0 = UINT64_C(0x736f6d6570736575);
-    uint64_t v1 = UINT64_C(0x646f72616e646f6d);
-    uint64_t v2 = UINT64_C(0x6c7967656e657261);
-    uint64_t v3 = UINT64_C(0x7465646279746573);
-    uint64_t k0 = U8TO64_LE(kk);
-    uint64_t k1 = U8TO64_LE(kk + 8);
-    uint64_t m;
-    int i;
-    const unsigned char *end = ni + inlen - (inlen % sizeof(uint64_t));
-    const int left = inlen & 7;
-    uint64_t b = inlen << 56;
-    v3 ^= k1;
-    v2 ^= k0;
-    v1 ^= k1;
-    v0 ^= k0;
+	assert((outlen == 8) || (outlen == 16));
+	uint64_t v0 = UINT64_C(0x736f6d6570736575);
+	uint64_t v1 = UINT64_C(0x646f72616e646f6d);
+	uint64_t v2 = UINT64_C(0x6c7967656e657261);
+	uint64_t v3 = UINT64_C(0x7465646279746573);
+	uint64_t k0 = U8TO64_LE(kk);
+	uint64_t k1 = U8TO64_LE(kk + 8);
+	uint64_t m;
+	int i;
+	const unsigned char *end = ni + inlen - (inlen % sizeof(uint64_t));
+	const int left = inlen & 7;
+	uint64_t b = inlen << 56;
+	v3 ^= k1;
+	v2 ^= k0;
+	v1 ^= k1;
+	v0 ^= k0;
 
-    if (outlen == 16)
-        v1 ^= 0xee;
+	if (outlen == 16)
+		v1 ^= 0xee;
 
-    for (; ni != end; ni += 8) {
-        m = U8TO64_LE(ni);
-        v3 ^= m;
+	for (; ni != end; ni += 8) {
+		m = U8TO64_LE(ni);
+		v3 ^= m;
 
-        TRACE;
-        for (i = 0; i < cROUNDS; ++i)
-            SIPROUND;
+		TRACE;
+		for (i = 0; i < cROUNDS; ++i)
+			SIPROUND;
 
-        v0 ^= m;
-    }
+		v0 ^= m;
+	}
 
-    switch (left) {
-    case 7:
-        b |= ((uint64_t)ni[6]) << 48;
-        __attribute__((fallthrough));
-    case 6:
-        b |= ((uint64_t)ni[5]) << 40;
-        __attribute__((fallthrough));
-    case 5:
-        b |= ((uint64_t)ni[4]) << 32;
-        __attribute__((fallthrough));
-    case 4:
-        b |= ((uint64_t)ni[3]) << 24;
-        __attribute__((fallthrough));
-    case 3:
-        b |= ((uint64_t)ni[2]) << 16;
-        __attribute__((fallthrough));
-    case 2:
-        b |= ((uint64_t)ni[1]) << 8;
-        __attribute__((fallthrough));
-    case 1:
-        b |= ((uint64_t)ni[0]);
-        break;
-    case 0:
-        break;
-    default:
-	assert(0);
-    }
+	switch (left) {
+	case 7:b |= ((uint64_t)ni[6]) << 48;
+			__attribute__((fallthrough));
+	case 6:b |= ((uint64_t)ni[5]) << 40;
+			__attribute__((fallthrough));
+	case 5:b |= ((uint64_t)ni[4]) << 32;
+			__attribute__((fallthrough));
+	case 4:b |= ((uint64_t)ni[3]) << 24;
+			__attribute__((fallthrough));
+	case 3:b |= ((uint64_t)ni[2]) << 16;
+			__attribute__((fallthrough));
+	case 2:b |= ((uint64_t)ni[1]) << 8;
+			__attribute__((fallthrough));
+	case 1:b |= ((uint64_t)ni[0]);
+		break;
+	case 0:break;
+	default: assert(0);
+	}
 
-    v3 ^= b;
+	v3 ^= b;
 
-    TRACE;
-    for (i = 0; i < cROUNDS; ++i)
-        SIPROUND;
+	TRACE;
+	for (i = 0; i < cROUNDS; ++i)
+		SIPROUND;
 
-    v0 ^= b;
+	v0 ^= b;
 
-    if (outlen == 16)
-        v2 ^= 0xee;
-    else
-        v2 ^= 0xff;
+	if (outlen == 16)
+		v2 ^= 0xee;
+	else
+		v2 ^= 0xff;
 
-    TRACE;
-    for (i = 0; i < dROUNDS; ++i)
-        SIPROUND;
+	TRACE;
+	for (i = 0; i < dROUNDS; ++i)
+		SIPROUND;
 
-    b = v0 ^ v1 ^ v2 ^ v3;
-    U64TO8_LE(out, b)
+	b = v0 ^ v1 ^ v2 ^ v3;
+	U64TO8_LE(out, b)
 
-    if (outlen == 8)
-        return 0;
+	if (outlen == 8)
+		return 0;
 
-    v1 ^= 0xdd;
+	v1 ^= 0xdd;
 
-    TRACE;
-    for (i = 0; i < dROUNDS; ++i)
-        SIPROUND;
+	TRACE;
+	for (i = 0; i < dROUNDS; ++i)
+		SIPROUND;
 
-    b = v0 ^ v1 ^ v2 ^ v3;
-    U64TO8_LE(out + 8, b)
+	b = v0 ^ v1 ^ v2 ^ v3;
+	U64TO8_LE(out + 8, b)
 
-    return 0;
+	return 0;
 }

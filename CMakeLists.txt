@@ -9,6 +9,9 @@ file(GLOB_RECURSE RTHOST_SRC src/**/*.c)
 
 set(xxHash_DIR ${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial)
 
+set(NEON_CFLAGS -Wall -Wpedantic -Werror -O2)
+set(NEON_LINK_FLAGS --no-undefined)
+
 # Find xxhash and add it's static library to the resulting binary
 set(XXHASH_BUILD_ENABLE_INLINE_API OFF)
 set(XXHASH_BUILD_XXHSUM OFF)
@@ -17,10 +20,14 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial/ ${PROJECT
 add_library(neonrt SHARED ${RTHOST_HEADERS} ${RTHOST_SRC})
 target_include_directories(neonrt PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
 target_link_libraries(neonrt PRIVATE xxHash::xxhash)
+target_compile_options(neonrt PRIVATE ${NEON_CFLAGS})
+target_link_options(neonrt PRIVATE ${NEON_LINK_FLAGS})
 
 add_library(neon STATIC ${RTHOST_HEADERS} ${RTHOST_SRC})
 target_include_directories(neon PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
 target_link_libraries(neon PRIVATE xxHash::xxhash)
+target_compile_options(neon PRIVATE ${NEON_CFLAGS})
+target_link_options(neon PRIVATE ${NEON_LINK_FLAGS})
 
 add_executable(test_guest test_guest/guest.c)
 target_link_libraries(test_guest PRIVATE neonrt)

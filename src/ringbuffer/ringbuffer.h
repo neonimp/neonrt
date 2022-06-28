@@ -50,5 +50,4 @@ extern bool rb_write(ring_buffer_t *self, const uint8_t *data, size_t len);
  */
 extern size_t rb_read(ring_buffer_t *self, uint8_t *data, size_t len);
 
-
 #endif // _RTHOST_RINGBUFFER_
