@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <rt_info.h>
 #include <rt_buffer/rt_buffer.h>
 #include <containers/linked_list.h>
 #include <containers/hashmap.h>
@@ -54,6 +55,8 @@ int main(void)
 		"35 Pellentesque ornare ex eget quam sodales, in cursus ipsum pretium.",
 		"36 Curabitur quis nibh quis nunc vestibulum feugiat.",
 	};
+
+	printf("\nRT %s Compiled with: %s\n", RT_VERSION_STRING, rt_get_compiler());
 
 	hmap = hmap_new(40, 75, 0, NULL);
 	hmap_set_error_callback(hmap, hmap_error_callback);

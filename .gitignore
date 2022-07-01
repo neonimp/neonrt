@@ -13,3 +13,4 @@ cmake-build-*/
 tools/
 ndconfig/Working Data
 docs/
+.idea/
