@@ -1,6 +1,6 @@
-#include "rt_info.h"
+#include "neon_info.h"
 
-const char *rt_get_compiler()
+const char *neon_get_compiler()
 {
 	#if defined(__clang__)
 	#define RT_COMPILER "Clang " __clang_version__

@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef _RT_HOST_SIP_
-#define _RT_HOST_SIP_
+#ifndef NEON_SIP
+#define NEON_SIP
 
 #include <stdint.h>
 #include <stddef.h>
 
 extern uint64_t wrap_siphash(const void *data, size_t data_len, uint64_t seed);
 
-#endif // _RT_HOST_SIP_
+#endif // NEON_SIP

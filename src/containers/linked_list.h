@@ -5,8 +5,8 @@
 
 #pragma once
 
-#ifndef _RTHOST_LL_
-#define _RTHOST_LL_
+#ifndef _NEON_LL_
+#define _NEON_LL_
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -100,4 +100,4 @@ extern void ll_free(linked_list_t *self);
  */
 #define ll_prepend_node(self, val) (ll_add_node((self), (val), LL_PREPEND, 0))
 
-#endif /* END _RTHOST_LL_ */
+#endif /* END _NEON_LL_ */

@@ -1,5 +1,5 @@
 #include "sip_wrapper.h"
-#include "siphash.h"
+#include "../extra/siphash.h"
 #include "wire.h"
 
 uint64_t wrap_siphash(const void *data, size_t data_len, uint64_t seed)

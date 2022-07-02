@@ -10,6 +10,9 @@
 #define RT_VERSION_STRING "0.0.0"
 #endif // CMAKE_RT_VERSION
 
-extern const char* rt_get_compiler();
+/**
+ * @brief Get the compiler used to compile the runtime host.
+ */
+extern const char* neon_get_compiler();
 
 #endif // RT_INFO_H

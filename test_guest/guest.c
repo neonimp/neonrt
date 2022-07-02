@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include <rt_info.h>
-#include <rt_buffer/rt_buffer.h>
+#include <neon_info.h>
+#include <containers/buffer.h>
 #include <containers/linked_list.h>
 #include <containers/hashmap.h>
 #include <util/wire.h>
 #include <memory.h>
+#include <string.h>
 
 void hmap_error_callback(__attribute__((unused)) const hmap_t *hmap, const char *msg, uint32_t error_code)
 {
@@ -56,7 +57,7 @@ int main(void)
 		"36 Curabitur quis nibh quis nunc vestibulum feugiat.",
 	};
 
-	printf("\nRT %s Compiled with: %s\n", RT_VERSION_STRING, rt_get_compiler());
+	printf("\nRT %s Compiled with: %s\n", RT_VERSION_STRING, neon_get_compiler());
 
 	hmap = hmap_new(40, 75, 0, NULL);
 	hmap_set_error_callback(hmap, hmap_error_callback);
@@ -64,7 +65,7 @@ int main(void)
 	ll = ll_new(NULL);
 	for (size_t i = 0; i < 36; i++) {
 		ll_append_node(ll,
-		               rt_buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100)));
+		               buff_new((uint8_t *)(lines + i), strnlen(lines[i], 100)));
 
 		hmap_set(hmap, (uint8_t *)(lines + i), strnlen(lines[i], 100), lines + i, false);
 		printf("%lu, %lu, %lu\n", hmap->set, hmap->load_factor, hmap->collisions);
@@ -75,9 +76,9 @@ int main(void)
 	node = ll->first;
 	char *tmp;
 	while (node != NULL) {
-		printf("%s: ", rt_buff_borrow(node->data));
-		tmp = (char *)hmap_get(hmap, rt_buff_borrow(node->data), rt_buff_sizeof(node->data));
-		rt_buff_return_n(node->data, 2);
+		printf("%s: ", buff_borrow(node->data));
+		tmp = (char *)hmap_get(hmap, buff_borrow(node->data), buff_len(node->data));
+		buff_return_n(node->data, 2);
 		printf("%s\n", tmp);
 		node = node->next;
 	}

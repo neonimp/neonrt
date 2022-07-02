@@ -1,5 +1,5 @@
 /**
- * @brief Ready to use hashmaps, the hashmaps provided in the library have sane
+ * @brief Ready to use hashmaps, the hashmaps provided in the runtime have sane
  * defaults aiming for good performance under most cases, but can be tuned if
  * need be.
  * @authors Matheus Xavier <mxavier[AT]neonimp.com>
@@ -7,14 +7,15 @@
 
 #pragma once
 
-#ifndef _RTHOST_HASHMAP_
-#define _RTHOST_HASHMAP_
+#ifndef NEON_SRC_CONTAINERS_HASHMAP_H
+#define NEON_SRC_CONTAINERS_HASHMAP_H
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <malloc.h>
-#include "../rt_buffer/rt_buffer.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "../neon_common.h"
+#include "buffer.h"
 
 struct hmap;
 typedef struct hmap hmap_t;
@@ -32,8 +33,7 @@ typedef struct hmap_bucket hmap_bucket_t;
 #else
 #define HMAP_UNHEALTHY_THRESHOLD_DISABLE SIZE_MAX
 #endif
-#define hmap_malloc_fn(size) malloc(size)
-#define hmap_free_fn(ptr) free(ptr)
+
 
 // Error codes
 #define HMAP_ERROR_CODE_OK 0
@@ -55,7 +55,7 @@ typedef void(*hmap_unhealthy_callback_t)(hmap_t *hmap, size_t current_load);
  */
 struct hmap_bucket {
   /// @brief the key of the bucket.
-  rt_buff_t *key;
+  neon_buff_t *key;
   /// @brief The value associated with the key.
   void *value;
   size_t value_len;
@@ -172,4 +172,8 @@ extern void *hashmap_unset(hmap_t *hmap, const void *key, size_t key_len);
  */
 void hmap_resize(hmap_t *hmap, size_t new_cap);
 
-#endif /* END _RTHOST_HASHMAP_ */
+#ifdef __cplusplus
+}
+#endif
+
+#endif // NEON_SRC_CONTAINERS_HASHMAP_H
