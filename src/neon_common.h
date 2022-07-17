@@ -8,7 +8,9 @@
 #include <stddef.h>
 #include <malloc.h>
 #include <stdio.h>
+#include "util/sip_wrapper.h"
 
+#define rt_hash_fn(ptr, len) wrap_siphash(ptr, len, 0x19E3779B97F4A7C1)
 #define rt_malloc_fn(size) malloc(size)
 #define rt_free_fn(ptr) free(ptr)
 #define rt_realloc_fn(ptr, size) realloc(ptr, size)

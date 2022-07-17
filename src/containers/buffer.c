@@ -1,5 +1,4 @@
 #include "buffer.h"
-#include "xxhash.h"
 
 struct managed_buffer {
   uint8_t *data;
@@ -73,8 +72,8 @@ bool buff_cmp(const neon_buff_t *left, const neon_buff_t *right)
 	uint64_t rhash;
 
 	if (left->data != NULL && right->data != NULL) {
-		lhash = XXH3_64bits(left->data, left->len);
-		rhash = XXH3_64bits(right->data, right->len);
+		lhash = rt_hash_fn(left->data, left->len);
+		rhash = rt_hash_fn(right->data, right->len);
 		return lhash == rhash;
 	} else {
 		return false;
@@ -87,8 +86,8 @@ bool buff_cmp_raw(const neon_buff_t *left, const uint8_t *right, size_t len)
 	uint64_t rhash;
 
 	if (left->data != NULL && right != NULL) {
-		lhash = XXH3_64bits(left->data, left->len);
-		rhash = XXH3_64bits(right, len);
+		lhash = rt_hash_fn(left->data, left->len);
+		rhash = rt_hash_fn(right, len);
 		return lhash == rhash;
 	} else {
 		return false;

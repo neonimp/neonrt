@@ -1,7 +1,7 @@
 #include "hashmap.h"
-#include "../util/wire.h"
 #include "linked_list.h"
-#include <xxhash.h>
+#include "../util/wire.h"
+#include "../util/sip_wrapper.h"
 #include <memory.h>
 
 struct hmap_linked_node {
@@ -327,7 +327,7 @@ hmap_t *hmap_new(size_t capacity, size_t healthy_threshold, size_t seed, hmap_ha
 	hmap->load_factor = 0;
 	hmap->unhealthy_threshold = healthy_threshold ? healthy_threshold : HASHMAP_DEFAULT_HEALTHY_THRESHOLD;
 	hmap->seed = seed ? seed : HASHMAP_DEFAULT_SEED;
-	hmap->hash_fn = hash_fn ? hash_fn : &XXH3_64bits_withSeed;
+	hmap->hash_fn = hash_fn ? hash_fn : &wrap_siphash;
 	hmap->buckets = rt_malloc_fn(sizeof(hmap_bucket_t) * capacity);
 	hmap->error_callback = default_error_callback;
 	hmap->unhealthy_callback = default_unhealthy_callback;
