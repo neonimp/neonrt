@@ -17,12 +17,6 @@ if (NOT ${CMAKE_C_COMPILER} MATCHES "MSVC")
     set(NEON_LINK_FLAGS)
 endif ()
 
-# Find xxhash and add it's static library to the resulting binary
-#set(XXHASH_BUILD_ENABLE_INLINE_API OFF)
-#set(XXHASH_BUILD_XXHSUM OFF)
-#add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/xxhash/cmake_unofficial/ ${PROJECT_BINARY_DIR}/vendor/xxhash/ EXCLUDE_FROM_ALL)
-
-
 add_compile_definitions(CMAKE_RT_VERSION=1)
 add_compile_definitions(RT_VERSION_MAJOR=0)
 add_compile_definitions(RT_VERSION_MINOR=1)
@@ -31,13 +25,11 @@ add_compile_definitions(RT_VERSION_STRING="0.1.0")
 
 add_library(NeonLayer SHARED ${RTHOST_HEADERS} ${RTHOST_SRC})
 target_include_directories(NeonLayer PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
-#target_link_libraries(NeonLayer PRIVATE xxHash::xxhash)
 target_compile_options(NeonLayer PRIVATE ${NEON_CFLAGS})
 target_link_options(NeonLayer PRIVATE ${NEON_LINK_FLAGS})
 
 add_library(Neon STATIC ${RTHOST_HEADERS} ${RTHOST_SRC})
 target_include_directories(Neon PRIVATE ${PROJECT_SOURCE_DIR}/vendor/xxhash)
-#target_link_libraries(Neon PRIVATE xxHash::xxhash)
 target_compile_options(Neon PRIVATE ${NEON_CFLAGS})
 target_link_options(Neon PRIVATE ${NEON_LINK_FLAGS})
 
