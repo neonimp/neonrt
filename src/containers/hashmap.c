@@ -38,7 +38,9 @@ void default_error_callback(const hmap_t *hmap, const char *msg, uint32_t error_
 void default_unhealthy_callback(hmap_t *hmap, size_t current_load)
 {
 	if (!hmap_check(hmap, "default_unhealthy_callback")) {
-		rt_sprintf_fn(hmap->last_error_msg, "default_unhealthy_callback: hashmap load factor %zu", current_load);
+		rt_sprintf_fn(hmap->last_error_msg,
+		              "default_unhealthy_callback: hashmap load factor %zu",
+		              current_load);
 		hmap->last_error_code = HMAP_ERROR_CODE_LOCKED;
 		hmap->error_callback(hmap, hmap->last_error_msg, hmap->last_error_code);
 	}
@@ -56,15 +58,29 @@ void update_load_factor(hmap_t *hmap)
 	}
 }
 
+size_t count_collisions(hmap_t *hmap)
+{
+	size_t collisions = 0;
+
+	for (size_t i = 0; i < hmap->capacity; i++) {
+		if (hmap->buckets[i].is_complex) {
+			collisions += 1;
+		}
+	}
+
+	hmap->collisions = collisions;
+	return collisions;
+}
+
 size_t hmap_hash(const hmap_t *hmap, const void *key, size_t key_len)
 {
-	size_t index = (hmap->hash_fn(key, key_len, hmap->seed) * HASHMAP_MULTIPLIER) % hmap->capacity;
+	size_t index = hmap->hash_fn(key, key_len, hmap->seed) % hmap->capacity;
 	return index;
 }
 
 size_t hmap_hash_private(const hmap_t *hmap, size_t mod, const void *key, size_t key_len)
 {
-	size_t index = (hmap->hash_fn(key, key_len, hmap->seed) * HASHMAP_MULTIPLIER) % mod;
+	size_t index = hmap->hash_fn(key, key_len, hmap->seed) % mod;
 	return index;
 }
 
@@ -184,7 +200,6 @@ void hmap_rehash_complex(hmap_t *hmap, hmap_bucket_t *new_bucket, hmap_linked_no
 		                           buff_borrow(node_value->key),
 		                           buff_len(node_value->key),
 		                           node_value->value);
-		hmap->collisions += 1;
 	} else if (new_bucket->key == NULL && new_bucket->value == NULL) {
 		new_bucket->key = node_value->key;
 		new_bucket->value = node_value->value;
@@ -240,7 +255,6 @@ void hmap_rehash(hmap_t *hmap, hmap_bucket_t *new_buckets, size_t new_cap)
 				                           buff_borrow(old_bucket->key),
 				                           buff_len(old_bucket->key),
 				                           old_bucket->value);
-				hmap->collisions += 1;
 			}
 		}
 	}
@@ -280,7 +294,12 @@ void hmap_resize(hmap_t *hmap, size_t new_cap)
 
 	hmap->locked = true;
 	set = hmap->set;
-
+	if (hmap->resize_bound > 0 && new_cap > hmap->resize_bound) {
+		hmap_set_error(hmap,
+			       "new capacity is over the resize bound",
+			       __func__,
+			       HMAP_ERR_TOO_LARGE);
+	}
 	new_buckets = (hmap_bucket_t *)malloc(new_cap * sizeof(hmap_bucket_t));
 	if (!new_buckets) {
 		hmap_set_error(hmap,
@@ -312,6 +331,7 @@ void hmap_resize(hmap_t *hmap, size_t new_cap)
 	// Free the old buckets.
 	hmap_free_buckets(old_buckets, old_cap);
 	update_load_factor(hmap);
+	count_collisions(hmap);
 	hmap->locked = false;
 }
 
@@ -329,6 +349,7 @@ hmap_t *hmap_new(size_t capacity, size_t healthy_threshold, size_t seed, hmap_ha
 	hmap->seed = seed ? seed : HASHMAP_DEFAULT_SEED;
 	hmap->hash_fn = hash_fn ? hash_fn : &wrap_siphash;
 	hmap->buckets = rt_malloc_fn(sizeof(hmap_bucket_t) * capacity);
+	hmap->resize_bound = 0;
 	hmap->error_callback = default_error_callback;
 	hmap->unhealthy_callback = default_unhealthy_callback;
 	hmap->last_error_code = 0;
@@ -361,6 +382,11 @@ void hmap_set_error_callback(hmap_t *hmap, hmap_error_callback_t error_callback)
 void hmap_set_unhealthy_callback(hmap_t *hmap, hmap_unhealthy_callback_t unhealthy_callback)
 {
 	hmap->unhealthy_callback = unhealthy_callback;
+}
+
+void hmap_set_max_buckets(hmap_t *hmap, size_t max_buckets)
+{
+	hmap->resize_bound = max_buckets;
 }
 
 void *hmap_get(hmap_t *hmap, const void *key, size_t key_len)
