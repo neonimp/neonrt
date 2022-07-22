@@ -12,6 +12,13 @@ void hmap_error_callback(__attribute__((unused)) const hmap_t *hmap, const char 
 	printf("\n%s\nCode:%d\n", msg, error_code);
 }
 
+void hmap_unhealthy(hmap_t *hmap, size_t current_load)
+{
+	printf("\nUnhealthy: %zu\n", current_load);
+	hmap_resize(hmap, hmap->capacity * 2);
+	printf("\nResized: %zu\n", hmap->capacity);
+}
+
 int main(void)
 {
 	linked_list_t *ll;
@@ -59,8 +66,9 @@ int main(void)
 
 	printf("\nRT %s Compiled with: %s\n", RT_VERSION_STRING, neon_get_compiler());
 
-	hmap = hmap_new(40, 75, 0, NULL);
+	hmap = hmap_new(100, 75, 0, NULL);
 	hmap_set_error_callback(hmap, hmap_error_callback);
+	hmap_set_unhealthy_callback(hmap, hmap_unhealthy);
 
 	ll = ll_new(NULL);
 	for (size_t i = 0; i < 36; i++) {

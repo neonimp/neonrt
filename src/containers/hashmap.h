@@ -41,6 +41,7 @@ typedef struct hmap_bucket hmap_bucket_t;
 #define HMAP_ERROR_CODE_KEY_MISMATCH 0x00000002
 #define HMAP_ERROR_CODE_KEY_NOT_FOUND 0x00000003
 #define HMAP_ERROR_CODE_KEY_ERROR 0x00000004
+#define HMAP_ERR_TOO_LARGE 0x00000005
 #define HMAP_ERROR_CODE_REHASH_FAILED 0x00000005
 #define HMAP_ERROR_CODE_LOCKED 0x00000E10
 #define HMAP_ERROR_CODE_UNRECOVERABLE 0xDEADBEEF
@@ -85,6 +86,11 @@ struct hmap {
   hmap_hash_fn_t hash_fn;
   /// @brief The buckets of the hashmap.
   hmap_bucket_t *buckets;
+  /**
+   * @brief Maximum number of buckets the hmap is allowed to expand to,
+   * @note Set to 0 to disable, this is the default. Use hmap_set_max_buckets() to set this.
+   */
+  size_t resize_bound;
   /// @brief Error callback function.
   hmap_error_callback_t error_callback;
   /// @brief Unhealthy callback function.
@@ -121,6 +127,11 @@ extern hmap_t *hmap_new_default(void);
 extern void hmap_free(hmap_t *hmap);
 
 /**
+ * @brief Set the maximum number of buckets the hashmap is allowed to expand to.
+ */
+extern void hmap_set_max_buckets(hmap_t *hmap, size_t max_buckets);
+
+/**
  * @brief Set a hashmap error callback.
  * @param hmap The hashmap.
  * @param error_callback The callback to set.
@@ -130,6 +141,9 @@ extern void hmap_set_error_callback(hmap_t *hmap, hmap_error_callback_t error_ca
 /**
  * @brief Set a hashmap unhealthy callback, it will be called when current_load
  * is greater than healthy_threshold.
+ * @note A default callback is provided, it will
+ * resize the hashmap as soon as the load factor is reached, with a custom
+ * callback you can resize whenever it is convenient to your application.
  * @param hmap The hashmap.
  * @param unhealthy_callback The callback to set.
  */
