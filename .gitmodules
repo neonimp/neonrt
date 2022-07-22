@@ -1,8 +1,0 @@
-[submodule "vendor/xxhash"]
-	path = vendor/xxhash
-	url = https://github.com/Cyan4973/xxHash.git
-	branch = v0.8.1
-[submodule "vendor/jemalloc"]
-	path = vendor/jemalloc
-	url = https://github.com/jemalloc/jemalloc.git
-	branch = 5.3.0
