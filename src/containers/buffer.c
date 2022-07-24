@@ -10,6 +10,17 @@ struct managed_buffer {
   uint8_t padding0;
 };
 
+bool buff_validate_utf8(const uint8_t *data, size_t len)
+{
+	utf8proc_int32_t codepoint;
+
+	for (size_t idx = 0; idx < len;) {
+		if ((idx += utf8proc_iterate(data + idx, 4, &codepoint)) <= 0)
+			return false;
+	}
+	return true;
+}
+
 neon_buff_t *buff_new(const uint8_t *value, size_t val_len)
 {
 	neon_buff_t *buff;
@@ -32,7 +43,7 @@ neon_buff_t *buff_new(const uint8_t *value, size_t val_len)
 	buff->needs_sync = false;
 	buff->lock = false;
 	buff->ref_ct = 0;
-
+	buff->is_utf8 = buff_validate_utf8(value, val_len);
 	return buff;
 }
 
@@ -139,5 +150,20 @@ uint64_t buff_force_free(neon_buff_t *self)
 		free(self->data);
 		free(self);
 		return 0;
+	}
+}
+
+neon_buff_t *buff_new_utf8(const uint8_t *value, size_t val_len)
+{
+	neon_buff_t *buff;
+	buff = NULL;
+
+	buff = buff_new(value, val_len);
+	if (buff != NULL && !buff->is_utf8) {
+		buff_free(buff);
+		buff = NULL;
+		return NULL;
+	} else {
+		return buff;
 	}
 }

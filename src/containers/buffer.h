@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 #include "../neon_common.h"
+#include <utf8proc.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -29,6 +30,14 @@ typedef struct managed_buffer neon_buff_t;
  * @return A pointer to an initialized neon_buff_t instance.
  */
 extern neon_buff_t *buff_new(const uint8_t *value, size_t val_len);
+
+/**
+ * @brief Create a new managed buffer with strict UTF-8 validation.
+ * @param value Buffer to initialize the managed string with.
+ * @param val_len Length of the buffer `value`.
+ * @return A pointer to an initialized neon_buff_t instance.
+ */
+extern neon_buff_t *buff_new_utf8(const uint8_t *value, size_t val_len);
 
 /**
  * @brief Get a reference to the underlying buffer of a managed string to use
