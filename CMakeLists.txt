@@ -3,7 +3,6 @@ project(NeonLayer C)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/vendor/libressl")
 
 file(GLOB_RECURSE RTHOST_HEADERS src/**/*.h)
 file(GLOB_RECURSE RTHOST_HEADERS ${RTHOST_HEADERS} src/*.h)
@@ -56,4 +55,8 @@ elseif (DEFINED USE_JEMALLOC)
     target_link_libraries(Neon PRIVATE ${JEMALLOC_LIBRARIES})
     target_include_directories(NeonLayer PRIVATE ${JEMALLOC_INCLUDE_DIR})
     target_include_directories(Neon PRIVATE ${JEMALLOC_INCLUDE_DIR})
+endif ()
+
+if (NOT DEFINED SKIP_SAMPLES)
+    add_subdirectory(samples/kv_store)
 endif ()
