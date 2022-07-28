@@ -57,6 +57,6 @@ elseif (DEFINED USE_JEMALLOC)
     target_include_directories(Neon PRIVATE ${JEMALLOC_INCLUDE_DIR})
 endif ()
 
-if (NOT DEFINED SKIP_SAMPLES)
+if (DEFINED BUILD_SAMPLES)
     add_subdirectory(samples/kv_store)
 endif ()
